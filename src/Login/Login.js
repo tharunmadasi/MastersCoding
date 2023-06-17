@@ -1,14 +1,13 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import './Login.css'
 
-function Login() {
-
-  const navi=useNavigate()
-  let nav=()=>{
-    navi('/')
-  }
-
+  function Login() {
+    const navi=useNavigate()
+    let nav=()=>{
+      navi('/')
+    }
+    
   return (
       <div className="card border border-info">
 
@@ -20,13 +19,13 @@ function Login() {
     <div className="collapse navbar-collapse" id="navbarNavi">
       <ul className="nav navbar-nav nav-tabs">
         <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white" to="/">Student</Link>
+          <Link className="nav-link text-white"  to="/Student">Student</Link>
         </li>
         <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white" to="">Mentor</Link>
+          <Link className="nav-link text-white" to="/Mentor">Mentor</Link>
         </li>
         <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white" to="">Admin</Link>
+          <Link className="nav-link text-white" to="/Admin">Admin</Link>
         </li>
       </ul>
     </div>
