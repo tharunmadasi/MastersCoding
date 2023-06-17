@@ -1,0 +1,19 @@
+.form-main{
+    padding: 40px;
+    
+    width: 400px;
+    display: flex; 
+    margin: auto;
+    margin-top: 150px;
+    border-radius:20px;
+    
+}
+
+.email{
+    margin-left: 15px;
+}
+.loginbtn{
+   margin-left: 100px;
+   border-radius: 10px;
+    font-weight: bolder;
+}
