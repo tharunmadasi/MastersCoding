@@ -1,7 +1,7 @@
 import React from "react"
 import { NavLink } from "react-router-dom";
 import './Mentor.css';
-import { FaFacebookF } from 'react-icons/fa';
+import { FaFacebookF,FaGithub,FaGoogle, FaTwitter } from 'react-icons/fa';
 
 function mentor(){
     return(
@@ -23,19 +23,19 @@ function mentor(){
       <div className="text-center mb-3">
         <p>Sign in with:</p>
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-facebook-f"></i>
+          <i className="fab fa-facebook-f"><FaFacebookF /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-google"></i>
+          <i className="fab fa-google"><FaGoogle /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-twitter"></i>
+          <i className="fab fa-twitter"><FaTwitter /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-github"></i>
+          <i className="fab fa-github"><FaGithub /></i>
         </button>
       </div>
 
@@ -77,19 +77,19 @@ function mentor(){
       <div className="text-center mb-3">
         <p>Sign up with:</p>
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-facebook-f"></i>
+          <i className="fab fa-facebook-f"><FaFacebookF /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-google"></i>
+          <i className="fab fa-google"><FaGoogle /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-twitter"></i>
+          <i className="fab fa-twitter"><FaTwitter /></i>
         </button>
 
         <button type="button" className="btn btn-link btn-floating mx-1">
-          <i className="fab fa-github"></i>
+          <i className="fab fa-github"><FaGithub /></i>
         </button>
       </div>
 
