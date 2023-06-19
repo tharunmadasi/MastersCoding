@@ -52,7 +52,7 @@ function mentor(){
       </div>
 
       <div className="row mb-4">
-        <div className="col-md-6 d-flex justify-content-center">
+        <div className="col-md-6 justify-content-center d-flex">
 
           <div className="form-check mb-3 mb-md-0">
             <input className="form-check-input" type="checkbox" value="" id="loginCheck"  />
@@ -60,7 +60,7 @@ function mentor(){
           </div>
         </div>
 
-        <div className="col-md-6 d-flex justify-content-center">
+        <div className="col-md-6 justify-content-center">
           <NavLink href="#!">Forgot password?</NavLink>
         </div>
       </div>
