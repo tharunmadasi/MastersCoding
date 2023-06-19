@@ -7,7 +7,7 @@ const Navibar=() =>{
 
   return (
     
-      <nav className="navbar navbar-expand-lg bg-info">
+      <nav className="navbar navbar-expand-lg navbarcss">
         
           <div className="container-fluid">
           <img src='https://thumbs.dreamstime.com/b/training-icon-isolated-white-background-vector-illustration-eps-135858477.jpg'  width='60px' height='60px' className='rounded-circle'/>
@@ -16,9 +16,7 @@ const Navibar=() =>{
           </button>
           <div className="navbar-collapse collapse " id="navbarNav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item me-4">
-                <Link className="nav-link text-white" to="/">Home</Link>
-              </li>
+              
               <li className="nav-item me-4">
                 <Link className="nav-link text-white" to="/login">Login</Link>
               </li>
