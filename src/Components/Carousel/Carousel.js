@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './images.css'
+import './Carousel.css';
 
-const Carousel = ({ images }) => {
+function Carousel ({ images }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToSlide = (index) => {

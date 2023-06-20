@@ -1,11 +1,11 @@
 import React from 'react'
-import Navibar from './Navibar/Navibar'
+import Navbar from './Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 
 function RootLayout() {
   return (
     <div>
-      <Navibar />
+      <Navbar />
       <div style={{minHeight:"67vh"}}>
       <Outlet />
       </div>

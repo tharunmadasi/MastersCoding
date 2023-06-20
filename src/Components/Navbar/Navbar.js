@@ -1,6 +1,6 @@
 import React ,{ useState } from 'react'
 import { Link } from 'react-router-dom'
-import './Navibar.css'
+import './Navbar.css'
 
 const Navibar=() =>{
   const [showNavbar,setShowNavbar]=useState(true);

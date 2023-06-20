@@ -1,6 +1,7 @@
-import React,{ useState } from 'react';
-import './Home.css'
-import Carousel from './images';
+import React from 'react';
+import './Home.css';
+import Carousel from '../Carousel/Carousel';
+
 
 function Home() {
   const imageUrls=[
