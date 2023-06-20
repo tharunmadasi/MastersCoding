@@ -53,8 +53,8 @@ mentorApp.post('/login',expressAsncHandler(async(req,res)=>{
         const result = await bcryptjs.compare(loginCreds.password,mentorOfDb.password)
         if(result){
             //password matched . generate the token  & return success:true
-            // console.log(process.env.SECRETE_KEY)
-            const token = jwt.sign(mentorOfDb,process.env.SECRETE_KEY,{expiresIn:'7d'});
+            // console.log(process.env.SECRET_KEY)
+            const token = jwt.sign(mentorOfDb,process.env.SECRET_KEY,{expiresIn:'7d'});
             // console.log('token : ',token);
             res.status(200).send({success:true,token:token});
         }
