@@ -22,21 +22,28 @@ import './Login.css'
   const [studentVisible, setStudentVisible] = useState(false);
   const [adminVisible, setAdminVisible] = useState(false);
   const [mentorVisible, setMentorVisible] = useState(false);
+  const [selectRole,setSelectRole]=useState("Select your role to login");
 
+  const role=()=>{
+    setSelectRole("")
+  }
   const handleStudentLogin = () => {
     setStudentVisible(true);
     setAdminVisible(false);
     setMentorVisible(false);
+    role();
   };
   const handleAdminLogin = () => {
     setStudentVisible(false);
     setAdminVisible(true);
     setMentorVisible(false);
+    role();
   };
   const handleMentorLogin = () => {
     setStudentVisible(false);
     setAdminVisible(false);
     setMentorVisible(true);
+    role();
   };
   
     
@@ -73,8 +80,7 @@ import './Login.css'
       </nav> */}
         
         <div className="card-body">
-            <p className='mt-4 sel'>Select your role to login </p>
-        </div>
+            <p className='mt-4 sel'>{selectRole}</p>
         {studentVisible && (
           <div className="form1 bg-info">
                   <div className="row">
@@ -179,6 +185,7 @@ import './Login.css'
                   </div>
           </div>
         )}
+</div>
 </div>
 </div>
   )
