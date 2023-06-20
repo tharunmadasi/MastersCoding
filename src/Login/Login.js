@@ -45,6 +45,18 @@ import './Login.css'
     setMentorVisible(true);
     role();
   };
+  const onSubmitStudent=(data)=>{
+    console.log(data);
+    navigatetos();
+  }
+  const onSubmitMentor=(data)=>{
+    console.log(data);
+    navigatetom();
+  }
+  const onSubmitAdmin=(data)=>{
+    console.log(data);
+    navigatetoa();
+  }
   
     
   return (
@@ -81,12 +93,94 @@ import './Login.css'
         
         <div className="card-body">
             <p className='mt-4 sel'>{selectRole}</p>
+
+         {/* Student Login Form */}
         {studentVisible && (
           <div className="form1 bg-info">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                                <form onSubmit={handleSubmit}>
-                                    {/*question*/}
+                                {/*<form onSubmit={handleSubmit(submitForm)}>
+                                    <div className="mb-3 text-center form-control">
+                                        <label htmlFor="name">Username : </label>
+                                        <input type="text"
+                                        id="Username"
+                                        className="mx-2"
+                                        {...register("Username",{required:true})} 
+                                        />
+                                        {errors.Username?.type==="required" && <p className="text-danger">*Username is required</p>}
+                                                              
+                                    </div>
+                                    
+                                    <div className="mb-3 text-center form-control">
+                                        <label htmlFor="passw">Password :</label>
+                                        <input type="password"
+                                        id="Password"
+                                        className="mx-2"
+                                        {...register("Password",{required:true})} 
+                                        />
+                                        {errors.Password?.type==="required" && <p className="text-danger">*Password is required</p>}                       
+                                    </div>
+                                    <a href="#">Forgot Password ?</a>
+                                    
+                                    <button type="submit" className='loginbtn1' onClick={navigatetos}>Login</button>
+                                </form>*/}
+
+<form onSubmit={handleSubmit(onSubmitStudent)}>
+        <div className="form-control text-center mb-3">
+          <label>Username : </label>
+          <input
+            type="text"
+            id="username"
+            {...register("username", {
+              required: true,
+              minLength:6,
+              maxLength:12
+            })}
+          />
+          {errors.username?.type === "required" && (
+            <p className="text-danger">Username is required.</p>
+          )}
+          {errors.username?.type === "minLength" && (
+            <p className="text-danger">Username should be at-least 6 characters.</p>
+          )}
+          {errors.username?.type === "maxLength" && (
+            <p className="text-danger">Username should not exceed 12 characters.</p>
+          )}
+        </div>
+        <div className="form-control text-center mb-3">
+          <label>Password : </label>
+          <input
+            type="password"
+            name="password"
+            {...register("password", {
+              required: true,
+              minLength: 6,
+            })}
+          />
+          {errors.password?.type === "required" && (
+            <p className="text-danger">Password is required.</p>
+          )}
+          {errors.password?.type === "minLength" && (
+            <p className="text-danger">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+        </div>
+        <a href="#">Forgot Password ?</a>
+        <button type="submit" className='loginbtn1'>Login</button>
+      </form>
+
+                            </div>
+                  </div>
+          </div>
+        )}
+        
+        {/* Mentor Login Form */}
+        {mentorVisible && (
+          <div className="form1 bg-light">
+                  <div className="row">
+                            <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
+                                {/*<form onSubmit={handleSubmit}>
                                     <div className="mb-3 text-center ">
                                         <label htmlFor="name">Username : </label>
                                         <input type="text"
@@ -109,19 +203,63 @@ import './Login.css'
                                                               
                                     </div>
                                     <a href="#">Forgot Password ?</a>
-                                    
-                                    <button type="submit" className='loginbtn1' onClick={navigatetos}>Login</button>
-                                </form>
+                                    <button type="submit" className="loginbtn1" onClick={navigatetom}>Login</button>
+        </form>*/}
+        <form onSubmit={handleSubmit(onSubmitMentor)}>
+        <div className="form-control text-center mb-3">
+          <label>Username : </label>
+          <input
+            type="text"
+            id="username"
+            {...register("username", {
+              required: true,
+              minLength:6,
+              maxLength:12
+            })}
+          />
+          {errors.username?.type === "required" && (
+            <p className="text-danger">Username is required.</p>
+          )}
+          {errors.username?.type === "minLength" && (
+            <p className="text-danger">Username should be at-least 6 characters.</p>
+          )}
+          {errors.username?.type === "maxLength" && (
+            <p className="text-danger">Username should not exceed 12 characters.</p>
+          )}
+        </div>
+        <div className="form-control text-center mb-3">
+          <label>Password : </label>
+          <input
+            type="password"
+            name="password"
+            {...register("password", {
+              required: true,
+              minLength: 6,
+            })}
+          />
+          {errors.password?.type === "required" && (
+            <p className="text-danger">Password is required.</p>
+          )}
+          {errors.password?.type === "minLength" && (
+            <p className="text-danger">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+        </div>
+        <a href="#">Forgot Password ?</a>
+        <button type="submit" className='loginbtn1'>Login</button>
+      </form>
                             </div>
                   </div>
           </div>
         )}
+
+        {/* Admin Login Form */}
         {adminVisible && (
           <div className="form1 bg-secondary">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                                <form onSubmit={handleSubmit}>
-                                    {/*question*/}
+                               {/*} <form onSubmit={handleSubmit}>
                                     <div className="mb-3 text-center ">
                                         <label htmlFor="name">Username : </label>
                                         <input type="text"
@@ -146,41 +284,51 @@ import './Login.css'
                                     <a href="#">Forgot Password ?</a>
                                     
                                     <button type="submit" className="loginbtn1" onClick={navigatetoa}>Login</button>
-                                </form>
-                            </div>
-                  </div>
-          </div>
-        )}
-        {mentorVisible && (
-          <div className="form1 bg-light">
-                  <div className="row">
-                            <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                                <form onSubmit={handleSubmit}>
-                                    {/*question*/}
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Username : </label>
-                                        <input type="text"
-                                        id="Username"
-                                        className="mx-2"
-                                        {...register("Username",{required:true})} 
-                                        />
-                                        {errors.Username?.type==="required" && <p className="text-danger">*Username is required</p>}
-                                                              
-                                    </div>
-                                    
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Password :</label>
-                                        <input type="password"
-                                        id="Password"
-                                        className="mx-2"
-                                        {...register("Password",{required:true})} 
-                                        />
-                                        {errors.Password?.type==="required" && <p className="text-danger">*Password is required</p>}
-                                                              
-                                    </div>
-                                    <a href="#">Forgot Password ?</a>
-                                    <button type="submit" className="loginbtn1" onClick={navigatetom}>Login</button>
-                                </form>
+        </form>*/}
+        <form onSubmit={handleSubmit(onSubmitAdmin)}>
+        <div className="form-control text-center mb-3">
+          <label>Username : </label>
+          <input
+            type="text"
+            id="username"
+            {...register("username", {
+              required: true,
+              minLength:6,
+              maxLength:12
+            })}
+          />
+          {errors.username?.type === "required" && (
+            <p className="text-danger">Username is required.</p>
+          )}
+          {errors.username?.type === "minLength" && (
+            <p className="text-danger">Username should be at-least 6 characters.</p>
+          )}
+          {errors.username?.type === "maxLength" && (
+            <p className="text-danger">Username should not exceed 12 characters.</p>
+          )}
+        </div>
+        <div className="form-control text-center mb-3">
+          <label>Password : </label>
+          <input
+            type="password"
+            name="password"
+            {...register("password", {
+              required: true,
+              minLength: 6,
+            })}
+          />
+          {errors.password?.type === "required" && (
+            <p className="text-danger">Password is required.</p>
+          )}
+          {errors.password?.type === "minLength" && (
+            <p className="text-danger">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+        </div>
+        <a href="#">Forgot Password ?</a>
+        <button type="submit" className='loginbtn1'>Login</button>
+      </form>
                             </div>
                   </div>
           </div>
