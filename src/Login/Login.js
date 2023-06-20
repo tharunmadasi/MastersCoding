@@ -19,9 +19,9 @@ import './Login.css'
       handleSubmit,
       formState:{errors},
     }=useForm();
-    const [isStudentVisible, setStudentVisible] = useState(false);
-  const [isAdminVisible, setAdminVisible] = useState(false);
-  const [isMentorVisible, setMentorVisible] = useState(false);
+  const [studentVisible, setStudentVisible] = useState(false);
+  const [adminVisible, setAdminVisible] = useState(false);
+  const [mentorVisible, setMentorVisible] = useState(false);
 
   const handleStudentLogin = () => {
     setStudentVisible(true);
@@ -75,7 +75,7 @@ import './Login.css'
         <div className="card-body">
             <p className='mt-4 sel'>Select your role to login </p>
         </div>
-        {isStudentVisible && (
+        {studentVisible && (
           <div className="form1 bg-info">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
@@ -110,7 +110,7 @@ import './Login.css'
                   </div>
           </div>
         )}
-        {isAdminVisible && (
+        {adminVisible && (
           <div className="form1 bg-secondary">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
@@ -145,7 +145,7 @@ import './Login.css'
                   </div>
           </div>
         )}
-        {isMentorVisible && (
+        {mentorVisible && (
           <div className="form1 bg-light">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">

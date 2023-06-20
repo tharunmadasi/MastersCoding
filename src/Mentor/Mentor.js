@@ -1,11 +1,11 @@
 import React from "react"
 import { NavLink } from "react-router-dom";
 import './Mentor.css';
-import { FaFacebookF,FaGithub,FaGoogle, FaTwitter } from 'react-icons/fa';
+//import { FaFacebookF,FaGithub,FaGoogle, FaTwitter } from 'react-icons/fa';
 
 function mentor(){
     return(
-//             <div className="loginRegister">
+//           <div className="loginRegister">
 // <ul className="nav nav-pills nav-justified mb-2" id="ex1" role="tablist">
 //   <li className="nav-item" role="presentation">
 //     <NavLink className="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
