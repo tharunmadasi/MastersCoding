@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React from 'react';
 import './Home.css'
 import Carousel from './images';
 
@@ -23,7 +23,6 @@ function Home() {
           </section>
     </div>
   )
-
 }
 
 export default Home
