@@ -1,11 +1,11 @@
 import './App.css';
 import RootLayout from './Components/RootLayout';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Home from './Components/Home/Home';
-import Login from './Components/Login/Login';
-import Student from './Components/Student/Student';
-import Mentor from './Components/Mentor/Mentor';
-import Admin from './Components/Admin/Admin';
+import Home from './Home';
+import Login from './Login/Login';
+import Student from './Student/Student';
+import Mentor from './Mentor/Mentor';
+import Admin from './Admin/Admin';
 
 function App() {
   const router= createBrowserRouter([
@@ -32,6 +32,23 @@ function App() {
         {
           path:"/Admin",
           element:<Admin />,
+          children:[
+            {
+              path:'profile',
+              element:<Profile />
+            },{
+              path:'assignments',
+              element:<Assignments />
+            },
+            {
+              path:'attendance',
+              element:<Attendance />
+            },
+            {
+              path:'batch-report',
+              element:<BatchReport />
+            }
+          ]
         }
       ]
     }
