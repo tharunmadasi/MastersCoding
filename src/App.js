@@ -6,6 +6,10 @@ import Login from './Login/Login';
 import Student from './Student/Student';
 import Mentor from './Mentor/Mentor';
 import Admin from './Admin/Admin';
+import Profile from './SideBar/Profile/Profile';
+import Assignments from './SideBar/Assignments/Assignments';
+import Attendance from './SideBar/Attendance/Attendance';
+import BatchReport from './SideBar/BatchReport/BatchReport';
 
 function App() {
   const router= createBrowserRouter([
@@ -32,6 +36,23 @@ function App() {
         {
           path:"/Admin",
           element:<Admin />,
+          children:[
+            {
+              path:'profile',
+              element:<Profile />
+            },{
+              path:'assignments',
+              element:<Assignments />
+            },
+            {
+              path:'attendance',
+              element:<Attendance />
+            },
+            {
+              path:'batch-report',
+              element:<BatchReport />
+            }
+          ]
         }
       ]
     }
