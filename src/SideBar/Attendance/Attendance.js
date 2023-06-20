@@ -2,7 +2,7 @@ import React from 'react'
 
 function Attendance() {
   return (
-    <div>Attendance</div>
+    <h2 className='text-primary'>Attendance</h2>
   )
 }
 

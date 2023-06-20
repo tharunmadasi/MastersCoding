@@ -24,7 +24,7 @@ function Assignments() {
 
   return (
     <div>
-      <h1>Assignments</h1>
+      <h2 className='text-primary'>Assignments</h2>
       <div className="form1">
                   <div className="row">
                             <div className="col-11.col-sm-8.col-md-6 mx-auto l1">

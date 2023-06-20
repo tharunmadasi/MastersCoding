@@ -2,7 +2,7 @@ import React from 'react'
 
 function BatchReport() {
   return (
-    <div>Batch-Report</div>
+    <h2 className='text-primary'>Batch-Report</h2>
   )
 }
 
