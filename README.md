@@ -2,9 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+##Setting up with Backend 
+1.your system need be installed with morden version of mongoDB
+2.open command prompt and set up databse as below
+  -mongosh
+  -use MC
+  -db.createCollection('studentAcs')
+  -db.createCollection('adminAcs')
+  -db.createCollection('mentorAcs')
+3.npm install
+4. nodemon server.js
+
 ## Available Scripts
 
 In the project directory, you can run:
+
 
 ### `npm start`
 
