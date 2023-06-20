@@ -32,7 +32,7 @@ function App() {
         {
           path:"/Admin",
           element:<Admin />,
-        },
+        }
       ]
     }
   ])
