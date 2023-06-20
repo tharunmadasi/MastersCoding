@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import './Carousel.css';
+import React, { useState } from "react";
+import "./Carousel.css";
 
-function Carousel ({ images }) {
+function Carousel({ images }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToSlide = (index) => {
@@ -9,14 +9,19 @@ function Carousel ({ images }) {
   };
   return (
     <div className="carousel">
-        <div className="carousel-images">
+      <div className="carousel-images">
         {images.map((imageUrl, index) => (
           <img
             key={index}
             src={imageUrl}
             alt={`Carousel Image ${index}`}
-            style={{width:1500 , height:400, borderRadius:'20px',marginBottom:'10px'}}
-            className={index === currentIndex ? 'active' : ''}
+            style={{
+              width: 1500,
+              height: 400,
+              borderRadius: "20px",
+              marginBottom: "10px",
+            }}
+            className={index === currentIndex ? "active" : ""}
           />
         ))}
       </div>
@@ -24,13 +29,13 @@ function Carousel ({ images }) {
         {images.map((_, index) => (
           <span
             key={index}
-            className={index === currentIndex ? 'active' : ''}
+            className={index === currentIndex ? "active" : ""}
             onClick={() => goToSlide(index)}
           ></span>
         ))}
       </div>
     </div>
   );
-};
+}
 
 export default Carousel;

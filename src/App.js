@@ -1,11 +1,15 @@
 import './App.css';
 import RootLayout from './Components/RootLayout';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login/Login';
-import Student from './Student/Student';
-import Mentor from './Mentor/Mentor';
-import Admin from './Admin/Admin';
+import Home from './Components/Home/Home';
+import Login from './Components/Login/Login';
+import Student from './Components/Student/Student';
+import Mentor from './Components/Mentor/Mentor';
+import Admin from './Components/Admin/Admin';
+import Profile from './Components/SideBar/Profile/Profile';
+import Assignments from './Components/SideBar/Assignments/Assignments';
+import Attendance from './Components/SideBar/Attendance/Attendance';
+import BatchReport from './Components/SideBar/BatchReport/BatchReport';
 
 function App() {
   const router= createBrowserRouter([
