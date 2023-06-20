@@ -1,0 +1,23 @@
+GET http://localhost:3500/mentor/allMentors
+
+###
+POST http://localhost:3500/mentor/signup
+Content-Type: application/json
+
+{
+    "roll":"21071a05T5",
+    "name":"T.Sai nithish",
+    "mail":"thoparamsainithish1234@gmail.com",
+    "batch":"2022_B1",
+    "section":"CSE-D",
+    "password":"2003"
+}
+
+###
+POST http://localhost:3500/mentor/login
+Content-Type:  application/json
+
+{
+    "roll":"21071A05T5",
+    "password":"2003"
+}
