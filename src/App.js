@@ -13,6 +13,7 @@ import BatchReport from './Components/SideBar/BatchReport/BatchReport';
 import Profile1 from './Components/SideBar1/Profile1/Profile1';
 import Assignments1 from './Components/SideBar1/Assignments1/Assignments1';
 import BatchReport1 from './Components/SideBar1/BatchReport1/BatchReport1';
+import { Chart } from 'react-chartjs-2';
 
 function App() {
   const router= createBrowserRouter([
