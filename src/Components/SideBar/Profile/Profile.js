@@ -15,7 +15,7 @@ function Profile() {
 
   return (
     <div>
-      <h1>Admin Profile</h1>
+      <h2 className='text-primary'>Admin Profile</h2>
       <div className="form1">
         <div className="row">
           <div className="col-11.col-sm-8.col-md-6 mx-auto l1">

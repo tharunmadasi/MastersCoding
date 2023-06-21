@@ -1,7 +1,6 @@
 import React from "react";
 import "./Profile1.css";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 
 function Profile1() {
   let {
