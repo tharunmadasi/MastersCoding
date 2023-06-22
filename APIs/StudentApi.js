@@ -53,8 +53,8 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         const result = await bcryptjs.compare(loginCreds.password,studentOfDb.password)
         if(result){
             //password matched . generate the token  & return success:true
-            // console.log(process.env.SECRETE_KEY)
-            const token = jwt.sign(studentOfDb,process.env.SECRETE_KEY,{expiresIn:'7d'});
+            // console.log(process.env.SECRET_KEY)
+            const token = jwt.sign(studentOfDb,process.env.SECRET_KEY,{expiresIn:'7d'});
             // console.log('token : ',token);
             res.status(200).send({success:true,token:token});
         }
@@ -64,8 +64,5 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         }
     }
 }))
-//Logedin Student Details
-studentApp.post('/logedinStudent',expressAsncHandler(async(req,res)=>{
-    
-}))
+
 module.exports = studentApp

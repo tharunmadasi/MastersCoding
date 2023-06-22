@@ -1,8 +1,8 @@
 import React from "react";
-import "./Profile.css";
+import "./Profile1.css";
 import { useForm } from "react-hook-form";
 
-function Profile() {
+function Profile1() {
   let {
     register,
     handleSubmit,
@@ -12,10 +12,11 @@ function Profile() {
   const onSubmit = (data) => {
     console.log(data);
   };
-
+  
+  
   return (
     <div>
-      <h2 className='text-primary'>Admin Profile</h2>
+      <h1>Mentor Profile</h1>
       <div className="form1">
         <div className="row">
           <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
@@ -96,8 +97,9 @@ function Profile() {
           </div>
         </div>
       </div>
+     
     </div>
   );
 }
 
-export default Profile;
+export default Profile1;
