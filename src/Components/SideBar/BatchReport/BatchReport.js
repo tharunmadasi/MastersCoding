@@ -1,39 +1,32 @@
-import React from "react";
-import { Pie } from "react-chartjs-2";
-
-function BatchReport(){
-  // const pieChartData = {
-  //   labels: ["October", "November", "December"],
-  //   datasets: [{
-  //       data: [8137119, 9431691, 10266674],
-  //       label: "Infected People",
-  //       backgroundColor: ["#2FDE00", "#00A6B4", "#ff6600"],
-  //       hoverBackgroundColor: ["#175000", "#003350", "#993d00"]
-  //   }]
-  // };
-  // const pieChart = (
-  //   <Pie
-  //     type="pie"
-  //     width={130}
-  //     height={50}
-  //     options={{
-  //       title: {
-  //         display: true,
-  //         text: "COVID-19 Cases of Last 3 Months",
-  //         fontSize: 15
-  //       },
-  //       legend: {
-  //         display: true, //Is the legend shown?
-  //         position: "top" //Position of the legend.
-  //       }
-  //     }}
-  //     data={pieChartData}
-  //   />
-  // );
-  return (
-    <div>
-      <h3>Batch Report</h3>
-    </div>
-  );
-};
+import React from 'react';
+import { PieChart, Pie ,BarChart, Bar, CartesianGrid, XAxis, YAxis} from 'recharts';
+import './BatchReport.css';
+ 
+ 
+function BatchReport() {
+ 
+    // Sample data
+    const data = [
+        { name: 'Geeksforgeeks', students: 400 },
+        { name: 'Technical scripter', students: 700 },
+        { name: 'Geek-i-knack', students: 200 },
+        { name: 'Geek-o-mania', students: 1000 }
+    ];
+ 
+ 
+    return (
+        <div className='charts'>
+        <PieChart width={400} height={400}>
+            <Pie data={data} dataKey="students" outerRadius={200} fill="deepskyblue" />
+        </PieChart>
+        <BarChart width={600} height={300} data={data}>
+            <Bar dataKey="students" fill="chartreuse" />
+            <CartesianGrid stroke="#ccc" />
+            <XAxis dataKey="name" />
+            <YAxis />
+        </BarChart>
+        </div>
+    );
+}
+ 
 export default BatchReport
