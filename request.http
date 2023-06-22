@@ -5,12 +5,12 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a05T3",
-    "name":"T.Sai nithish",
-    "mail":"thoparamsainithish1234@gmail.com",
+    "roll":"21071a05E5",
+    "name":"G. Pallavi Reddy",
+    "mail":"pallavireddy0310@gmail.com",
     "batch":"2022_B1",
-    "section":"CSE-D",
-    "password":"nithish",
+    "section":"CSE-C",
+    "password":"pallavi",
     "position" :"student"
 }
 
