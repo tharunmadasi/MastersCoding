@@ -42,6 +42,11 @@ const Navibar = () => {
         </button>
         <div className="navbar-collapse collapse " id="navbarNav">
           <ul className="navbar-nav ms-auto">
+            <li className="nav-item me-4">
+                  <Link className="nav-link text-white  fw-bold" to={'/'} >
+                    Home
+                  </Link>
+            </li>
             {isUserLogedin?
               <li className="nav-item me-4">
                 <Link className="nav-link text-white  fw-bold" onClick={()=>{localStorage.clear();setIsUserLogedin(false);navigate('/Login')}} >
