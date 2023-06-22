@@ -1,7 +1,7 @@
-GET http://localhost:3500/mentor/allMentors
+GET http://localhost:3500/student/allStudents
 
 ###
-POST http://localhost:3500/mentor/signup
+POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3500/mentor/login
+POST http://localhost:3500/student/login
 Content-Type:  application/json
 
 {

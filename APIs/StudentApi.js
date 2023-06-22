@@ -64,5 +64,8 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         }
     }
 }))
-
+//Logedin Student Details
+studentApp.post('/logedinStudent',expressAsncHandler(async(req,res)=>{
+    
+}))
 module.exports = studentApp

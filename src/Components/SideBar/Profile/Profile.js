@@ -14,7 +14,7 @@ function Profile() {
   };
 
   return (
-    <div>
+    <div> 
       <h1>Admin Profile</h1>
       <div className="form1">
         <div className="row">

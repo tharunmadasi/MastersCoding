@@ -29,7 +29,7 @@ function Carousel({ images }) {
         {images.map((_, index) => (
           <span
             key={index}
-            className={index === currentIndex ? "active" : ""}
+            className={ index === currentIndex ? "active" : "" }
             onClick={() => goToSlide(index)}
           ></span>
         ))}

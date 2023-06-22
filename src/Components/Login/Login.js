@@ -138,7 +138,7 @@ function Login() {
                   <form onSubmit={handleSubmit(onSubmitStudent)}>
                     <div className="form-control text-center mb-3">
                       <label>Username : </label>
-                      <input
+                    <input
                         type="text"
                         id="username"
                         {...register("username", {
