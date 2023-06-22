@@ -52,7 +52,7 @@ function Assignments() {
         </div>
       </div>
       <hr />
-      <h3 className="text-warning">Previous Assignments</h3>
+      <h3 className="text-secondary">Previous Assignments</h3>
       <p>{assignLink}</p>
     </div>
   );

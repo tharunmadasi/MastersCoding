@@ -7,6 +7,9 @@ import Student from './Components/Student/Student';
 import Mentor from './Components/Mentor/Mentor';
 import Admin from './Components/Admin/Admin';
 import Profile from './Components/SideBar/Profile/Profile';
+import StdProfile from './Components/Student/StudentSidebar/Profile/Profile'
+import StdAssignments from './Components/Student/StudentSidebar/Assignments/Assignments'
+import StdClasses from './Components/Student/StudentSidebar/Classes/Classes'
 import Assignments from './Components/SideBar/Assignments/Assignments';
 import Attendance from './Components/SideBar/Attendance/Attendance';
 import BatchReport from './Components/SideBar/BatchReport/BatchReport';
@@ -26,11 +29,25 @@ function App() {
         },
         {
           path:"/login",
-          element:<Login />,
+          element:<Login />
         },
         {   
           path:"/Student",
           element:<Student />,
+          children:[
+            {
+              path:'profile',
+              element:<StdProfile/>
+            },
+            {
+              path:'assignments',
+              element:<StdAssignments/>
+            },
+            {
+              path:'classes',
+              element:<StdClasses/>
+            }
+          ]
         },
         {
           path:"/Mentor",

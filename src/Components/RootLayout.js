@@ -6,8 +6,8 @@ function RootLayout() {
   return (
     <div>
       <Navbar />
-      <div style={{minHeight:"67vh"}}>
-      <Outlet />
+      <div className='bg-secondary bg-opacity-50' style={{minHeight:"89.4vh"}}>
+        <Outlet />
       </div>
     </div>
   )
