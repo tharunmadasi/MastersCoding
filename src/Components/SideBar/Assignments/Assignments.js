@@ -13,11 +13,15 @@ function Assignments() {
   let incrementCounter = () => {
     setCounter(counter + 1);
   };
+  
+  let [assignLink,setAssignLink]= useState([])
 
   const onSubmit = (data) => {
     console.log(data);
     incrementCounter();
+    setAssignLink(data.url);
   };
+
 
   return (
     <div>
@@ -47,6 +51,9 @@ function Assignments() {
           </div>
         </div>
       </div>
+      <hr />
+      <h3 className="text-warning">Previous Assignments</h3>
+      <p>{assignLink}</p>
     </div>
   );
 }
