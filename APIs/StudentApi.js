@@ -39,6 +39,7 @@ studentApp.post('/signup',expressAsncHandler(async(req,res)=>{
 }))
 //Student Login
 studentApp.post('/login',expressAsncHandler(async(req,res)=>{
+    
     const studentAcsObj = req.app.get('studentAcsObj');
     const loginCreds = req.body;
     loginCreds.roll = loginCreds.roll.toLowerCase();
@@ -54,7 +55,7 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         if(result){
             //password matched . generate the token  & return success:true
             // console.log(process.env.SECRET_KEY)
-            const token = jwt.sign(studentOfDb,process.env.SECRET_KEY,{expiresIn:'7d'});
+            const token = jwt.sign(studentOfDb,process.env.SECRETE_KEY,{expiresIn:'7d'});
             // console.log('token : ',token);
             res.status(200).send({success:true,token:token});
         }

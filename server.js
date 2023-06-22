@@ -4,15 +4,18 @@ const app = exp()
 app.listen(3500,()=>{console.log('server is running on the port 3500 ')})
 
 //requires
+const cors = require('cors')
 const studentApp = require('./APIs/StudentApi');
 const mentorApp = require('./APIs/MentorApi')
 const adminApp = require('./APIs/AdminApi') 
 const mClient = require('mongodb').MongoClient
+const jwt = require('jsonwebtoken')
 require('dotenv').config();
+
 
 //middle wares
 app.use(exp.json())
-
+app.use(cors())
 //connect to Database 
 mClient.connect('mongodb://127.0.0.1:27017')
 .then(dbServerRef=>{
@@ -32,6 +35,25 @@ mClient.connect('mongodb://127.0.0.1:27017')
 app.use('/student',studentApp);
 app.use('/mentor',mentorApp);
 app.use('/admin',adminApp)
+
+//verify login token
+app.post('/verifyLoginToken',async(req,res)=>{
+    const {token} = req.body;
+    console.log(token)
+    try{
+        const userData = await jwt.verify(token,process.env.SECRETE_KEY)
+        if(userData) {
+            delete userData.password;
+            delete userData.iat;
+            delete userData.exp;
+            delete userData._id
+            res.status(200).send({valid:true,payload:userData});
+        }
+        else res.status(200).send({valid:false})
+    }catch{
+        res.status(200).send({valid:false})
+    }
+}) 
 
 //error handling middleware
 const errorHandlingMiddleWare = (err,req, res , next)=>{

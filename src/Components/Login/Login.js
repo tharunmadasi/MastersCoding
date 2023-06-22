@@ -2,31 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./Login.css";
+import axios from "axios";
 
 function Login() {
   const navi = useNavigate();
-  let navigatetos = () => {
-    navi("/Student");
-  };
-  let navigatetoa = () => {
-    navi("/Admin");
-  };
-  let navigatetom = () => {
-    navi("/Mentor");
-  };
-  let {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  let navigatetos = () => navi("/Student/profile");
+  let navigatetoa = () => navi("/Admin/profile");
+  let navigatetom = () => navi("/Mentor/profile1");
+  const role = () => setSelectRole("");
+
+  let {register,handleSubmit,formState: { errors },} = useForm();
+
   const [studentVisible, setStudentVisible] = useState(false);
   const [adminVisible, setAdminVisible] = useState(false);
   const [mentorVisible, setMentorVisible] = useState(false);
+
   const [selectRole, setSelectRole] = useState("Select your role to login");
 
-  const role = () => {
-    setSelectRole("");
-  };
+
   const handleStudentLogin = () => {
     setStudentVisible(true);
     setAdminVisible(false);
@@ -45,18 +38,55 @@ function Login() {
     setMentorVisible(true);
     role();
   };
-  const onSubmitStudent = (data) => {
-    console.log(data);
-    navigatetos();
+
+  //handling submissions
+  //for student
+  const [stdLoginRes,setStdLoginRes] = useState({})
+  useEffect(()=>{
+    if(stdLoginRes.data?.success === true){
+      localStorage.setItem('token',stdLoginRes.data.token)
+      navigatetos();
+    }
+  },[stdLoginRes])
+  const onSubmitStudent = async(data) => {
+    // console.log(data);
+    data.position='student';
+    let result = await axios.post('http://localhost:3500/student/login',data);
+    // console.log(result)
+    setStdLoginRes(result);
   };
-  const onSubmitMentor = (data) => {
+  //for mentor
+  const [mentorLoginRes,setMentorLoginRes] = useState({})
+  useEffect(()=>{
+    if(mentorLoginRes.data?.success === true){
+      localStorage.setItem('token',mentorLoginRes.data.token)
+      navigatetom();
+    }
+  },[mentorLoginRes])
+  const onSubmitMentor = async(data) => {
+    data.position='mentor'
     console.log(data);
-    navigatetom();
+    let result = await axios.post('http://localhost:3500/mentor/login',data);
+    console.log(result);
+    setMentorLoginRes(result);
   };
-  const onSubmitAdmin = (data) => {
+  //for admin
+  const [adminLoginRes,setAdminLoginRes] = useState({})
+  useEffect(()=>{
+    if(adminLoginRes.data?.success === true){
+      localStorage.setItem('token',adminLoginRes.data.token)
+      navigatetoa();
+    }
+  },[adminLoginRes])
+  const onSubmitAdmin = async(data) => {
+    data.position='admin'
     console.log(data);
-    navigatetoa();
+    let result = await axios.post('http://localhost:3500/admin/login',data);
+    console.log(result);
+    setAdminLoginRes(result);
   };
+
+  
 
   return (
     <div>
@@ -134,30 +164,25 @@ function Login() {
                                     
                                     <button type="submit" className='loginbtn1' onClick={navigatetos}>Login</button>
                                 </form>*/}
-
+                  {stdLoginRes.data?.success === false && <p className="text-danger fw-bold">*{stdLoginRes.data?.message}</p> }
                   <form onSubmit={handleSubmit(onSubmitStudent)}>
                     <div className="form-control text-center mb-3">
-                      <label>Username : </label>
-                    <input
-                        type="text"
-                        id="username"
-                        {...register("username", {
-                          required: true,
-                          minLength: 6,
-                          maxLength: 12,
-                        })}
-                      />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
+                      <label>Student Roll : </label>
+                      <input
+                          type="text"
+                          id="roll"
+                          {...register("roll", {
+                            required: true,
+                            maxLength:10,
+                            minLength:10
+                          })}
+                        />
+                      {errors.roll?.type === "required" && (
+                        <p className="text-danger">*roll shouldn't be empty.</p>
                       )}
-                      {errors.username?.type === "minLength" && (
+                      {errors.roll?.type === "minLength" && (
                         <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
+                          *roll should have length 10.
                         </p>
                       )}
                     </div>
@@ -172,7 +197,7 @@ function Login() {
                         })}
                       />
                       {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
+                        <p className="text-danger">Password shouldn't be empty</p>
                       )}
                       {errors.password?.type === "minLength" && (
                         <p className="text-danger">
@@ -180,7 +205,9 @@ function Login() {
                         </p>
                       )}
                     </div>
+
                     <a href="#">Forgot Password ?</a>
+
                     <button type="submit" className="loginbtn1">
                       Login
                     </button>
@@ -219,30 +246,26 @@ function Login() {
                                     </div>
                                     <a href="#">Forgot Password ?</a>
                                     <button type="submit" className="loginbtn1" onClick={navigatetom}>Login</button>
-        </form>*/}
+                  </form>*/}
+                  {mentorLoginRes.data?.success === false && <p className="text-danger fw-bold">*{mentorLoginRes.data?.message}</p> }
                   <form onSubmit={handleSubmit(onSubmitMentor)}>
                     <div className="form-control text-center mb-3">
-                      <label>Username : </label>
+                      <label>Mentor Roll : </label>
                       <input
                         type="text"
-                        id="username"
-                        {...register("username", {
+                        id="roll"
+                        {...register("roll", {
                           required: true,
-                          minLength: 6,
-                          maxLength: 12,
+                          minLength: 10,
+                          maxLength: 10,
                         })}
                       />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
+                      {errors.roll?.type === "required" && (
+                        <p className="text-danger">*roll shouldn't be empty</p>
                       )}
-                      {errors.username?.type === "minLength" && (
+                      {errors.roll?.type === "minLength" && (
                         <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
+                          *roll should have length 10
                         </p>
                       )}
                     </div>
@@ -257,7 +280,7 @@ function Login() {
                         })}
                       />
                       {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
+                        <p className="text-danger">*Password is required.</p>
                       )}
                       {errors.password?.type === "minLength" && (
                         <p className="text-danger">
@@ -305,30 +328,26 @@ function Login() {
                                     <a href="#">Forgot Password ?</a>
                                     
                                     <button type="submit" className="loginbtn1" onClick={navigatetoa}>Login</button>
-        </form>*/}
+                          </form>*/}
+                  {adminLoginRes.data?.success === false && <p className="text-danger fw-bold">*{adminLoginRes.data?.message}</p> }
                   <form onSubmit={handleSubmit(onSubmitAdmin)}>
                     <div className="form-control text-center mb-3">
-                      <label>Username : </label>
+                      <label>Admin Roll : </label>
                       <input
                         type="text"
-                        id="username"
-                        {...register("username", {
+                        id="roll"
+                        {...register("roll", {
                           required: true,
-                          minLength: 6,
-                          maxLength: 12,
+                          minLength: 10,
+                          maxLength: 10,
                         })}
                       />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
+                      {errors.roll?.type === "required" && (
+                        <p className="text-danger">*roll shouldn't be empty.</p>
                       )}
-                      {errors.username?.type === "minLength" && (
+                      {errors.roll?.type === "minLength" && (
                         <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
+                          *roll should have length 10.
                         </p>
                       )}
                     </div>
@@ -343,7 +362,7 @@ function Login() {
                         })}
                       />
                       {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
+                        <p className="text-danger">Password shouldn't be empty.</p>
                       )}
                       {errors.password?.type === "minLength" && (
                         <p className="text-danger">
