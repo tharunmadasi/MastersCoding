@@ -1,39 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
+import Slider from "react-slick";
+import "../../Assets/CSS/slick.css";
+import "../../Assets/CSS/slick-theme.css";
 import "./Carousel.css";
 
-function Carousel({ images }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+function Carousel() {
+  const sliderRef = useRef(null);
 
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      sliderRef.current.slickNext();
+    }, 3000); 
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="carousel">
-      <div className="carousel-images">
-        {images.map((imageUrl, index) => (
-          <img
-            key={index}
-            src={imageUrl}
-            alt={`Carousel Image ${index}`}
-            style={{
-              width: 1500,
-              height: 400,
-              borderRadius: "20px",
-              marginBottom: "10px",
-            }}
-            className={index === currentIndex ? "active" : ""}
-          />
-        ))}
+    <div style={{ marginLeft: '260px', marginTop: '70px'}}>
+    <Slider
+      ref={sliderRef}
+      className="carousel-container"
+      dots={true}
+      autoplay={true}
+      autoplaySpeed={3000}
+      fade={true}
+    >
+      <div className="carousel-item justify-content-center">
+        <img
+          style={{ width: '900px', height: '450px' }}
+          src="https://universityinnovation.org/images/f/f3/Campus1.png"
+          alt="Slide 1"
+        />
+        <div className="carousel-caption"></div>
       </div>
-      <div className="carousel-dots">
-        {images.map((_, index) => (
-          <span
-            key={index}
-            className={index === currentIndex ? "active" : ""}
-            onClick={() => goToSlide(index)}
-          ></span>
-        ))}
+      <div className="carousel-item justify-content-center">
+        <img
+          style={{ width: '900px', height: '450px' }}
+          src="https://theacademicinsights.com/wp-content/uploads/2021/07/VNR-Vignana-Jyothi-Institute-of-Engineering-and-Technology.jpg"
+          alt="Slide 2"
+        />
+        <div className="carousel-caption"></div>
       </div>
+      <div className="carousel-item justify-content-center">
+        <img
+          style={{ width: '900px', height: '450px' }}
+          src="https://media.getmyuni.com/reviews/45500__28671/1506083609images%20(12).jpg"
+          alt="Slide 3"
+        />
+        <div className="carousel-caption"></div>
+      </div>
+      <div className="carousel-item justify-content-center">
+        <img
+          style={{ width: '900px', height: '450px' }}
+          src="https://vnrvjiet.ac.in/assets/images/CSE_Department_Inner.png.png"
+          alt="Slide 4"
+        />
+        <div className="carousel-caption"></div>
+      </div>
+    </Slider>
     </div>
   );
 }

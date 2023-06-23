@@ -1,9 +1,20 @@
 .container-fluid{
-    font-size: 20px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
+  font-size: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 500;
     
 }
 .navbarcss{
-    background-color: rgb(161, 197, 197);
+  background-color: rgb(216, 228, 213);
+  height: 55px;
+  box-shadow: 1px 2px 5px rgb(167, 192, 167);
 }
+.btn-outline-success.btn-sm {
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .login-text {
+    font-size: 1.1rem; 
+    font-weight: 600;
+  }
+  

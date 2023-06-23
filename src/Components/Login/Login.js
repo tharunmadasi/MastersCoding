@@ -1,363 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 
 function Login() {
   const navi = useNavigate();
-  let navigatetos = () => {
-    navi("/Student");
-  };
-  let navigatetoa = () => {
-    navi("/Admin");
-  };
-  let navigatetom = () => {
-    navi("/Mentor");
-  };
-  let {
+  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [studentVisible, setStudentVisible] = useState(false);
-  const [adminVisible, setAdminVisible] = useState(false);
-  const [mentorVisible, setMentorVisible] = useState(false);
-  const [selectRole, setSelectRole] = useState("Select your role to login");
+  const [role, setRole] = useState("");
 
-  const role = () => {
-    setSelectRole("");
+  const handleRoleSelection = (selectedRole) => {
+    setRole(selectedRole);
   };
-  const handleStudentLogin = () => {
-    setStudentVisible(true);
-    setAdminVisible(false);
-    setMentorVisible(false);
-    role();
+
+  const isButtonSelected = (buttonRole) => {
+    return buttonRole === role ? "btn-success select" : "btn-outline-success not-select";
   };
-  const handleAdminLogin = () => {
-    setStudentVisible(false);
-    setAdminVisible(true);
-    setMentorVisible(false);
-    role();
+
+  const navigateTo = (path) => {
+    navi(path);
   };
-  const handleMentorLogin = () => {
-    setStudentVisible(false);
-    setAdminVisible(false);
-    setMentorVisible(true);
-    role();
-  };
-  const onSubmitStudent = (data) => {
+
+  const handleLogin = (data) => {
     console.log(data);
-    navigatetos();
-  };
-  const onSubmitMentor = (data) => {
-    console.log(data);
-    navigatetom();
-  };
-  const onSubmitAdmin = (data) => {
-    console.log(data);
-    navigatetoa();
+    navigateTo(`/${role}`);
   };
 
   return (
-    <div>
-      <div className="outsideBtn1">
-        <a href="/">
-          <button className="btn btn-info fs-5">Back</button>
-        </a>
-      </div>
-      <div className="card border border-info">
-        <div className="buttons">
-          <button
-            className="btn btn-info bt1 mx-2"
-            onClick={handleStudentLogin}
-          >
-            Student
-          </button>
-          <button className="btn btn-info bt1 mx-2" onClick={handleAdminLogin}>
-            Admin
-          </button>
-          <button className="btn btn-info bt1 mx-2" onClick={handleMentorLogin}>
-            Mentor
-          </button>
-        </div>
-        {/* <nav className="navbar navbar-expand-md bg-info">
-        <div className="container-fluid">
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavi">
-    <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarNavi">
-      <ul className="nav navbar-nav nav-tabs">
-        <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white"  onClick={loginstudent}>Student</Link>
-        </li>
-        <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white" to="/Mentor">Mentor</Link>
-        </li>
-        <li className="nav-item ms-4 me-4">
-          <Link className="nav-link text-white" to="/Admin">Admin</Link>
-        </li>
-      </ul>
-    </div>
-  </div>
-      </nav> */}
-
-        <div className="card-body">
-          <p className="mt-4 sel">{selectRole}</p>
-
-          {/* Student Login Form */}
-          {studentVisible && (
-            <div className="form1 bg-info">
-              <div className="row">
-                <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                  {/*<form onSubmit={handleSubmit(submitForm)}>
-                                    <div className="mb-3 text-center form-control">
-                                        <label htmlFor="name">Username : </label>
-                                        <input type="text"
-                                        id="Username"
-                                        className="mx-2"
-                                        {...register("Username",{required:true})} 
-                                        />
-                                        {errors.Username?.type==="required" && <p className="text-danger">*Username is required</p>}
-                                                              
-                                    </div>
-                                    
-                                    <div className="mb-3 text-center form-control">
-                                        <label htmlFor="passw">Password :</label>
-                                        <input type="password"
-                                        id="Password"
-                                        className="mx-2"
-                                        {...register("Password",{required:true})} 
-                                        />
-                                        {errors.Password?.type==="required" && <p className="text-danger">*Password is required</p>}                       
-                                    </div>
-                                    <a href="#">Forgot Password ?</a>
-                                    
-                                    <button type="submit" className='loginbtn1' onClick={navigatetos}>Login</button>
-                                </form>*/}
-
-                  <form onSubmit={handleSubmit(onSubmitStudent)}>
-                    <div className="form-control text-center mb-3">
-                      <label>Username : </label>
-                      <input
-                        type="text"
-                        id="username"
-                        {...register("username", {
-                          required: true,
-                          minLength: 6,
-                          maxLength: 12,
-                        })}
-                      />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
-                      )}
-                      {errors.username?.type === "minLength" && (
-                        <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-control text-center mb-3">
-                      <label>Password : </label>
-                      <input
-                        type="password"
-                        name="password"
-                        {...register("password", {
-                          required: true,
-                          minLength: 6,
-                        })}
-                      />
-                      {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
-                      )}
-                      {errors.password?.type === "minLength" && (
-                        <p className="text-danger">
-                          Password should be at-least 6 characters.
-                        </p>
-                      )}
-                    </div>
-                    <a href="#">Forgot Password ?</a>
-                    <button type="submit" className="loginbtn1">
-                      Login
-                    </button>
-                  </form>
-                </div>
+    <div className="full" style={{ height: "100vh" }}>
+      <h3 className="text-success mb-4" style={{ fontWeight: "600" , paddingTop: "100px"}}>
+        Welcome {role}</h3>
+      <div className="d-flex justify-content-center">
+        <div className="card">
+          <div className="card-head justify-content-center">
+            <div className="row justify-content-center">
+              <div className="col-auto mt-3 mb-3">
+                <button
+                  className={`btn ${isButtonSelected("Student")}`}
+                  onClick={() => handleRoleSelection("Student")}
+                >
+                  Student
+                </button>
+              </div>
+              <div className="col-auto mt-3 ms-2 mb-3">
+                <button
+                  className={`btn ${isButtonSelected("Mentor")}`}
+                  onClick={() => handleRoleSelection("Mentor")}
+                >
+                  Mentor
+                </button>
+              </div>
+              <div className="col-auto mt-3 ms-2 mb-3">
+                <button
+                  className={`btn ${isButtonSelected("Admin")}`}
+                  onClick={() => handleRoleSelection("Admin")}
+                >
+                  Admin
+                </button>
               </div>
             </div>
-          )}
-
-          {/* Mentor Login Form */}
-          {mentorVisible && (
-            <div className="form1 bg-light">
-              <div className="row">
-                <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                  {/*<form onSubmit={handleSubmit}>
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Username : </label>
-                                        <input type="text"
-                                        id="Username"
-                                        className="mx-2"
-                                        {...register("Username",{required:true})} 
-                                        />
-                                        {errors.Username?.type==="required" && <p className="text-danger">*Username is required</p>}
-                                                              
-                                    </div>
-                                    
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Password :</label>
-                                        <input type="password"
-                                        id="Password"
-                                        className="mx-2"
-                                        {...register("Password",{required:true})} 
-                                        />
-                                        {errors.Password?.type==="required" && <p className="text-danger">*Password is required</p>}
-                                                              
-                                    </div>
-                                    <a href="#">Forgot Password ?</a>
-                                    <button type="submit" className="loginbtn1" onClick={navigatetom}>Login</button>
-        </form>*/}
-                  <form onSubmit={handleSubmit(onSubmitMentor)}>
-                    <div className="form-control text-center mb-3">
-                      <label>Username : </label>
-                      <input
-                        type="text"
-                        id="username"
-                        {...register("username", {
-                          required: true,
-                          minLength: 6,
-                          maxLength: 12,
-                        })}
-                      />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
-                      )}
-                      {errors.username?.type === "minLength" && (
-                        <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-control text-center mb-3">
-                      <label>Password : </label>
-                      <input
-                        type="password"
-                        name="password"
-                        {...register("password", {
-                          required: true,
-                          minLength: 6,
-                        })}
-                      />
-                      {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
-                      )}
-                      {errors.password?.type === "minLength" && (
-                        <p className="text-danger">
-                          Password should be at-least 6 characters.
-                        </p>
-                      )}
-                    </div>
-                    <a href="#">Forgot Password ?</a>
-                    <button type="submit" className="loginbtn1">
-                      Login
-                    </button>
-                  </form>
-                </div>
-              </div>
+          </div>
+          <hr className="m-0" style={{ color: "rgb(103, 151, 103)" }} />
+          {role === "" ? (
+            <div className="text-center mt-3 mb-3">
+              <span className="text-success" style={{fontWeight:"600"}}>Select your role</span>
             </div>
-          )}
-
-          {/* Admin Login Form */}
-          {adminVisible && (
-            <div className="form1 bg-secondary">
-              <div className="row">
-                <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-                  {/*} <form onSubmit={handleSubmit}>
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Username : </label>
-                                        <input type="text"
-                                        id="Username"
-                                        className="mx-2"
-                                        {...register("Username",{required:true})} 
-                                        />
-                                        {errors.Username?.type==="required" && <p className="text-danger">*Username is required</p>}
-                                                              
-                                    </div>
-                                    
-                                    <div className="mb-3 text-center ">
-                                        <label htmlFor="name">Password :</label>
-                                        <input type="password"
-                                        id="Password"
-                                        className="mx-2"
-                                        {...register("Password",{required:true})} 
-                                        />
-                                        {errors.Password?.type==="required" && <p className="text-danger">*Password is required</p>}
-                                                              
-                                    </div>
-                                    <a href="#">Forgot Password ?</a>
-                                    
-                                    <button type="submit" className="loginbtn1" onClick={navigatetoa}>Login</button>
-        </form>*/}
-                  <form onSubmit={handleSubmit(onSubmitAdmin)}>
-                    <div className="form-control text-center mb-3">
-                      <label>Username : </label>
+          ) : (
+            <div className="card-body">
+              <form onSubmit={handleSubmit(handleLogin)}>
+                <div className="row ms-3">
+                  <div className="col-auto">
+                    <div className="mb-1">
+                      <label htmlFor="username" className="form-label text-success" style={{ fontWeight: "600" }}>
+                        Username:
+                      </label>
                       <input
                         type="text"
+                        className="form-control"
                         id="username"
                         {...register("username", {
-                          required: true,
-                          minLength: 6,
-                          maxLength: 12,
+                          required: "Username is required",
                         })}
                       />
-                      {errors.username?.type === "required" && (
-                        <p className="text-danger">Username is required.</p>
+                      {errors.username && (
+                        <span className="text-danger">This field is required</span>
                       )}
-                      {errors.username?.type === "minLength" && (
-                        <p className="text-danger">
-                          Username should be at-least 6 characters.
-                        </p>
-                      )}
-                      {errors.username?.type === "maxLength" && (
-                        <p className="text-danger">
-                          Username should not exceed 12 characters.
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-control text-center mb-3">
-                      <label>Password : </label>
+                      <label htmlFor="password" className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
+                        Password:
+                      </label>
                       <input
                         type="password"
-                        name="password"
+                        className="form-control"
+                        id="password"
                         {...register("password", {
-                          required: true,
-                          minLength: 6,
+                          required: "Password is required",
+                          minLength: {
+                            value: 6,
+                            message: "Password should be at least 6 characters",
+                          },
+                          maxLength: {
+                            value: 12,
+                            message: "Password should not exceed 12 characters",
+                          },
                         })}
                       />
-                      {errors.password?.type === "required" && (
-                        <p className="text-danger">Password is required.</p>
+                      {errors.password && (
+                        <span className="text-danger">This field is required</span>
                       )}
-                      {errors.password?.type === "minLength" && (
-                        <p className="text-danger">
-                          Password should be at-least 6 characters.
-                        </p>
-                      )}
+                      <div className="row justify-content-center mt-3">
+                        <div className="col-auto mt-3">
+                          <Link to="/" style={{ textDecoration: "none" }}>
+                            <span className="text-success">Forgot Password?</span>
+                          </Link>
+                        </div>
+                        <div className="col-auto mt-3" style={{ marginLeft: "80px" }}>
+                          <button type="submit" className="btn btn-success">
+                            Login
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <a href="#">Forgot Password ?</a>
-                    <button type="submit" className="loginbtn1">
-                      Login
-                    </button>
-                  </form>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           )}
         </div>
