@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
+
 const Navibar = () => {
   const location = useLocation();
   return (

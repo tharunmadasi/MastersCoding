@@ -1,23 +1,24 @@
-GET http://localhost:3500/mentor/allMentors
+GET http://localhost:3500/student/allStudents
 
 ###
-POST http://localhost:3500/mentor/signup
+POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a05T5",
-    "name":"T.Sai nithish",
-    "mail":"thoparamsainithish1234@gmail.com",
+    "roll":"21071a05E5",
+    "name":"G. Pallavi Reddy",
+    "mail":"pallavireddy0310@gmail.com",
     "batch":"2022_B1",
-    "section":"CSE-D",
-    "password":"2003"
+    "section":"CSE-C",
+    "password":"pallavi",
+    "position" :"student"
 }
 
 ###
-POST http://localhost:3500/mentor/login
+POST http://localhost:3500/student/login
 Content-Type:  application/json
 
 {
-    "roll":"21071A05T5",
-    "password":"2003"
+    "roll":"21071A05T2",
+    "password":"nithish"
 }

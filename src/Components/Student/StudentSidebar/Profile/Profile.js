@@ -184,7 +184,7 @@ function Profile() {
 
             {/* Resume */}
             <div className="col-sm-4 text-start p-0 py-1 m-0  ">
-              <label htmlFor="resume" className='fw-bold'>Upload Resume</label>
+              <label htmlFor="resume" className='fw-bold'>Upload Rresume</label>
             </div>
             <form className='row col-sm-8' onSubmit={resumeForm.handleSubmit(handleResume)}>
               <div className="col-sm-9  text-start p-0 py-1  m-0  ">
