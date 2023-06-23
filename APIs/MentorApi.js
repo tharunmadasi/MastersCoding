@@ -15,6 +15,11 @@ mentorApp.get('/allMentors',expressAsncHandler(async(req,res)=>{
     const mentorAcsObj = req.app.get('mentorAcsObj');
     const allMentors = await mentorAcsObj.find().toArray();
     // console.log('all mentors : ',allMentors)
+
+    //remove password
+    await allMentors.map(mentor => {
+        delete mentor.password        
+    });
     res.status(200).send({message:'all mentors',payload:allMentors})
 }))
 //Mentor SignUp

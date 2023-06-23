@@ -78,7 +78,7 @@ function Login() {
                 <div className="row ms-3">
                   <div className="col-auto">
                     <div className="mb-1">
-                      <label htmlFor="username" className="form-label text-success" style={{ fontWeight: "600" }}>
+                      <label style={{ fontWeight: "600" }}>
                         Username:
                       </label>
                       <input
@@ -86,34 +86,44 @@ function Login() {
                         className="form-control"
                         id="username"
                         {...register("username", {
-                          required: "Username is required",
+                          required: true,
+                          minLength: 6,
+                          maxLength: 12
                         })}
                       />
-                      {errors.username && (
-                        <span className="text-danger">This field is required</span>
-                      )}
-                      <label htmlFor="password" className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
-                        Password:
+                      {errors.username?.type === "required" && (
+                  <p className="text-danger">Username is required.</p>
+                )}
+                {errors.username?.type === "minLength" && (
+                  <p className="text-danger">
+                    Username should be at-least 6 characters.
+                  </p>
+                )}
+                {errors.username?.type === "maxLength" && (
+                  <p className="text-danger">
+                    Username should not exceed 12 characters.
+                  </p>
+                )}
+                      <label style={{ fontWeight: "600" }}>
+                        Password :
                       </label>
                       <input
                         type="password"
                         className="form-control"
                         id="password"
                         {...register("password", {
-                          required: "Password is required",
-                          minLength: {
-                            value: 6,
-                            message: "Password should be at least 6 characters",
-                          },
-                          maxLength: {
-                            value: 12,
-                            message: "Password should not exceed 12 characters",
-                          },
+                          required: true,
+                          minLength: 6
                         })}
                       />
-                      {errors.password && (
-                        <span className="text-danger">This field is required</span>
-                      )}
+                      {errors.password?.type === "required" && (
+                  <p className="text-danger">Password is required.</p>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-danger">
+                    Password should be at-least 6 characters.
+                  </p>
+                )}
                       <div className="row justify-content-center mt-3">
                         <div className="col-auto mt-3">
                           <Link to="/" style={{ textDecoration: "none" }}>
