@@ -15,6 +15,11 @@ adminApp.get('/allAdmins',expressAsncHandler(async(req,res)=>{
     const adminAcsObj = req.app.get('adminAcsObj');
     const allAdmins = await adminAcsObj.find().toArray();
     // console.log('all Admins : ',allAdmins)
+
+    //remove password
+    await allAdmins.map(admin => {
+        delete admin.password        
+    });
     res.status(200).send({message:'all Admins',payload:allAdmins})
 }))
 //Admin SignUp

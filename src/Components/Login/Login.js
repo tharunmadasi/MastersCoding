@@ -138,15 +138,8 @@ function Login() {
                         className="form-control"
                         id="password"
                         {...register("password", {
-                          required: "Password is required",
-                          minLength: {
-                            value: 6,
-                            message: "Password should be at least 6 characters",
-                          },
-                          maxLength: {
-                            value: 12,
-                            message: "Password should not exceed 12 characters",
-                          },
+                          required: true,
+                          minLength: 6
                         })}
                       />
                       {errors.password && (

@@ -15,6 +15,12 @@ studentApp.get('/allStudents',expressAsncHandler(async(req,res)=>{
     const studentAcsObj = req.app.get('studentAcsObj');
     const allStudents = await studentAcsObj.find().toArray();
     // console.log('all students : ',allStudents)
+
+    //remove password
+    await allStudents.map(student => {
+        delete student.password        
+    });
+
     res.status(200).send({message:'all students',payload:allStudents})
 }))
 //Student SignUp
@@ -56,7 +62,7 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         if(result){
             //password matched . generate the token  & return success:true
             // console.log(process.env.SECRET_KEY)
-            const token = jwt.sign(studentOfDb,process.env.SECRETE_KEY,{expiresIn:'7d'});
+            const token = jwt.sign(studentOfDb,process.env.SECRETE_KEY,{expiresIn:'7h'});
             // console.log('token : ',token);
             res.status(200).send({success:true,token:token});
         }

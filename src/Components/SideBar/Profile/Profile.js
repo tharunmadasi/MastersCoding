@@ -28,7 +28,7 @@ function Profile() {
                   {...register("username", {
                     required: true,
                     minLength: 6,
-                    maxLength: 12,
+                    maxLength: 12
                   })}
                 />
                 {errors.username?.type === "required" && (
@@ -52,7 +52,7 @@ function Profile() {
                   id="password"
                   {...register("password", {
                     required: true,
-                    minLength: 6,
+                    minLength: 6
                   })}
                 />
                 {errors.password?.type === "required" && (
