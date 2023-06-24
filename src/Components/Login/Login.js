@@ -13,7 +13,7 @@ function Login() {
     formState: { errors }, reset
   } = useForm();
   const [role, setRole] = useState("");
-
+  const [loginRes,setLoginRes] = useState({})
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRoleSelection = (selectedRole) => {
@@ -36,9 +36,11 @@ function Login() {
     axios
       .post(`http://localhost:3500/${role}/login`, data)
       .then((res) => {
+        setLoginRes(res);
         console.log(res.data);
         setIsLoading(false);
         if (res.data.success) {  
+          localStorage.setItem('token',res.data.token)
           navigateTo(`/${role}`);
         } else {
           alert('Invalid Credentials');
@@ -98,6 +100,7 @@ function Login() {
             </div>
           ) : (
             <div className="card-body">
+              {loginRes.data?.success===false && <p className="text-danger fw-bold">{loginRes.data.message}</p> }
               <form onSubmit={handleSubmit(handleLogin)}>
                 <div className="row ms-3">
                   <div className="col-auto">
@@ -106,21 +109,21 @@ function Login() {
                         className="form-label text-success"
                         style={{ fontWeight: "600" }}
                       >
-                        Username:
+                        Roll:
                       </label>
                       <input
                         type="text"
                         className="form-control"
                         id="roll"
                         {...register("roll", {
-                          required: "Username is required",
+                          required: "roll is required",
                           minLength: {
                             value: 10,
-                            message: "Username should exactly be 10 characters"
+                            message: "roll should exactly be 10 characters"
                           },
                           maxLength: {
                             value: 10,
-                            message: "Username should exactly be 10 characters"
+                            message: "roll should exactly be 10 characters"
                           }
                         })}
                       />
