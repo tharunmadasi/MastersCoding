@@ -103,7 +103,6 @@ function Login() {
                   <div className="col-auto">
                     <div className="mb-1">
                       <label
-                        htmlFor="roll"
                         className="form-label text-success"
                         style={{ fontWeight: "600" }}
                       >
@@ -117,35 +116,38 @@ function Login() {
                           required: "Username is required",
                           minLength: {
                             value: 10,
-                            message: "Username should exactly be 10 characters",
+                            message: "Username should exactly be 10 characters"
                           },
                           maxLength: {
                             value: 10,
-                            message: "Username should exactly be 10 characters",
-                          },
+                            message: "Username should exactly be 10 characters"
+                          }
                         })}
                       />
                       {errors.roll && (
-                        <span className="text-danger">
+                        <p className="text-danger">
                           {errors.roll.message}
-                        </span>
+                        </p>
                       )}
-                      <label htmlFor="password" className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
-                        Password:
+                      <label className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
+                        Password :
                       </label>
                       <input
                         type="password"
                         className="form-control"
                         id="password"
                         {...register("password", {
-                          required: true,
-                          minLength: 6
+                          required: "Password is required",
+                          minLength: {
+                            value: 6,
+                            message: "Password should atleast be 6 characters"
+                          }
                         })}
                       />
                       {errors.password && (
-                        <span className="text-danger">
+                        <p className="text-danger">
                           {errors.password.message}
-                        </span>
+                        </p>
                       )}
                       <div className="row justify-content-center mt-3">
                         <div className="col-auto mt-3">
