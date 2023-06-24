@@ -10,16 +10,20 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }, reset
   } = useForm();
   const [role, setRole] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
   };
 
   const isButtonSelected = (buttonRole) => {
-    return buttonRole === role ? "btn-success select" : "btn-outline-success not-select";
+    return buttonRole === role
+      ? "btn-success select"
+      : "btn-outline-success not-select";
   };
 
   const navigateTo = (path) => {
@@ -27,40 +31,58 @@ function Login() {
   };
 
   const handleLogin = (data) => {
+    setIsLoading(true);
     console.log(data);
-    navigateTo(`/${role}`);
+    axios
+      .post(`http://localhost:3500/${role}/login`, data)
+      .then((res) => {
+        console.log(res.data);
+        setIsLoading(false);
+        if (res.data.success) {  
+          navigateTo(`/${role}`);
+        } else {
+          alert('Invalid Credentials');
+          reset();
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        setIsLoading(false);
+      });
   };
-
-  
 
   return (
     <div className="full" style={{ height: "100vh" }}>
-      <h3 className="text-success mb-4" style={{ fontWeight: "600" , paddingTop: "100px"}}>
-        Welcome {role}</h3>
+      <h3
+        className="text-success mb-4"
+        style={{ fontWeight: "600", paddingTop: "100px" }}
+      >
+        Welcome {role}
+      </h3>
       <div className="d-flex justify-content-center">
         <div className="card">
           <div className="card-head justify-content-center">
             <div className="row justify-content-center">
               <div className="col-auto mt-3 mb-3">
                 <button
-                  className={`btn ${isButtonSelected("Student")}`}
-                  onClick={() => handleRoleSelection("Student")}
+                  className={`btn ${isButtonSelected("student")}`}
+                  onClick={() => handleRoleSelection("student")}
                 >
                   Student
                 </button>
               </div>
               <div className="col-auto mt-3 ms-2 mb-3">
                 <button
-                  className={`btn ${isButtonSelected("Mentor")}`}
-                  onClick={() => handleRoleSelection("Mentor")}
+                  className={`btn ${isButtonSelected("mentor")}`}
+                  onClick={() => handleRoleSelection("mentor")}
                 >
                   Mentor
                 </button>
               </div>
               <div className="col-auto mt-3 ms-2 mb-3">
                 <button
-                  className={`btn ${isButtonSelected("Admin")}`}
-                  onClick={() => handleRoleSelection("Admin")}
+                  className={`btn ${isButtonSelected("admin")}`}
+                  onClick={() => handleRoleSelection("admin")}
                 >
                   Admin
                 </button>
@@ -70,7 +92,9 @@ function Login() {
           <hr className="m-0" style={{ color: "rgb(103, 151, 103)" }} />
           {role === "" ? (
             <div className="text-center mt-3 mb-3">
-              <span className="text-success" style={{fontWeight:"600"}}>Select your role</span>
+              <span className="text-success" style={{ fontWeight: "600" }}>
+                Select your role
+              </span>
             </div>
           ) : (
             <div className="card-body">
@@ -78,19 +102,33 @@ function Login() {
                 <div className="row ms-3">
                   <div className="col-auto">
                     <div className="mb-1">
-                      <label htmlFor="username" className="form-label text-success" style={{ fontWeight: "600" }}>
+                      <label
+                        htmlFor="roll"
+                        className="form-label text-success"
+                        style={{ fontWeight: "600" }}
+                      >
                         Username:
                       </label>
                       <input
                         type="text"
                         className="form-control"
-                        id="username"
-                        {...register("username", {
+                        id="roll"
+                        {...register("roll", {
                           required: "Username is required",
+                          minLength: {
+                            value: 10,
+                            message: "Username should exactly be 10 characters",
+                          },
+                          maxLength: {
+                            value: 10,
+                            message: "Username should exactly be 10 characters",
+                          },
                         })}
                       />
-                      {errors.username && (
-                        <span className="text-danger">This field is required</span>
+                      {errors.roll && (
+                        <span className="text-danger">
+                          {errors.roll.message}
+                        </span>
                       )}
                       <label htmlFor="password" className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
                         Password:
@@ -112,16 +150,27 @@ function Login() {
                         })}
                       />
                       {errors.password && (
-                        <span className="text-danger">This field is required</span>
+                        <span className="text-danger">
+                          {errors.password.message}
+                        </span>
                       )}
                       <div className="row justify-content-center mt-3">
                         <div className="col-auto mt-3">
                           <Link to="/" style={{ textDecoration: "none" }}>
-                            <span className="text-success">Forgot Password?</span>
+                            <span className="text-success">
+                              Forgot Password?
+                            </span>
                           </Link>
                         </div>
-                        <div className="col-auto mt-3" style={{ marginLeft: "80px" }}>
-                          <button type="submit" className="btn btn-success">
+                        <div
+                          className="col-auto mt-3"
+                          style={{ marginLeft: "80px" }}
+                        >
+                          <button
+                            type="submit"
+                            className="btn btn-success"
+                            disabled={isLoading}
+                          >
                             Login
                           </button>
                         </div>

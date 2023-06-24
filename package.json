@@ -38,6 +38,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "start-dev": "nodemon server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "kill-port": "^2.0.1",
     "prettier": "2.8.8"
   }
 }

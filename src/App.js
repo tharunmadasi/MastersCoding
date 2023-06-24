@@ -31,7 +31,7 @@ function App() {
           element:<Login />
         },
         {   
-          path:"/Student",
+          path:"/student",
           element:<Student />,
           children:[
             {
@@ -49,7 +49,7 @@ function App() {
           ]
         },
         {
-          path:"/Mentor",
+          path:"/mentor",
           element:<Mentor />,
           children:[
             {
@@ -66,7 +66,7 @@ function App() {
           ]
         },
         {
-          path:"/Admin",
+          path:"/admin",
           element:<Admin />,
           children:[
             {

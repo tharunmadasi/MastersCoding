@@ -23,8 +23,8 @@ studentApp.post('/signup',expressAsncHandler(async(req,res)=>{
     const newStudent = req.body
     newStudent.roll = newStudent.roll.toLowerCase();
     const studentOfDb = await studentAcsObj.findOne({roll:newStudent.roll});
-    // console.log('newStudent data : ' ,newStudent);
-    // console.log('studentOfDb : ',studentOfDb);
+    console.log('newStudent data : ' ,newStudent);
+    console.log('studentOfDb : ',studentOfDb);
     if(studentOfDb !== null){
         //Roll is already used . send create success : false
         res.status(200).send({success: false, message:'Roll Number  Already Exists'})
@@ -42,12 +42,13 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
     
     const studentAcsObj = req.app.get('studentAcsObj');
     const loginCreds = req.body;
+    console.log('login Credentials : ',loginCreds);
     loginCreds.roll = loginCreds.roll.toLowerCase();
     // console.log('login Credentials : ',loginCreds);
     const studentOfDb = await studentAcsObj.findOne({roll : (loginCreds.roll)});
-    // console.log('student of Db : ', studentOfDb);
+    console.log('student of Db : ', studentOfDb);
 
-    if(studentOfDb === null) {
+    if(!studentOfDb) {
         //if roll number not found return success:false
         res.status(200).send({success: false , message:"no student found!"});
     } else {

@@ -1,7 +1,7 @@
 // create the server
 const exp = require('express');
 const app = exp()
-app.listen(3500,()=>{console.log('server is running on the port 3500 ')})
+app.listen(3500,()=>{console.log('server is running on the port 3500')})
 
 //requires
 const cors = require('cors')
