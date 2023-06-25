@@ -1,22 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {set, useForm} from 'react-hook-form'
+import React, { useEffect,useState } from 'react'
+import {useForm} from 'react-hook-form'
 import { VictoryPie } from 'victory';
 import {MdModeEditOutline} from 'react-icons/md'
 import {IoIosSend} from 'react-icons/io'
 import {MdCloudUpload} from 'react-icons/md'
+import axios from 'axios';
 function Profile() {
 
   let [editName,setEditName] = useState(false);
   let [editEmail,setEditEmail] = useState(false);
   let [editMobile,setEditMobile] = useState(false);
   let [editResume,setEditResume] = useState(false);
+  let [isUpdated,setIsUpdated] = useState(false)
   //studentDetails
-  let [stdName,setStdName] = useState('T. Sai Nithish')
-  let [stdRoll,setStdRoll] = useState('21071A05T5')
-  let [stdBatch,setStdBatch] = useState('2022_VNR_B1')
-  let [stdSection,setStdSection] = useState('CSE-D')
-  let [stdEmail,setStdEmail] = useState('thoparamsainithish1234@gmail.com')
-  let [stdMobile,setStdMobile] = useState('8179221413')
+  let [stdName,setStdName] = useState('')
+  let [stdRoll,setStdRoll] = useState('')
+  let [stdBatch,setStdBatch] = useState('')
+  let [stdSection,setStdSection] = useState('')
+  let [stdEmail,setStdEmail] = useState('')
+  let [stdMobile,setStdMobile] = useState('')
   let [stdResume,setStdResume] = useState()
   //forms
   const nameForm = useForm();
@@ -25,26 +27,77 @@ function Profile() {
   const resumeForm = useForm();
   //handle name edit
   const handleName = (data)=>{
+    data.roll = stdRoll.toLowerCase();
+    data.field = 'name';
     console.log(data);
+    axios
+    .post('http://localhost:3500/student/updateprofile',data)
+    .then((res)=>{
+      setIsUpdated(!isUpdated);
+      console.log('response in student profile~ ',res)
+    })
+    .catch((err)=>{console.log('error in profile~ ',err)})
     setEditName(!editName)
   }
   //handle email edit
   const handleEmail = (data)=>{
-    console.log(data)
+    data.roll = stdRoll.toLowerCase();
+    data.field = 'mail';
+    console.log(data);
+    axios
+    .post('http://localhost:3500/student/updateprofile',data)
+    .then((res)=>{
+      setIsUpdated(!isUpdated);
+      console.log('response in student profile~ ',res)
+    })
+    .catch((err)=>{console.log('error in profile~ ',err)})
     setEditEmail(false)
   }
   //handle mobile edit
   const handleMobile = (data)=>{
-    console.log(data)
+    data.roll = stdRoll.toLowerCase();
+    data.field = 'mobile';
+    console.log(data);
+    axios
+    .post('http://localhost:3500/student/updateprofile',data)
+    .then((res)=>{
+      setIsUpdated(!isUpdated);
+      console.log('response in student profile~ ',res)
+    })
+    .catch((err)=>{console.log('error in profile~ ',err)})
     setEditMobile(false)
   }
   const handleResume = (data)=>{
-    console.log(data)
+    data.roll = stdRoll.toLowerCase();
+    data.field = 'resume';
+    console.log(data);
+    // axios
+    // .post('http://localhost:3500/student/updateprofile',data)
+    // .then((res)=>{
+    //   setIsUpdated(!isUpdated);
+    //   console.log('response in student profile~ ',res)
+    // })
+    // .catch((err)=>{console.log('error in profile~ ',err)})
     setEditResume(false);
   }
   useEffect(()=>{
-
-  },[])
+    const token = localStorage.getItem('token');
+    if(token){
+      axios
+      .post('http://localhost:3500/verifyLoginToken',{token})
+      .then((res)=>{
+        setStdName(res.data.payload.name);
+        setStdRoll(res.data.payload.roll);
+        setStdBatch(res.data.payload.batch);
+        setStdSection(res.data.payload.section);
+        setStdEmail(res.data.payload.mail);
+        setStdMobile(res.data.payload.mobile);
+        setStdResume(res.data.payload.resume);
+        // console.log('response in profile ~',res)
+      })
+      .catch((err)=>{console.log('error in profile ~' , err)})
+    }
+  },[isUpdated])
 
   const data = [
     { x: `Submitted`, y: 20 },
@@ -84,6 +137,7 @@ function Profile() {
                   <button type='button' onClick={(e)=>{e.preventDefault();setEditName(true)}} className='btn text-secondary'><MdModeEditOutline size={'25px'} className='text-warning'/></button>}
                 </div>
               </form>
+              {nameForm.formState.errors.name?.type==='required' && <p className="text-danger">*This field shouldn't be empty</p> }
             <hr  className='m-1 p-0'/>
 
             {/* Student Roll */}
@@ -136,18 +190,18 @@ function Profile() {
 
             {/* Email */}
             <div className="col-sm-4 text-start p-0 py-1 m-0  ">
-              <label htmlFor="email" className='fw-bold'>Email</label>
+              <label htmlFor="mail" className='fw-bold'>Email</label>
             </div>
             <form className='row col-sm-8' onSubmit={emailForm.handleSubmit(handleEmail)}>
               <div className="col-sm-9  text-start p-0 py-1  m-0  ">
-                <input 
+                <input
                   type="email"
-                  name="email"
-                  id="email" 
-                  defaultValue={stdEmail} 
-                  disabled={!editEmail}
+                  name="mail"
+                  id="mail"
+                  defaultValue={stdEmail}
+                  disabled={!editEmail} 
                   className='border  fw-bold  text-dark rounded'
-                  {...emailForm.register('email' ,{required:true})}
+                  {...emailForm.register('mail' ,{required:true})}
                 />
               </div>
               <div className="col-sm-3 p-0 m-0 text-start ">
@@ -156,6 +210,7 @@ function Profile() {
                 <button type='button' onClick={(e)=>{e.preventDefault();setEditEmail(true)}} className='btn text-secondary'><MdModeEditOutline size={'25px'} className='text-warning'/></button>}
               </div>
             </form>
+            {emailForm.formState.errors.mail?.type==='required' && <p className="text-danger">This field shouldn't be empty</p> }
             <hr  className='m-1 p-0'/>
 
             {/* Mobile */}
@@ -171,7 +226,7 @@ function Profile() {
                   defaultValue={stdMobile} 
                   disabled={!editMobile}
                   className='border  fw-bold  text-dark rounded'
-                  {...mobileForm.register('mobile' ,{required:true})}
+                  {...mobileForm.register('mobile' ,{required:true , minLength:10 , maxLength:10 })}
                 />
               </div>
               <div className="col-sm-3 p-0 m-0 text-start ">
@@ -180,6 +235,9 @@ function Profile() {
                 <button type='button' onClick={(e)=>{e.preventDefault();setEditMobile(true)}} className='btn text-secondary'><MdModeEditOutline size={'25px'} className='text-warning'/></button>}
               </div>
             </form>
+            {mobileForm.formState.errors.mobile?.type === 'required' && <p className="text-danger">*This field shouldn't empty</p> }
+            {mobileForm.formState.errors.mobile?.type === 'minLength' && <p className="text-danger">*This field should have length 10</p> }
+            {mobileForm.formState.errors.mobile?.type === 'maxLength' && <p className="text-danger">*This field should have length 10</p> }
             <hr  className='m-1 p-0'/>
 
             {/* Resume */}

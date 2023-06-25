@@ -38,11 +38,25 @@ app.use('/admin',adminApp)
 
 //verify login token
 app.post('/verifyLoginToken',async(req,res)=>{
+    const studentAcsObj = req.app.get('studentAcsObj');
+    const mentorAcsObj = req.app.get('mentroAcsObj');
+    const adminAcsObj = req.app.get('adminAcsObj');
     const {token} = req.body;
-    console.log(token)
+    // console.log(token)
     try{
-        const userData = await jwt.verify(token,process.env.SECRETE_KEY)
+        let userData = await jwt.verify(token,process.env.SECRETE_KEY)
         if(userData) {
+        //    console.log('User Data in server ~',userData) 
+           if(userData.position === 'student') { 
+             userData = await studentAcsObj.findOne({roll:userData.roll})
+           }
+           else if(userData.position === 'mentor') {
+            userData = await mentorAcsObj.findOne({roll:userData.roll})
+           }
+           else if(userData.position === 'admin') {
+            userData = await adminAcsObj.findOne({roll:userData.roll})
+           }
+           else res.status(200).send({valid:false, message:'position is invalid'})
             delete userData.password;
             delete userData.iat;
             delete userData.exp;
@@ -50,7 +64,8 @@ app.post('/verifyLoginToken',async(req,res)=>{
             res.status(200).send({valid:true,payload:userData});
         }
         else res.status(200).send({valid:false})
-    }catch{
+    }catch(err){
+        console.log(err)
         res.status(200).send({valid:false})
     }
 }) 

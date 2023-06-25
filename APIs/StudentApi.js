@@ -72,5 +72,23 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         }
     }
 }))
+//Update Student
+studentApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
+    const studentAcsObj = req.app.get('studentAcsObj');
+    const updatedDetails = req.body;
+    //updateDetials = {roll,field,updatedFieldValue}
+    if(updatedDetails[updatedDetails.field]){
+        const studentOfDb = await studentAcsObj.findOne({roll : updatedDetails.roll});
+        studentOfDb[updatedDetails.field] = updatedDetails[updatedDetails.field];
+        // console.log(studentOfDb);
+        const result = await studentAcsObj.updateOne({roll:updatedDetails.roll},{$set:{[updatedDetails.field] : updatedDetails[updatedDetails.field]}})
+        console.log('response from mongo on update ~', result)
+        res.status(200).send({success:true,message:'updated successfully'});
+    }
+    else{
+        res.status(200).send({success:false,message:'updated value is empty!'});
+    }
+
+}))
 
 module.exports = studentApp
