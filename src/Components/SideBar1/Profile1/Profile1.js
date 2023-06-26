@@ -20,9 +20,9 @@ function Profile1() {
       <div className="form1">
         <div className="row">
           <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-control text-center mb-3 inp">
-                <label>Username : </label>
+            <form onSubmit={handleSubmit(onSubmit)} className="forms">
+              <div className="text-center inp" style={{marginLeft:"15px"}}>
+                <label style={{marginRight:"5px"}}>Username : </label>
                 <input
                   type="text"
                   id="username"
@@ -46,8 +46,8 @@ function Profile1() {
                   </p>
                 )}
               </div>
-              <div className="form-control text-center mb-3 inp">
-                <label>Password : </label>
+              <div className="text-center inp"style={{marginLeft:"15px"}}>
+                <label style={{marginRight:"5px"}}>Password : </label>
                 <input
                   type="password"
                   id="password"
@@ -65,21 +65,38 @@ function Profile1() {
                   </p>
                 )}
               </div>
-
-              <div className="form-control inp">
-                <label>LinkedIn Profile Link : </label>
+              <div className="text-center inp"style={{marginLeft:"15px"}}>
+                <label style={{marginRight:"5px"}}>Email Id : </label>
+                <input
+                  type="test"
+                  id="emailid"
+                  {...register("emailid", {
+                    required: true,
+                  })}
+                />
+                {errors.password?.type === "required" && (
+                  <p className="text-danger">Password is required.</p>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-danger">
+                    Password should be at-least 6 characters.
+                  </p>
+                )}
+              </div>
+              <div className="inp">
+                <label style={{marginRight:"5px"}}>LinkedIn <br />Profile Link : </label>
                 <input
                   type="url"
                   id="url"
                   {...register("url", { required: true })}
-                />
+                 />
                 {errors.url?.type === "required" && (
                   <p className="text-danger">LinkedIn Profile is required.</p>
                 )}
               </div>
 
-              <div className="form-control inp">
-                <label>GitHub Link : </label>
+              <div className="inp">
+                <label style={{marginRight:"4px"}}>GitHub Link : </label>
                 <input
                   type="url"
                   id="giturl"
@@ -90,9 +107,9 @@ function Profile1() {
                 )}
               </div>
 
-              <button type="submit" className="btn btn-success mt-3" id="btn">
+              <span style={{marginBottom:"10px"}}><button type="submit" className="btn btn-dark mt-3" id="btn">
                 Save
-              </button>
+              </button></span>
             </form>
           </div>
         </div>

@@ -59,12 +59,12 @@ POST http://localhost:3500/admin/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a05E5",
-    "name":"G. Pallavi Reddy",
-    "mail":"pallavireddy0310@gmail.com",
+    "roll":"21071a0565",
+    "name":"V.Manasa",
+    "mail":"manasavirivinti@gmail.com",
     "batch":"2022_B1",
     "section":"CSE-C",
-    "password":"pallavi",
+    "password":"srujana",
     "position" :"admin"
 }
 
