@@ -39,7 +39,7 @@ app.use('/admin',adminApp)
 //verify login token
 app.post('/verifyLoginToken',async(req,res)=>{
     const studentAcsObj = req.app.get('studentAcsObj');
-    const mentorAcsObj = req.app.get('mentroAcsObj');
+    const mentorAcsObj = req.app.get('mentorAcsObj');
     const adminAcsObj = req.app.get('adminAcsObj');
     const {token} = req.body;
     // console.log(token)
@@ -55,7 +55,7 @@ app.post('/verifyLoginToken',async(req,res)=>{
            }
            else if(userData.position === 'admin') {
             userData = await adminAcsObj.findOne({roll:userData.roll})
-           }
+           }    
            else res.status(200).send({valid:false, message:'position is invalid'})
             delete userData.password;
             delete userData.iat;
