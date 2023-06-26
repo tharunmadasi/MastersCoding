@@ -38,6 +38,7 @@ const Navibar = () => {
     <nav className="navbar navbar-expand-lg navbarcss">
       <div className="container-fluid">
         <img
+          alt=""
           src="https://thumbs.dreamstime.com/b/training-icon-isolated-white-background-vector-illustration-eps-135858477.jpg"
           width="40px"
           height="40px"
