@@ -18,7 +18,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    background-image: url("./clouds.png");
+    background-image: url("./Welcome.png");
     background-size: 1200px 750px;
     background-repeat: repeat-x;
     animation: horizontalLoop 60s linear infinite;
