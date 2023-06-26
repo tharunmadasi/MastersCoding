@@ -12,6 +12,7 @@ const Navibar = () => {
   const loadDetails = ()=>{
     console.log('executed')
     let token = localStorage.getItem('token');
+    if(token){
       axios
         .post('http://localhost:3500/verifyLoginToken',{token})
         .then((res)=>{
@@ -31,6 +32,11 @@ const Navibar = () => {
           }
         })
         .catch((err)=>{console.log('error in Navbar ~',err)})
+      }
+      else{
+        alert('please login to continue!');
+        navigate('/Login');
+      }
     
   }
   useEffect(loadDetails,[localStorage.getItem('token')])

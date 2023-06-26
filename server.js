@@ -22,10 +22,14 @@ mClient.connect('mongodb://127.0.0.1:27017')
     const MCdb = dbServerRef.db('MC');
     const studentAcsObj = MCdb.collection('studentAcs');
     const mentorAcsObj = MCdb.collection('mentorAcs');
-    const adminAcsObj = MCdb.collection('adminAcs')
+    const adminAcsObj = MCdb.collection('adminAcs');
+    const assignmentsObj = MCdb.collection('assignments');
+    const studentAssignmentsObj = MCdb.collection('studentAssignments');
     app.set('studentAcsObj',studentAcsObj);
     app.set('mentorAcsObj',mentorAcsObj);
     app.set('adminAcsObj',adminAcsObj);
+    app.set('assignmentsObj',assignmentsObj);
+    app.set('studentAssignmentsObj',studentAssignmentsObj);
     console.log('Database connection Success!');
 })
 .catch((err)=>{
