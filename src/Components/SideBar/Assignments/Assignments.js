@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Assignments1 from "../../SideBar1/Assignments1/Assignments1";
+
 function Assignments() {
   let {
     register,
@@ -61,6 +63,7 @@ function Assignments() {
       <hr />
       <h3 className="text-secondary">Previous Assignments</h3>
       <p>{assignLink}</p>
+      <Assignments1 counter={counter}/>
     </div>
   );
 }
