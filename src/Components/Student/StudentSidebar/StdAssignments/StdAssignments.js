@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./StdAssignments.css";
 import axios from "axios";
 
-function StdAssignments() {
+function StdAssignments(props) {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function StdAssignments() {
             >
               <div className="card">
                 <div className="card-body">
-                  <p className="display-3 name">Assignment - 1</p>
+                  <p className="display-3 name">Assignment - {props.counter}</p>
                 </div>
               </div>
             </div>

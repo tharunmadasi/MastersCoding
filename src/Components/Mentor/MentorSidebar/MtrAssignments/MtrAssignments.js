@@ -1,32 +1,36 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./MtrAssignments.css";
 import axios from "axios";
 
-function MtrAssignments() {
-
-  let [links, setLinks] = useState([]);
+function MtrAssignments(props) {
+  const [links, setLinks] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:3500/assignments/AllAssignments")
       .then((res) => {
-        setLinks(res.data);
+        setLinks(res.data.assignments);
       })
       .catch((err) => console.log(err));
   }, []);
 
+  const handleCardClick = (url) => {
+    window.open(url, "_blank");
+  };
+
   return (
     <div>
-      {/* <h1>Review of assignments of Mentors</h1> */}
       <div className="Links">
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 ">
           {links.map((data) => (
-            <div className="col">
-              <div className="card mtrcard">
+            <div
+              className="col"
+              key={data._id}
+              onClick={() => handleCardClick(data.url)}
+            >
+              <div className="card">
                 <div className="card-body">
-                  <p className="display-3 name">Assignment - 1:</p>
-                  <p className="lead fs-4">{data.url}</p>
+                  <p className="display-3 name">Assignment - {props.counter}</p>
                 </div>
               </div>
             </div>

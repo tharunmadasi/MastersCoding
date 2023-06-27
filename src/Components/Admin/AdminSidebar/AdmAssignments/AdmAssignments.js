@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import MtrAssignments from "../../../Mentor/MentorSidebar/MtrAssignments/MtrAssignments";
+import StdAssignments from "../../../Student/StudentSidebar/StdAssignments/StdAssignments";
 
 function Assignments() {
   let {
@@ -57,7 +59,8 @@ function Assignments() {
       <hr />
       <h3 className="text-secondary">Previous Assignments</h3>
       <p>{assignLink}</p>
-      <Assignments1 counter={counter}/>
+      <MtrAssignments counter={counter}/>
+      <StdAssignments counter={counter}/>
     </div>
   );
 }
