@@ -32,8 +32,8 @@ POST http://localhost:3500/mentor/signup
 Content-Type: application/json
 
 {
-    "roll": "21071a3262",
-    "name": "Shreya Konduru",
+    "roll": "21071a05e5",
+    "name": "G. Pallavi Reddy",
     "mail": "shreyakondurukvs@gmial.com",
     "batch": "2022_B1",
     "section": "CSBS",

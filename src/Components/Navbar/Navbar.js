@@ -60,32 +60,38 @@ const Navibar = () => {
         </button>
         <div className="navbar-collapse collapse " id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li>
+            <li className="nav-item">
               <Link className="nav-link" to="/">
                 <button className="btn btn-outline-success btn-sm">
                   <span className="login-text">Home</span>
                 </button>
               </Link>
             </li>
-            <li className="nav-item me-4">
-            {isUserLogedin===false ? (
+            
+            {isUserLogedin===false ? (<li className="nav-item">
               <Link className="nav-link" to="/login">
                 <button className="btn btn-outline-success btn-sm">
                   <span className="login-text">Login</span>
                 </button>
-              </Link> ) : (<div   className='d-flex'>
+              </Link> </li>
+              ) : (<div   className='d-flex'>
+              <li className="nav-item">
               <Link className="nav-link" to={`/${loginRes.data.payload.position}`}>
                 <button className="btn btn-outline-success btn-sm" >
                   <span className="login-text">Dashboard</span>
                 </button>
               </Link>
+              </li>
+              <li className="nav-item">
               <Link className="nav-link" to="/">
-                <button className="btn btn-outline-success btn-sm" onClick={()=>{localStorage.clear(); navigate('/Login');}}>
+              
+                <button className="btn btn-outline-success btn-sm" onClick={()=>{localStorage.clear(); navigate('/Login');setIsUserLogedin(false)}}>
                   <span className="login-text">Logout</span>
                 </button>
               </Link> 
+              </li>
             </div>)}
-            </li>
+            
           </ul>
         </div>
       </div>
