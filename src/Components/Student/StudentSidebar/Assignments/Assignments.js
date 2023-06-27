@@ -1,6 +1,9 @@
 import React,{useState} from 'react'
 import { useEffect } from 'react'
 import './Assignment.css'
+import { Link } from 'react-router-dom'
+
+
 function Assignments() {
   let [links,setLinks]=useState([])
   let [show,setShow]=useState(true);
@@ -18,8 +21,7 @@ function Assignments() {
                         <div className="card">
                             <div className="card-body">
                               <p className='display-3 name'>Assignment - 1:</p>
-                              <p className="lead fs-4">{data.url}</p>
-                                
+                              <Link className="lead fs-4" to={data.url}>{data.url}</Link>
                             </div>
                         </div>
                     </div>)
