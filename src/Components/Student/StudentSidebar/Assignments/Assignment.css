@@ -2,7 +2,7 @@
 
 .name{
     color: #1a1c1d;
-    font-weight: 500;
+    font-weight: 300;
 }
 .Links{
     font-family:'Barlow Condensed', sans-serif;
@@ -14,7 +14,7 @@
     background-image: linear-gradient(rgb(160, 179, 180),rgb(225, 238, 237));
     display: flex;
     margin: auto;
-    width: 300px;
+    width: 200px;
 }
 .displaylinks{
     display: block;
