@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { useNavigate } from "react-router-dom";
 function Assignments() {
   let {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate=useNavigate()
   let [counter, setCounter] = useState(1);
 
   let incrementCounter = () => {
@@ -20,6 +20,13 @@ function Assignments() {
     console.log(data);
     incrementCounter();
     setAssignLink(data.url);
+    fetch("http://localhost:8000/posts",{
+      method:"POST",
+      headers:{
+          'Content-Type':'application/json',
+      },
+      body:JSON.stringify(data)
+  })
   };
 
 
