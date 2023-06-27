@@ -28,9 +28,9 @@ function StdAssignments(props) {
               key={data._id}
               onClick={() => handleCardClick(data.url)}
             >
-              <div className="card">
+              <div className="card" style={{width:"300px",marginLeft:"10px"}}>
                 <div className="card-body">
-                  <p className="display-3 name">Assignment - {props.counter}</p>
+                  <p className="display-3 fw-bold" >Assignment - {props.counter}</p>
                 </div>
               </div>
             </div>

@@ -1,29 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300&display=swap');
 
-.name{
-    color: #1a1c1d;
-    font-weight: 500;
-}
 .Links{
     font-family:'Barlow Condensed', sans-serif;
-}
-.lead{
-    font-weight:bold;
 }
 .stdcard{
     background-image: linear-gradient(rgb(160, 179, 180),rgb(225, 238, 237));
     display: flex;
     margin: auto;
     width: 300px;
-}
-.displaylinks{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10%;
-    border-radius: 10px;
-    height: 100px;
-    width: 100px;
-    font-weight: bold;
-    color: #111111;   
 }
