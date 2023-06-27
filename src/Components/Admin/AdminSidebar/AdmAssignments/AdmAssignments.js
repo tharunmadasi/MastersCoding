@@ -57,6 +57,7 @@ function Assignments() {
       <hr />
       <h3 className="text-secondary">Previous Assignments</h3>
       <p>{assignLink}</p>
+      <Assignments1 counter={counter}/>
     </div>
   );
 }

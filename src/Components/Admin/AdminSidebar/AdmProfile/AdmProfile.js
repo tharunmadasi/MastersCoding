@@ -2,7 +2,7 @@ import React from "react";
 import "./AdmProfile.css";
 import { useForm } from "react-hook-form";
 
-function Profile() {
+function Profile1() {
   let {
     register,
     handleSubmit,
@@ -148,4 +148,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Profile1;
