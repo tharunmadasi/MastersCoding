@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function Assignments() {
   let {
@@ -7,25 +8,27 @@ function Assignments() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   let [counter, setCounter] = useState(1);
 
   let incrementCounter = () => {
     setCounter(counter + 1);
   };
-  
-  let [assignLink,setAssignLink]= useState([])
+
+  let [assignLink, setAssignLink] = useState([]);
 
   const onSubmit = (data) => {
     console.log(data);
     incrementCounter();
     setAssignLink(data.url);
+    axios.post("http://localhost:3500/assignments/upload", data).then((res) => {
+      console.log(res.data);
+    }).catch
+    (err => console.log("Error in uploading assignment link", err));
   };
-
 
   return (
     <div>
-      <h2 className='text-primary'>Assignments</h2>
+      <h2 className="text-primary">Assignments</h2>
       <div className="form1">
         <div className="row">
           <div className="col-11.col-sm-8.col-md-6 mx-auto l1">

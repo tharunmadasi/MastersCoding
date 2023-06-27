@@ -1,8 +1,8 @@
 import React from "react";
-import "./Profile.css";
+import "./MtrProfile.css";
 import { useForm } from "react-hook-form";
 
-function Profile() {
+function Profile1() {
   let {
     register,
     handleSubmit,
@@ -16,7 +16,7 @@ function Profile() {
   
   return (
     <div>
-      <h1>Admin Profile</h1>
+      <h1>Mentor Profile</h1>
       <div className="form1">
         <div className="row">
           <div className="col-11.col-sm-8.col-md-6 mx-auto l1">
@@ -65,50 +65,21 @@ function Profile() {
                   </p>
                 )}
               </div>
-              <div className="text-center inp" style={{marginLeft:"15px"}}>
-                <label style={{marginRight:"5px"}}>Mobile : </label>
-                <input
-                  type="text"
-                  id="mobile"
-                  {...register("mobile", {
-                    required: true,
-                   maxLength: 10,
-                  })}
-                />
-                {errors.username?.type === "required" && (
-                  <p className="text-danger">Username is required.</p>
-                )}
-                {errors.username?.type === "minLength" && (
-                  <p className="text-danger">
-                    Username should be at-least 6 characters.
-                  </p>
-                )}
-                {errors.username?.type === "maxLength" && (
-                  <p className="text-danger">
-                    Username should not exceed 12 characters.
-                  </p>
-                )}
-              </div>
-              <div className="text-center inp" style={{marginLeft:"15px"}}>
+              <div className="text-center inp"style={{marginLeft:"15px"}}>
                 <label style={{marginRight:"5px"}}>Email Id : </label>
                 <input
-                  type="text"
+                  type="test"
                   id="emailid"
                   {...register("emailid", {
                     required: true,
                   })}
                 />
-                {errors.username?.type === "required" && (
-                  <p className="text-danger">Username is required.</p>
+                {errors.password?.type === "required" && (
+                  <p className="text-danger">Password is required.</p>
                 )}
-                {errors.username?.type === "minLength" && (
+                {errors.password?.type === "minLength" && (
                   <p className="text-danger">
-                    Username should be at-least 6 characters.
-                  </p>
-                )}
-                {errors.username?.type === "maxLength" && (
-                  <p className="text-danger">
-                    Username should not exceed 12 characters.
+                    Password should be at-least 6 characters.
                   </p>
                 )}
               </div>
@@ -148,4 +119,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Profile1;

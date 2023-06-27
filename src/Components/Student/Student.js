@@ -1,7 +1,7 @@
 import React from "react";
 import "./Student.css";
 import { Outlet } from "react-router-dom";
-import StudentSidebar from "./StudentSidebar/StudentSidebar";
+import StudentSidebar from "./StudentSidebar/StdSidebar";
 function Student() {
   return(
   <div className="admin " id="outer-container" >

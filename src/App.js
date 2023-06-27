@@ -6,16 +6,16 @@ import Login from './Components/Login/Login';
 import Student from './Components/Student/Student';
 import Mentor from './Components/Mentor/Mentor';
 import Admin from './Components/Admin/Admin';
-import Profile from './Components/SideBar/Profile/Profile';
-import StdProfile from './Components/Student/StudentSidebar/Profile/Profile'
-import StdAssignments from './Components/Student/StudentSidebar/Assignments/Assignments'
-import StdClasses from './Components/Student/StudentSidebar/Classes/Classes'
-import Assignments from './Components/SideBar/Assignments/Assignments';
-import Attendance from './Components/SideBar/Attendance/Attendance';
-import BatchReport from './Components/SideBar/BatchReport/BatchReport';
-import Profile1 from './Components/SideBar1/Profile1/Profile1';
-import Assignments1 from './Components/SideBar1/Assignments1/Assignments1';
-import BatchReport1 from './Components/SideBar1/BatchReport1/BatchReport1';
+import AdmProfile from './Components/Admin/AdminSidebar/AdmProfile/AdmProfile';
+import StdProfile from './Components/Student/StudentSidebar/StdProfile/StdProfile'
+import StdAssignments from './Components/Student/StudentSidebar/StdAssignments/StdAssignments'
+import StdClasses from './Components/Student/StudentSidebar/StdClasses/StdClasses'
+import AdmAssignments from './Components/Admin/AdminSidebar/AdmAssignments/AdmAssignments';
+import AdmAttendance from './Components/Admin/AdminSidebar/AdmAttendance/AdmAttendance';
+import AdmBatchReport from './Components/Admin/AdminSidebar/AdmBatchReport/AdmBatchReport';
+import MtrProfile from './Components/Mentor/MentorSidebar/MtrProfile/MtrProfile';
+import MtrAssignments from './Components/Mentor/MentorSidebar/MtrAssignments/MtrAssignments';
+import MtrBatchReport from './Components/Mentor/MentorSidebar/MtrBatchReport/MtrBatchReport';
 function App() {
   const router= createBrowserRouter([
     {
@@ -54,14 +54,14 @@ function App() {
           children:[
             {
               path:'profile1',
-              element:<Profile1 />
+              element:<MtrProfile />
             },{
               path:'assignments1',
-              element:<Assignments1 />
+              element:<MtrAssignments />
             },
             {
               path:'batch-report1',
-              element:<BatchReport1 />
+              element:<MtrBatchReport />
             }
           ]
         },
@@ -71,18 +71,18 @@ function App() {
           children:[
             {
               path:'profile',
-              element:<Profile />
+              element:<AdmProfile />
             },{
               path:'assignments',
-              element:<Assignments />
+              element:<AdmAssignments />
             },
             {
               path:'attendance',
-              element:<Attendance />
+              element:<AdmAttendance />
             },
             {
               path:'batch-report',
-              element:<BatchReport />
+              element:<AdmBatchReport />
             }
           ]
         }

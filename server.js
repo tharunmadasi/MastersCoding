@@ -1,4 +1,3 @@
-// create the server
 const exp = require('express');
 const app = exp()
 app.listen(3500,()=>{console.log('server is running on the port 3500')})
@@ -8,6 +7,8 @@ const cors = require('cors')
 const studentApp = require('./APIs/StudentApi');
 const mentorApp = require('./APIs/MentorApi')
 const adminApp = require('./APIs/AdminApi') 
+const studentAssignApp = require('./APIs/StudentAssignApi')
+const assignmentsApp = require('./APIs/AssignmentsApi')
 const mClient = require('mongodb').MongoClient
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
@@ -23,13 +24,13 @@ mClient.connect('mongodb://127.0.0.1:27017')
     const studentAcsObj = MCdb.collection('studentAcs');
     const mentorAcsObj = MCdb.collection('mentorAcs');
     const adminAcsObj = MCdb.collection('adminAcs');
+    const studentAssignmentObj = MCdb.collection('studentAssign');
     const assignmentsObj = MCdb.collection('assignments');
-    const studentAssignmentsObj = MCdb.collection('studentAssignments');
     app.set('studentAcsObj',studentAcsObj);
     app.set('mentorAcsObj',mentorAcsObj);
     app.set('adminAcsObj',adminAcsObj);
+    app.set('studentAssignmentObj',studentAssignmentObj);
     app.set('assignmentsObj',assignmentsObj);
-    app.set('studentAssignmentsObj',studentAssignmentsObj);
     console.log('Database connection Success!');
 })
 .catch((err)=>{
@@ -39,6 +40,9 @@ mClient.connect('mongodb://127.0.0.1:27017')
 app.use('/student',studentApp);
 app.use('/mentor',mentorApp);
 app.use('/admin',adminApp)
+app.use('/studentAssign',studentAssignApp)
+app.use('/assignments',assignmentsApp)
+
 
 //verify login token
 app.post('/verifyLoginToken',async(req,res)=>{

@@ -1,7 +1,7 @@
-.card-head{
+.logcardhead{
     background-color: rgb(216, 228, 213);
 }
-.card{
+.logcard{
     width: 400px;
     height: 350px;
     box-shadow: 1px 2px 5px rgb(167, 192, 167);

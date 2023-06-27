@@ -1,6 +1,6 @@
 import React from 'react';
 import { PieChart, Pie ,BarChart, Bar, CartesianGrid, XAxis, YAxis} from 'recharts';
-import './BatchReport.css';
+import './AdmBatchReport.css';
  
  
 function BatchReport() {

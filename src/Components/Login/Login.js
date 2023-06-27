@@ -48,7 +48,7 @@ function Login() {
         }
       })
       .catch((err) => {
-        console.log(err.response.data?.message);
+        console.log(err.data?.message);
         setIsLoading(false);
       });
   };
@@ -62,8 +62,8 @@ function Login() {
         Welcome {role}
       </h3>
       <div className="d-flex justify-content-center">
-        <div className="card">
-          <div className="card-head justify-content-center">
+        <div className="card logcard">
+          <div className="card-head justify-content-center logcardhead">
             <div className="row justify-content-center">
               <div className="col-auto mt-3 mb-3">
                 <button
