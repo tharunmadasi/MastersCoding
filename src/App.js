@@ -13,6 +13,7 @@ import StdClasses from './Components/Student/StudentSidebar/StdClasses/StdClasse
 import AdmAssignments from './Components/Admin/AdminSidebar/AdmAssignments/AdmAssignments';
 import AdmAttendance from './Components/Admin/AdminSidebar/AdmAttendance/AdmAttendance';
 import AdmBatchReport from './Components/Admin/AdminSidebar/AdmBatchReport/AdmBatchReport';
+import AdmClasses from './Components/Admin/AdminSidebar/AdmClasses/AdmClasses';
 import MtrProfile from './Components/Mentor/MentorSidebar/MtrProfile/MtrProfile';
 import MtrAssignments from './Components/Mentor/MentorSidebar/MtrAssignments/MtrAssignments';
 import MtrBatchReport from './Components/Mentor/MentorSidebar/MtrBatchReport/MtrBatchReport';
@@ -83,6 +84,10 @@ function App() {
             {
               path:'batch-report',
               element:<AdmBatchReport />
+            },
+            {
+              path:'classes',
+              element:<AdmClasses />
             }
           ]
         }
