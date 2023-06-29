@@ -10,10 +10,11 @@ function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors }, reset
+    formState: { errors },
+    reset,
   } = useForm();
   const [role, setRole] = useState("");
-  const [loginRes,setLoginRes] = useState({})
+  const [loginRes, setLoginRes] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRoleSelection = (selectedRole) => {
@@ -39,11 +40,11 @@ function Login() {
         setLoginRes(res);
         console.log(res.data);
         setIsLoading(false);
-        if (res.data.success) {  
-          localStorage.setItem('token',res.data.token)
+        if (res.data.success) {
+          localStorage.setItem("token", res.data.token);
           navigateTo(`/${role}`);
         } else {
-          alert('Invalid Credentials');
+          alert("Invalid Credentials");
           reset();
         }
       })
@@ -100,7 +101,9 @@ function Login() {
             </div>
           ) : (
             <div className="card-body">
-              {loginRes.data?.success===false && <p className="text-danger fw-bold">{loginRes.data.message}</p> }
+              {loginRes.data?.success === false && (
+                <p className="text-danger fw-bold">{loginRes.data.message}</p>
+              )}
               <form onSubmit={handleSubmit(handleLogin)}>
                 <div className="row ms-3">
                   <div className="col-auto">
@@ -119,20 +122,21 @@ function Login() {
                           required: "roll is required",
                           minLength: {
                             value: 10,
-                            message: "roll should exactly be 10 characters"
+                            message: "roll should exactly be 10 characters",
                           },
                           maxLength: {
                             value: 10,
-                            message: "roll should exactly be 10 characters"
-                          }
+                            message: "roll should exactly be 10 characters",
+                          },
                         })}
                       />
                       {errors.roll && (
-                        <p className="text-danger">
-                          {errors.roll.message}
-                        </p>
+                        <p className="text-danger">{errors.roll.message}</p>
                       )}
-                      <label className="form-label mt-3 text-success" style={{ fontWeight: "600" }}>
+                      <label
+                        className="form-label mt-3 text-success"
+                        style={{ fontWeight: "600" }}
+                      >
                         Password :
                       </label>
                       <input
@@ -143,14 +147,12 @@ function Login() {
                           required: "Password is required",
                           minLength: {
                             value: 6,
-                            message: "Password should atleast be 6 characters"
-                          }
+                            message: "Password should atleast be 6 characters",
+                          },
                         })}
                       />
                       {errors.password && (
-                        <p className="text-danger">
-                          {errors.password.message}
-                        </p>
+                        <p className="text-danger">{errors.password.message}</p>
                       )}
                       <div className="row justify-content-center mt-3">
                         <div className="col-auto mt-3">
