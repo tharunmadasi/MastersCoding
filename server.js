@@ -9,6 +9,7 @@ const mentorApp = require('./APIs/MentorApi')
 const adminApp = require('./APIs/AdminApi') 
 const studentAssignApp = require('./APIs/StudentAssignApi')
 const assignmentsApp = require('./APIs/AssignmentsApi')
+const classesApp = require('./APIs/ClassesApi')
 const mClient = require('mongodb').MongoClient
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
@@ -26,11 +27,13 @@ mClient.connect('mongodb://127.0.0.1:27017')
     const adminAcsObj = MCdb.collection('adminAcs');
     const studentAssignmentObj = MCdb.collection('studentAssign');
     const assignmentsObj = MCdb.collection('assignments');
+    const classesObj = MCdb.collection('classes');
     app.set('studentAcsObj',studentAcsObj);
     app.set('mentorAcsObj',mentorAcsObj);
     app.set('adminAcsObj',adminAcsObj);
     app.set('studentAssignmentObj',studentAssignmentObj);
     app.set('assignmentsObj',assignmentsObj);
+    app.set('classesObj',classesObj);
     console.log('Database connection Success!');
 })
 .catch((err)=>{
@@ -42,6 +45,7 @@ app.use('/mentor',mentorApp);
 app.use('/admin',adminApp)
 app.use('/studentAssign',studentAssignApp)
 app.use('/assignments',assignmentsApp)
+app.use('/classes',classesApp)
 
 
 //verify login token

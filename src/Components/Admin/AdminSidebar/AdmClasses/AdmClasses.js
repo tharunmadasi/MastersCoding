@@ -1,5 +1,7 @@
 import React,{useState} from "react";
 import {useForm} from "react-hook-form"
+import axios from "axios";
+
 function Classes(){
     let [value,setvalue]=useState("")
     let {
@@ -13,14 +15,10 @@ function Classes(){
     setCounter(counter + 1);
   };
     let submitLink=(data)=>{
-        fetch("http://localhost:8000/posts",{
-            method:"POST",
-            headers:{
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify(data)
-        })
-        .catch(err=>console.log("err is:",err))
+        axios.post("http://localhost:3500/classes/upload", data).then((res) => {
+            console.log(res.data);
+        }).catch
+            (err => console.log("Error in uploading assignment link", err));
         incrementCounter();
 
     };

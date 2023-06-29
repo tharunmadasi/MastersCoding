@@ -1,24 +1,18 @@
+import axios from 'axios'
 import React ,{useState,useEffect}from 'react'
 
 function Classes() {
+
   let [Links,setLinks]=useState([])
   let [err,setErr]=useState("")
   useEffect(()=>{
-    fetch("http://localhost:8000/posts")
-    .then(response=>response.json())
-    .then(Links=>setLinks(Links))
-    .catch(err=>{
-      if(err.response){
-        setErr(err.message)
-      }
-      else if(err.request){
-          setErr(err.message)
-      }
-      else{
-          setErr(err.message)
-      }
-    });
-  })
+    axios
+      .get("http://localhost:3500/classes/AllClasses")
+      .then((res) => {
+        setLinks(res.data.classes);
+      })
+      .catch((err) => console.log(err));
+  }, []);
     const handleCardClick = (url) => {
       window.open(url, "_blank");
     };
