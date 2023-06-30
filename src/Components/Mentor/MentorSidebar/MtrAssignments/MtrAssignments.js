@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./MtrAssignments.css";
 import axios from "axios";
+import { AssignmentContext } from "../../../../Contexts/AssignmentContext";
 
 function MtrAssignments(props) {
   const [links, setLinks] = useState([]);
+
+  const [assignmentCounter]=useContext(AssignmentContext);
 
   useEffect(() => {
     axios
@@ -30,7 +33,7 @@ function MtrAssignments(props) {
             >
               <div className="card">
                 <div className="card-body">
-                  <p className="display-3 name">Assignment - {props.counter}</p>
+                  <p className="display-3 name">Assignment - {assignmentCounter}</p>
                 </div>
               </div>
             </div>

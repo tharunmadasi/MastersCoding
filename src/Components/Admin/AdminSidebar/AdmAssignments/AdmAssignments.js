@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-// import MtrAssignments from "../../../Mentor/MentorSidebar/MtrAssignments/MtrAssignments";
-// import StdAssignments from "../../../Student/StudentSidebar/StdAssignments/StdAssignments";
+import { AssignmentContext } from "../../../../Contexts/AssignmentContext";
 
 function Assignments() {
+  const [assignmentCounter,assignmentNo] = useContext(AssignmentContext)
   let {
     register,
     handleSubmit,
@@ -20,7 +20,7 @@ function Assignments() {
 
   const onSubmit = (data) => {
     console.log(data);
-    incrementCounter();
+    assignmentNo();
     setAssignLink(data.url);
     axios
       .post("http://localhost:3500/assignments/upload", data)
@@ -185,7 +185,7 @@ function Assignments() {
             </div>
           </div>
           <button type="submit" className="btn btn-success mt-5 mb-3">
-            <span style={{ fontWeight: "600" }}>Upload</span>
+            Upload
           </button>
         </form>
       </div>

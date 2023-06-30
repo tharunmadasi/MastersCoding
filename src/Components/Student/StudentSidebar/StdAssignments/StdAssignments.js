@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./StdAssignments.css";
 import axios from "axios";
+import { AssignmentContext } from "../../../../Contexts/AssignmentContext";
 
 function StdAssignments(props) {
   const [links, setLinks] = useState([]);
+
+  const [assignmentCounter] = useContext(AssignmentContext);
 
   useEffect(() => {
     axios
@@ -30,7 +33,7 @@ function StdAssignments(props) {
             >
               <div className="card" style={{width:"300px",marginLeft:"10px"}}>
                 <div className="card-body">
-                  <p className="display-3 fw-bold" >Assignment - {props.counter}</p>
+                  <p className="display-3 fw-bold" >Assignment - {assignmentCounter}</p>
                 </div>
               </div>
             </div>
