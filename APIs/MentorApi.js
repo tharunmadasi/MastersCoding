@@ -49,7 +49,7 @@ mentorApp.post('/login',expressAsncHandler(async(req,res)=>{
     loginCreds.roll = loginCreds.roll.toLowerCase();
     // console.log('login Credentials : ',loginCreds);
     const mentorOfDb = await mentorAcsObj.findOne({roll : (loginCreds.roll)});
-    // console.log('student of Db : ', mentorOfDb);
+    // console.log('mentor of Db : ', mentorOfDb);
 
     if(mentorOfDb === null) {
         //if roll number not found return success:false
@@ -68,6 +68,25 @@ mentorApp.post('/login',expressAsncHandler(async(req,res)=>{
             res.status(200).send({success:false , message:"password didn't matched"});
         }
     }
+}))
+
+//Update mentor
+mentorApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
+    const mentorAcsObj = req.app.get('mentorAcsObj');
+    const updatedDetails = req.body;
+    //updateDetials = {roll,field,updatedFieldValue}
+    if(updatedDetails[updatedDetails.field]){
+        const mentorOfDb = await mentorAcsObj.findOne({roll : updatedDetails.roll});
+        mentorOfDb[updatedDetails.field] = updatedDetails[updatedDetails.field];
+        // console.log(mentorOfDb);
+        const result = await mentorAcsObj.updateOne({roll:updatedDetails.roll},{$set:{[updatedDetails.field] : updatedDetails[updatedDetails.field]}})
+        console.log('response from mongo on update ~', result)
+        res.status(200).send({success:true,message:'updated successfully'});
+    }
+    else{
+        res.status(200).send({success:false,message:'updated value is empty!'});
+    }
+
 }))
 
 

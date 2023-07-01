@@ -9,12 +9,10 @@ function Assignments() {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
-  let [counter, setCounter] = useState(1);
 
-  let incrementCounter = () => {
-    setCounter(counter + 1);
-  };
+  let [counter, setCounter] = useState(1);
 
   let [assignLink, setAssignLink] = useState([]);
 
@@ -26,6 +24,7 @@ function Assignments() {
       .post("http://localhost:3500/assignments/upload", data)
       .then((res) => {
         console.log(res.data);
+        reset();
       })
       .catch((err) => console.log("Error in uploading assignment link", err));
   };

@@ -70,4 +70,23 @@ adminApp.post('/login',expressAsncHandler(async(req,res)=>{
     }
 }))
 
+//Update admin
+adminApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
+    const adminAcsObj = req.app.get('adminAcsObj');
+    const updatedDetails = req.body;
+    //updateDetials = {roll,field,updatedFieldValue}
+    if(updatedDetails[updatedDetails.field]){
+        const adminOfDb = await adminAcsObj.findOne({roll : updatedDetails.roll});
+        adminOfDb[updatedDetails.field] = updatedDetails[updatedDetails.field];
+        // console.log(adminOfDb);
+        const result = await adminAcsObj.updateOne({roll:updatedDetails.roll},{$set:{[updatedDetails.field] : updatedDetails[updatedDetails.field]}})
+        console.log('response from mongo on update ~', result)
+        res.status(200).send({success:true,message:'updated successfully'});
+    }
+    else{
+        res.status(200).send({success:false,message:'updated value is empty!'});
+    }
+
+}))
+
 module.exports=adminApp

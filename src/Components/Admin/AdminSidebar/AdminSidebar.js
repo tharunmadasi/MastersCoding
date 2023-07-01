@@ -1,5 +1,5 @@
 import React from 'react';
-import './AdminSidebar.css';
+import '../../../Assets/CSS/Sidebar.css';
 import { slide as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 

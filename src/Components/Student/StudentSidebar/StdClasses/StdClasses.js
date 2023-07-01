@@ -29,7 +29,7 @@ function Classes() {
             <div className="card" style={{width:"300px",marginLeft:"10px"}}>
                 <div className="card-body">
                   <p className="display-3 fw-bold" >Class 1</p>
-                  <p className='display-5'> Topic Name - {data.text}</p>
+                  <p className='display-5'> Topic Name - {data.topic}</p>
                 </div>
               </div>
             </div>))}
