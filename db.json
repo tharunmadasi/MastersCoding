@@ -1,0 +1,41 @@
+{
+  "posts": [
+    {
+      "number": "1",
+      "text": "https://codepen.io/Manasa2005/pen/XWYQEdj",
+      "id": 1
+    },
+    {
+      "number": "2",
+      "text": "https://codepen.io/Manasa2005/pen/WNyWMdg",
+      "id": 2
+    },
+    {
+      "number": "3",
+      "text": "https://codepen.io/Manasa2005/pen/mdKgXww",
+      "id": 3
+    },
+    {
+      "number": "4",
+      "text": "https://codepen.io/Manasa2005/pen/mdKgXww",
+      "id": 4
+    },
+    {
+      "number": "5",
+      "text": "https://codepen.io/Manasa2005/pen/mdKgXww",
+      "id": 5
+    },
+    {
+      "number": "10",
+      "id": 6
+    },
+    {
+      "number": "10",
+      "id": 7
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}

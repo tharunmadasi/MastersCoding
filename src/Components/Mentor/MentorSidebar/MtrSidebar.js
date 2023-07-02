@@ -15,6 +15,9 @@ export default props => {
       <Link className="menu-item" to="batch-report1">
         Batch-Report
       </Link>
+      <Link className="menu-item" to="submissions">
+        Submissions
+      </Link>
     </Menu>
   );
 };
