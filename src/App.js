@@ -17,6 +17,7 @@ import AdmClasses from './Components/Admin/AdminSidebar/AdmClasses/AdmClasses';
 import MtrProfile from './Components/Mentor/MentorSidebar/MtrProfile/MtrProfile';
 import MtrAssignments from './Components/Mentor/MentorSidebar/MtrAssignments/MtrAssignments';
 import MtrBatchReport from './Components/Mentor/MentorSidebar/MtrBatchReport/MtrBatchReport';
+
 import MtrSubmissions from './Components/Mentor/MentorSidebar/MtrSubmissions/MtrSubmissions';
 function App() {
   const router= createBrowserRouter([
@@ -55,22 +56,21 @@ function App() {
           element:<Mentor />,
           children:[
             {
-              path:'profile1',
+              path:'profile',
               element:<MtrProfile />
             },{
-              path:'assignments1',
+              path:'assignments',
               element:<MtrAssignments />
             },
             {
               path:'batch-report1',
               element:<MtrBatchReport />
-            },
+            }
             {
               path:'submissions',
               element:<MtrSubmissions />
             },
             
-          ]
         },
         {
           path:"/admin",

@@ -4,6 +4,9 @@
   font-weight: 500;
     
 }
+.logo{
+  box-shadow: 2px 2px 1px gray;
+}
 .navbarcss{
   background-color: rgb(216, 228, 213);
   height: 55px;
