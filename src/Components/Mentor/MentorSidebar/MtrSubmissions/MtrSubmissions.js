@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import {useForm} from "react-hook-form"
 function BatchReport1() {
   
-  const [slinks,setslinks] = useState([]);
+  const [slinks,setSlinks] = useState([]);
   const [err,setErr]=useState("");
   const [show,setShow]=useState(true)
   let {
@@ -13,7 +13,7 @@ function BatchReport1() {
   useEffect(()=>{
     fetch("http://localhost:4000/posts")
     .then(response=>response.json())
-    .then(slinks=>setslinks(slinks))
+    .then(links=>setSlinks(links))
     .catch(err=>{
       if(err.response){
           setErr(err.message)
@@ -47,9 +47,9 @@ const handleCardClick = (url) => {
       <div className='row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4'>
         {
           slinks.map((data)=><div>
+            <div className='col' >
             <div className='card'>
               <div className='card-body'>
-                <div className='col' >
                 <h3 onClick={() => handleCardClick(data.text)}>Assignment No - {data.number}</h3>
                     {show &&
                         <div className='row'>
@@ -65,15 +65,15 @@ const handleCardClick = (url) => {
                                 <input type="text" id="text"/>
                             </div>
                             <br />
-                            <button className='btn btn-secondary' >Submit</button>
+                            <button className='btn btn-secondary' type='submit'>Submit</button>
                             </form>
                         </div>
                         </div>
                     }
                     <br />
-                    </div>
                     <button className='btn btn-secondary' onClick={()=>setShow(!show)}>Submit Review</button>
                 </div>
+              </div>
               </div>
             </div>)
         }

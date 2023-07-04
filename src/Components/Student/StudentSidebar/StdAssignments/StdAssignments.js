@@ -25,12 +25,12 @@ function StdAssignments(props) {
     setShow(false)
     console.log(data)
     fetch("http://localhost:4000/posts",{
-            method:"POST",
-            headers:{
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify(data)
-        })
+    method:"POST",
+    headers:{
+        'Content-Type':'application/json',
+    },
+    body:JSON.stringify(data)
+    })
   }
   const handleCardClick = (url) => {
     window.open(url, "_blank");
