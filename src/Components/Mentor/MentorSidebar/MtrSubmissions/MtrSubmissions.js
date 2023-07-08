@@ -28,6 +28,7 @@ function BatchReport1() {
   });
 },[]);
 const submitReview=(data)=>{
+  console.log(data)
     setShow(false)
     fetch("http://localhost:4000/posts",{
     method:"POST",
