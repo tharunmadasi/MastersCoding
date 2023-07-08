@@ -65,13 +65,13 @@ function App() {
             {
               path:'batch-report1',
               element:<MtrBatchReport />
-            }
+            },
             {
               path:'submissions',
               element:<MtrSubmissions />
             },
             
-        },
+      ]},
         {
           path:"/admin",
           element:<Admin />,
