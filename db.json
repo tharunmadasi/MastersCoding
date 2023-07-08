@@ -26,7 +26,13 @@
       "id": 5
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "number": "8",
+      "text": "improve more",
+      "id": 1
+    }
+  ],
   "profile": {
     "name": "typicode"
   }

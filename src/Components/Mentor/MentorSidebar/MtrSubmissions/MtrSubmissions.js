@@ -30,7 +30,7 @@ function BatchReport1() {
 const submitReview=(data)=>{
   console.log(data)
     setShow(false)
-    fetch("http://localhost:4000/posts",{
+    fetch("http://localhost:4000/comments",{
     method:"POST",
     headers:{
         'Content-Type':'application/json',
@@ -63,8 +63,8 @@ const handleCardClick = (url) => {
                             </div>
                             <div style={{marginTop:"5px"}}>
                                 <label htmlFor="name" style={{marginRight:"5px"}}>Suggestion</label>
-                                <input type="text" id="text"/>
-                            </div>
+                                <input type="text" id="text" {...register("text",{required:true})}/>
+                                {errors.text?.type==="required" && <p className="text-danger">*suggestions are required</p>}                            </div>
                             <br />
                             <button className='btn btn-secondary' >Submit</button>
                             </form>
