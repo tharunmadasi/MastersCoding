@@ -24,17 +24,15 @@
       "number": "5",
       "text": "https://codepen.io/Manasa2005/pen/mdKgXww",
       "id": 5
-    },
-    {
-      "number": "10",
-      "id": 6
-    },
-    {
-      "number": "10",
-      "id": 7
     }
   ],
-  "comments": [],
+  "comments": [
+    {
+      "number": "8",
+      "text": "improve more",
+      "id": 1
+    }
+  ],
   "profile": {
     "name": "typicode"
   }
