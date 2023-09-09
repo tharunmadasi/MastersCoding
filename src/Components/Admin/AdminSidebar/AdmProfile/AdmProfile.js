@@ -48,7 +48,7 @@ function AdmProfile() {
     data.field = "mail";
     console.log(data);
     axios
-      .post("http://localhost:3500/admin/updateprofile", data)
+      .post("http://localhost:3500/admin/ ", data)
       .then((res) => {
         setIsUpdated(!isUpdated);
         console.log("response in admin profile~ ", res);

@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import AdminSidebar from "./AdminSidebar/AdminSidebar";
 import { Outlet } from "react-router-dom";
 
@@ -12,4 +12,5 @@ function Admin() {
     </div>
   );
 }
+
 export default Admin;

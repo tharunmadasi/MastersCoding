@@ -38,7 +38,7 @@ function Login() {
       .post(`http://localhost:3500/${role}/login`, data)
       .then((res) => {
         setLoginRes(res);
-        console.log(res.data);
+        // console.log(res.data);
         setIsLoading(false);
         if (res.data.success) {
           localStorage.setItem("token", res.data.token);

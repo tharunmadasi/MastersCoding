@@ -58,7 +58,7 @@ app.post('/verifyLoginToken',async(req,res)=>{
     try{
         let userData = await jwt.verify(token,process.env.SECRETE_KEY)
         if(userData) {
-        //    console.log('User Data in server ~',userData) 
+           console.log('User Data in server ~',userData) 
            if(userData.position === 'student') { 
              userData = await studentAcsObj.findOne({roll:userData.roll})
            }
