@@ -6,15 +6,27 @@ import { AssignmentContext } from "../../../../Contexts/AssignmentContext";
 function MtrAssignments(props) {
   const [links, setLinks] = useState([]);
 
-  const [assignmentCounter]=useContext(AssignmentContext);
+  const [assignmentCounter] = useContext(AssignmentContext);
 
   useEffect(() => {
     axios
       .get("http://localhost:3500/assignments/AllAssignments")
       .then((res) => {
-        setLinks(res.data.assignments);
+        const sortedAssignments = res.data.assignments.sort((a, b) => {
+          const timestampA = new Date(a.timestamp).getTime();
+          const timestampB = new Date(b.timestamp).getTime();
+          return timestampB - timestampA;
+        });
+        setLinks(sortedAssignments);
       })
       .catch((err) => console.log(err));
+    axios
+      .get("http://localhost:3500/submissions/AllSubmissions")
+      .then((res) =>
+        console.log(res.data)
+      )
+      .catch((err) => console.log(err));
+
   }, []);
 
   const handleCardClick = (url) => {
@@ -22,24 +34,87 @@ function MtrAssignments(props) {
   };
 
   return (
-    <div>
-      <div className="Links">
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 ">
-          {links.map((data) => (
-            <div
-              className="col"
-              key={data._id}
-              onClick={() => handleCardClick(data.url)}
-            >
-              <div className="card">
-                <div className="card-body">
-                  <p className="display-3 name">Assignment - {assignmentCounter}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="Links">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Assignment</th>
+                  <th scope="col">Assignment #</th>
+                  <th scope="col">Review</th>
+                </tr>
+              </thead>
+              <tbody>
+                {links.map((data, index) => (
+                  <tr key={data._id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      <span
+                        className="title"
+                        onClick={() => handleCardClick(data.url)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {data.title}
+                      </span>
+                    </td>
+                    <td>
+                      <span>{data.assignmentId}</span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => handleCardClick(data.url)}
+                      >
+                        Open
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div className="col-md-6">
+          <div className="Links">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Assignment</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {links.map((data, index) => (
+                  <tr key={data._id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>
+                      <span
+                        className="title"
+                        onClick={() => handleCardClick(data.url)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {data.title}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => handleCardClick(data.url)}
+                      >
+                        Open
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
       </div>
+    </div>
     </div>
   );
 }

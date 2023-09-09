@@ -24,7 +24,6 @@ const Navibar = () => {
           } else {
             console.log("token is invalid");
             localStorage.clear();
-            alert("session expired! please login again");
             setIsUserLogedin(false);
             navigate("/Login");
           }
@@ -33,7 +32,6 @@ const Navibar = () => {
           console.log("error in Navbar ~", err);
         });
     } else {
-      alert("please login to continue!");
       navigate("/Login");
     }
   };

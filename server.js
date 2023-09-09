@@ -7,17 +7,17 @@ const cors = require('cors')
 const studentApp = require('./APIs/StudentApi');
 const mentorApp = require('./APIs/MentorApi')
 const adminApp = require('./APIs/AdminApi') 
-const studentAssignApp = require('./APIs/StudentAssignApi')
+const submissionsApp = require('./APIs/SubmissionsApi')
 const assignmentsApp = require('./APIs/AssignmentsApi')
 const classesApp = require('./APIs/ClassesApi')
 const mClient = require('mongodb').MongoClient
 const jwt = require('jsonwebtoken')
-require('dotenv').config();
-
+require('dotenv').config()
 
 //middle wares
 app.use(exp.json())
 app.use(cors())
+
 //connect to Database 
 mClient.connect('mongodb://127.0.0.1:27017')
 .then(dbServerRef=>{
@@ -25,13 +25,13 @@ mClient.connect('mongodb://127.0.0.1:27017')
     const studentAcsObj = MCdb.collection('studentAcs');
     const mentorAcsObj = MCdb.collection('mentorAcs');
     const adminAcsObj = MCdb.collection('adminAcs');
-    const studentAssignmentObj = MCdb.collection('studentAssign');
+    const submissionsObj = MCdb.collection('submissions');
     const assignmentsObj = MCdb.collection('assignments');
     const classesObj = MCdb.collection('classes');
     app.set('studentAcsObj',studentAcsObj);
     app.set('mentorAcsObj',mentorAcsObj);
     app.set('adminAcsObj',adminAcsObj);
-    app.set('studentAssignmentObj',studentAssignmentObj);
+    app.set('submissionsObj',submissionsObj);
     app.set('assignmentsObj',assignmentsObj);
     app.set('classesObj',classesObj);
     console.log('Database connection Success!');
@@ -39,11 +39,12 @@ mClient.connect('mongodb://127.0.0.1:27017')
 .catch((err)=>{
     console.log('error in Connecting to database! : ',err)
 })
+
 //Routes
 app.use('/student',studentApp);
 app.use('/mentor',mentorApp);
 app.use('/admin',adminApp)
-app.use('/studentAssign',studentAssignApp)
+app.use('/submissions',submissionsApp)
 app.use('/assignments',assignmentsApp)
 app.use('/classes',classesApp)
 
@@ -58,7 +59,7 @@ app.post('/verifyLoginToken',async(req,res)=>{
     try{
         let userData = await jwt.verify(token,process.env.SECRETE_KEY)
         if(userData) {
-        //    console.log('User Data in server ~',userData) 
+        // console.log('User Data in server ~',userData) 
            if(userData.position === 'student') { 
              userData = await studentAcsObj.findOne({roll:userData.roll})
            }
@@ -83,13 +84,14 @@ app.post('/verifyLoginToken',async(req,res)=>{
 }) 
 
 //error handling middleware
-const errorHandlingMiddleWare = (err,req, res , next)=>{
+const errorHandlingMiddleWare = (err, req, res, next)=>{
     console.log('Error occured in server! Error is :' ,err);
     res.status(200).send({message:'error occured in the srever',error:err.message})
 }
 app.use(errorHandlingMiddleWare)
+
 //invalid path middleware
-const invalidPathMiddleWare = (req,res)=>{
+const invalidPathMiddleWare = (req, res)=>{
     console.log('Invalid Path:');
     res.status(404).json({message:'Invalid Path'});
 }
