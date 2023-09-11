@@ -70,8 +70,8 @@ function App() {
               path:'submissions',
               element:<MtrSubmissions />
             },
-            
-      ]},
+          ]
+        },
         {
           path:"/admin",
           element:<Admin />,

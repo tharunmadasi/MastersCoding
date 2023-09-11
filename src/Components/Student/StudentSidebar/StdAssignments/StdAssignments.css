@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300&display=swap');
-
-.Links{
-    font-family:'Barlow Condensed', sans-serif;
-}
-.stdcard{
-    background-image: linear-gradient(rgb(160, 179, 180),rgb(225, 238, 237));
-    display: flex;
-    margin: auto;
-    width: 300px;
+.container {
+    padding: 20px;
+  }
+  
+  .Links {
+    max-width: 100%;
+  }
+.table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
