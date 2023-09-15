@@ -31,7 +31,8 @@ studentApp.get('/submittedAssignments/:roll', expressAsncHandler(async (req, res
     try {
         const student = await studentAcsObj.findOne({ roll: roll });
         if (student) {
-            res.status(200).send({ submittedAssignments: student.submittedAssignments });
+
+            res.status(200).send({ submittedAssignments: student.submitted });
         } else {
             res.status(404).send({ error: 'Student not found', roll: roll });
         }

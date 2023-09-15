@@ -5,12 +5,12 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a3263",
-    "name":"Shads",
-    "mail":"shad@gmail.com",
-    "batch":"VNR_2026_B2",
-    "section":"CSE-A",
-    "password":"shads123",
+    "roll":"21071a3262",
+    "name":"Shreya",
+    "mail":"shreya@gmail.com",
+    "batch":"VNR_2026_B1",
+    "section":"CSBS",
+    "password":"shreya",
     "position" :"student"
 }
 

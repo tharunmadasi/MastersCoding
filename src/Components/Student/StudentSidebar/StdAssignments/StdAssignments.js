@@ -133,12 +133,22 @@ function StdAssignments() {
           if (res.data && res.data.submittedAssignments) {
               setSubmittedAssignments(res.data.submittedAssignments);
           } else {
-              console.error("Unexpected server response:", res.data);
+              console.error("Unexpected server response:", res.status, res.data);
           }
       })
-      .catch((err) => {
-          console.error("Error fetching submitted assignments:", err);
-      });
+      .catch((error) => {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error("Error response:", error.response.status, error.response.data);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.error("No response received:", error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error', error.message);
+        }
+    });
     }
   }, []);
 
