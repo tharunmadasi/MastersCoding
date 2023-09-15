@@ -23,6 +23,23 @@ studentApp.get('/allStudents',expressAsncHandler(async(req,res)=>{
 
     res.status(200).send({message:'all students',payload:allStudents})
 }))
+//get student by id
+studentApp.get('/submittedAssignments/:roll', expressAsncHandler(async (req, res) => {
+    console.log("Entered /submittedAssignments/:roll route");
+    const studentAcsObj = req.app.get('studentAcsObj');
+    const roll = req.params.roll;
+    try {
+        const student = await studentAcsObj.findOne({ roll: roll });
+        if (student) {
+            res.status(200).send({ submittedAssignments: student.submittedAssignments });
+        } else {
+            res.status(404).send({ error: 'Student not found', roll: roll });
+        }
+    } catch(err) {
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+}));
+
 //Student SignUp
 studentApp.post('/signup',expressAsncHandler(async(req,res)=>{
     const studentAcsObj = req.app.get('studentAcsObj');
@@ -72,7 +89,7 @@ studentApp.post('/login',expressAsncHandler(async(req,res)=>{
         }
     }
 }))
-//Update Student
+//Update Student profile
 studentApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
     const studentAcsObj = req.app.get('studentAcsObj');
     const updatedDetails = req.body;
@@ -80,7 +97,7 @@ studentApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
     if(updatedDetails[updatedDetails.field]){
         const studentOfDb = await studentAcsObj.findOne({roll : updatedDetails.roll});
         studentOfDb[updatedDetails.field] = updatedDetails[updatedDetails.field];
-        // console.log(studentOfDb);
+        console.log(studentOfDb);
         const result = await studentAcsObj.updateOne({roll:updatedDetails.roll},{$set:{[updatedDetails.field] : updatedDetails[updatedDetails.field]}})
         console.log('response from mongo on update ~', result)
         res.status(200).send({success:true,message:'updated successfully'});
@@ -90,6 +107,28 @@ studentApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
     }
 
 }))
+//Update Submitted field
+studentApp.post('/submitted', expressAsncHandler(async (req, res) => {
+    const studentAcsObj = req.app.get('studentAcsObj');
+    const { roll, submitted } = req.body;
+    try {
+        const result = await studentAcsObj.updateOne({ roll: roll }, { $set: { submitted: submitted } });
+        console.log(result);
+        if (result.matchedCount === 1) {
+            if (result.modifiedCount === 1) {
+                res.status(200).send({ success: true, message: 'Submissions updated' });
+            } else {
+                // Document matched but wasn't modified
+                res.status(200).send({ success: false, message: 'Submissions are the same; no update needed' });
+            }
+        } else {
+            throw new Error("Unable to find student with provided roll");
+        }        
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+}));
+
 
 
 module.exports = studentApp

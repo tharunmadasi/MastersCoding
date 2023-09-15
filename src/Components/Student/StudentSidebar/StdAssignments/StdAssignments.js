@@ -14,28 +14,24 @@ function StdAssignments() {
   } = useForm();
 
   //studentDetails
-  let [stdName,setStdName] = useState('')
-  let [stdRoll,setStdRoll] = useState('')
-  let [stdBatch,setStdBatch] = useState('')
-  let [stdSection,setStdSection] = useState('')
+  let [stdName, setStdName] = useState("");
+  let [stdRoll, setStdRoll] = useState("");
+  let [stdBatch, setStdBatch] = useState("");
+  let [stdSection, setStdSection] = useState("");
+  const [submittedAssignments, setSubmittedAssignments] = useState([]);
+
+  const unsubmittedLinks = links.filter(
+    (link) =>
+      submittedAssignments && !submittedAssignments.includes(link.assignmentId)
+  );
+  const submittedLinks = links.filter(
+    (link) =>
+      submittedAssignments && submittedAssignments.includes(link.assignmentId)
+  );
 
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [submissionUrl, setSubmissionUrl] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3500/assignments/AllAssignments")
-      .then((res) => {
-        const sortedAssignments = res.data.assignments.sort((a, b) => {
-          const timestampA = new Date(a.timestamp).getTime();
-          const timestampB = new Date(b.timestamp).getTime();
-          return timestampB - timestampA;
-        });
-        setLinks(sortedAssignments);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   const submitModalButton = (data) => {
     const submissionData = {
@@ -45,34 +41,34 @@ function StdAssignments() {
       status: "Submitted",
     };
 
-    const token = localStorage.getItem('token');
-    if(token){
-      axios
-      .post('http://localhost:3500/verifyLoginToken',{token})
-      .then((res)=>{
-        setStdName(res.data.payload.name);
-        setStdRoll(res.data.payload.roll);
-        setStdBatch(res.data.payload.batch);
-        setStdSection(res.data.payload.section);
-        console.log('response in profile ~',res.data.payload)
-      })
-      .catch((err)=>{console.log('error in profile ~' , err)})
-    }
-
-
-    submissionData.rollno=stdRoll
-    submissionData.section=stdSection
-    submissionData.batch=stdBatch
+    submissionData.roll = stdRoll.toLowerCase();
+    submissionData.section = stdSection;
+    submissionData.batch = stdBatch;
 
     axios
       .post("http://localhost:3500/submissions/upload", submissionData)
       .then((res) => {
         console.log(res.data);
-        alert("Assignment Submitted Successfully");
+        console.log("Fetched Submitted Assignments:", res.data.submittedAssignments);
+        const updatedAssignments = [
+          ...submittedAssignments,
+          selectedAssignment.assignmentId,
+        ];
+        setSubmittedAssignments(updatedAssignments);
+        console.log("Fetched Submitted Assignments:", res.data.submittedAssignments);
+
         setSelectedAssignment(null);
         setSubmissionUrl("");
         setShowModal(false);
-        reset(); // Reset the form fields
+        reset();
+
+        return axios.post("http://localhost:3500/student/submitted", {
+          roll: stdRoll.toLowerCase(),
+          submitted: updatedAssignments,
+        });
+      })
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => console.log(err));
   };
@@ -86,28 +82,87 @@ function StdAssignments() {
     setSelectedAssignment(null);
     setShowModal(false);
     setSubmissionUrl("");
-    reset(); // Reset the form fields
+    reset();
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .post("http://localhost:3500/verifyLoginToken", { token })
+        .then((response) => {
+          const { name, roll, batch, section } = response.data.payload;
+
+          setStdName(name);
+          setStdRoll(roll);
+          setStdBatch(batch);
+          setStdSection(section);
+
+          return {
+            roll: roll,
+            batch: batch,
+            promise: axios.get(
+              "http://localhost:3500/assignments/AllAssignments"
+            ),
+          };
+        })
+        .then(({ roll, batch, promise }) => {
+          return promise.then((response) => ({
+            data: response.data,
+            batch: batch,
+            roll: roll,
+          }));
+        })
+        .then(({ data, batch, roll }) => {
+          const assignments = data.assignments;
+          const filtered = assignments.filter(
+            (assignment) => assignment.batch === batch
+          );
+
+          const sortedAssignments = filtered.sort((a, b) => {
+            const timestampA = new Date(a.timestamp).getTime();
+            const timestampB = new Date(b.timestamp).getTime();
+            return timestampB - timestampA;
+          });
+          setLinks(sortedAssignments);
+          return axios.get(
+            `http://localhost:3500/student/submittedAssignments/${roll}`
+          );
+        })
+        .then((res) => {
+          if (res.data && res.data.submittedAssignments) {
+              setSubmittedAssignments(res.data.submittedAssignments);
+          } else {
+              console.error("Unexpected server response:", res.data);
+          }
+      })
+      .catch((err) => {
+          console.error("Error fetching submitted assignments:", err);
+      });
+    }
+  }, []);
 
   return (
     <div>
       <div className="container">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-5">
+            <h4 className="text-success mb-4">Assignments</h4>
             <div className="Links">
               <table className="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Assignment</th>
-                    <th scope="col">Assignment #</th>
                     <th scope="col">Submission</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {links.map((data, index) => (
+                  {unsubmittedLinks.map((data, index) => (
                     <tr key={data._id}>
-                      <th scope="row">{index + 1}</th>
+                      <td>
+                        <span>{data.assignmentId}</span>
+                      </td>
                       <td>
                         <span
                           className="title"
@@ -122,7 +177,52 @@ function StdAssignments() {
                         </span>
                       </td>
                       <td>
+                        <button
+                          className="btn btn-outline-success p-1"
+                          onClick={() => {
+                            setSelectedAssignment(data);
+                            setShowModal(true);
+                          }}
+                        >
+                          Submit
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <h4 className="text-success mb-4">Submissions</h4>
+            <div className="Links">
+              <table className="table ms-5">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Submission</th>
+                    <th scope="col">Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {submittedLinks.map((data, index) => (
+                    <tr key={data._id}>
+                      <td>
                         <span>{data.assignmentId}</span>
+                      </td>
+                      <td>
+                        <span
+                          className="title"
+                          onClick={() => handleRowClick(data)}
+                          style={{
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            textDecorationColor: "green",
+                          }}
+                        >
+                          {data.title}
+                        </span>
                       </td>
                       <td>
                         <button
@@ -132,7 +232,7 @@ function StdAssignments() {
                             setShowModal(true);
                           }}
                         >
-                          Submit
+                          View
                         </button>
                       </td>
                     </tr>

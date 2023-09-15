@@ -42,7 +42,19 @@ assignments.post('/upload', expressAsncHandler(async (req, res) => {
     res.status(500).json({ message: 'Error creating fields', error: err.message });
   }
 }));
+
 // get assignments by ID
-assignments.get('Assignment')
+assignments.get('/Assignment/:id', expressAsncHandler(async (req, res) => {
+  try {
+    const assignmentsObj = req.app.get('assignmentsObj');
+    const assignment = await assignmentsObj.findById(req.params.assignmentId);
+    if (!assignment) {
+        return res.status(404).json({ message: 'Assignment not found' });
+    }
+    res.status(200).json(assignment);
+} catch (error) {
+    res.status(500).json({ message: 'Server Error' });
+}
+}));
 
 module.exports = assignments;

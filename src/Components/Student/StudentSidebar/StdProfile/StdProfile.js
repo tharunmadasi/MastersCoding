@@ -38,7 +38,7 @@ function Profile() {
     })
     .catch((err)=>{console.log('error in profile~ ',err)})
     setEditName(!editName)
-  }
+  } 
   //handle email edit
   const handleEmail = (data)=>{
     data.roll = stdRoll.toLowerCase();
