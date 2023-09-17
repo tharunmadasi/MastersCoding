@@ -18,7 +18,9 @@ assignments.post('/AllAssignments', expressAsncHandler(async (req, res) => {
       console.log(err);
       res.status(500).json({ message: 'Error retrieving assignments', error: err.message });
     }
-  }));
+  }));   
+
+  
 
 // Handle the route for creating fields in the assigments collection
 assignments.post('/upload', expressAsncHandler(async (req, res) => {

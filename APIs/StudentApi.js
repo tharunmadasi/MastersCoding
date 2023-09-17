@@ -6,6 +6,8 @@ const expressAsncHandler = require('express-async-handler');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+
+
 //middle wares
 studentApp.use(bodyParser.urlencoded({ extended: false }))
 
