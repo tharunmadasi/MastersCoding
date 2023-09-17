@@ -204,8 +204,9 @@ function StdAssignments() {
                         <button
                           className="btn btn-outline-success p-1"
                           onClick={() => {
-                            setSelectedAssignment(data.assignmentId);
-                            setShowModal(true);
+                            // setSelectedAssignment(data.assignmentId);
+                            // setShowModal(true);
+                            window.open(data.submissionUrl,"_blank")
                           }}
                         >
                           View
