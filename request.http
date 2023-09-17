@@ -5,12 +5,12 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a3262",
-    "name":"Shreya",
-    "mail":"shreya@gmail.com",
-    "batch":"VNR_2026_B1",
-    "section":"CSBS",
-    "password":"shreya",
+    "roll":"22071a05t5",
+    "name":"Nithish",
+    "mail":"nithish@gmail.com",
+    "batch":"2022_B1",
+    "section":"CSE-D",
+    "password":"nithish",
     "position" :"student"
 }
 
@@ -19,7 +19,7 @@ POST http://localhost:3500/student/login
 Content-Type:  application/json
 
 {
-    "roll":"21071A05T2",
+    "roll":"22071A05T5",
     "password":"nithish"
 }
 
@@ -76,3 +76,7 @@ Content-Type:  application/json
     "roll":"21071A05E5",
     "password":"pallavi"
 }
+
+
+###
+GET http://localhost:3500/assignments/

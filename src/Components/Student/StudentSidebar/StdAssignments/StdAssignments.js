@@ -3,8 +3,10 @@ import "./StdAssignments.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function StdAssignments() {
+  const navigate = useNavigate();
   const [links, setLinks] = useState([]);
   const {
     register,
@@ -13,21 +15,11 @@ function StdAssignments() {
     reset,
   } = useForm();
 
-  //studentDetails
-  let [stdName, setStdName] = useState("");
-  let [stdRoll, setStdRoll] = useState("");
-  let [stdBatch, setStdBatch] = useState("");
-  let [stdSection, setStdSection] = useState("");
-  const [submittedAssignments, setSubmittedAssignments] = useState([]);
-
-  const unsubmittedLinks = links.filter(
-    (link) =>
-      submittedAssignments && !submittedAssignments.includes(link.assignmentId)
-  );
-  const submittedLinks = links.filter(
-    (link) =>
-      submittedAssignments && submittedAssignments.includes(link.assignmentId)
-  );
+  const [loggedInUser,setLoggedInUser] = useState();
+  const [assignments, setAssignments] = useState([]);
+  const [submittedAssignments,setSubmittedAssignments] = useState([]);
+  const [unSubmittedAssigns,setUnSubmittedAssigns] = useState([]);
+ 
 
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -36,42 +28,33 @@ function StdAssignments() {
   const submitModalButton = (data) => {
     const submissionData = {
       assignmentId: selectedAssignment.assignmentId,
+      assignmentTitle:selectedAssignment.title,
+      assignmentUrl:selectedAssignment.url,
       submissionUrl: data.url,
-      date: new Date().toISOString(),
-      status: "Submitted",
     };
 
-    submissionData.roll = stdRoll.toLowerCase();
-    submissionData.section = stdSection;
-    submissionData.batch = stdBatch;
+    submissionData.roll = loggedInUser.roll.toLowerCase();
+    submissionData.section = loggedInUser.section;
+    submissionData.batch = loggedInUser.batch;
+    console.log(submissionData);
 
     axios
       .post("http://localhost:3500/submissions/upload", submissionData)
       .then((res) => {
-        console.log(res.data);
-        console.log("Fetched Submitted Assignments:", res.data.submittedAssignments);
-        const updatedAssignments = [
-          ...submittedAssignments,
-          selectedAssignment.assignmentId,
-        ];
-        setSubmittedAssignments(updatedAssignments);
-        console.log("Fetched Submitted Assignments:", res.data.submittedAssignments);
+        console.log("Fetched Submitted Assignments:",res.data);
 
         setSelectedAssignment(null);
         setSubmissionUrl("");
         setShowModal(false);
         reset();
 
-        return axios.post("http://localhost:3500/student/submitted", {
-          roll: stdRoll.toLowerCase(),
-          submitted: updatedAssignments,
-        });
       })
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err));
   };
+
 
   const handleRowClick = (data) => {
     window.open(data.url, "_blank");
@@ -85,73 +68,54 @@ function StdAssignments() {
     reset();
   };
 
+  //decode the student details from token 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios
-        .post("http://localhost:3500/verifyLoginToken", { token })
-        .then((response) => {
-          const { name, roll, batch, section } = response.data.payload;
-
-          setStdName(name);
-          setStdRoll(roll);
-          setStdBatch(batch);
-          setStdSection(section);
-
-          return {
-            roll: roll,
-            batch: batch,
-            promise: axios.get(
-              "http://localhost:3500/assignments/AllAssignments"
-            ),
-          };
-        })
-        .then(({ roll, batch, promise }) => {
-          return promise.then((response) => ({
-            data: response.data,
-            batch: batch,
-            roll: roll,
-          }));
-        })
-        .then(({ data, batch, roll }) => {
-          const assignments = data.assignments;
-          const filtered = assignments.filter(
-            (assignment) => assignment.batch === batch
-          );
-
-          const sortedAssignments = filtered.sort((a, b) => {
-            const timestampA = new Date(a.timestamp).getTime();
-            const timestampB = new Date(b.timestamp).getTime();
-            return timestampB - timestampA;
-          });
-          setLinks(sortedAssignments);
-          return axios.get(
-            `http://localhost:3500/student/submittedAssignments/${roll}`
-          );
-        })
-        .then((res) => {
-          if (res.data && res.data.submittedAssignments) {
-              setSubmittedAssignments(res.data.submittedAssignments);
-          } else {
-              console.error("Unexpected server response:", res.status, res.data);
-          }
-      })
-      .catch((error) => {
-        if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.error("Error response:", error.response.status, error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error("No response received:", error.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error('Error', error.message);
+    const token = localStorage.getItem('token');
+    axios.post('http://localhost:3500/verifyLoginToken',{token})
+      .then((res)=>{
+        if(res.data.valid===false) {
+          localStorage.removeItem('token');
+          navigate('/Login')
         }
-    });
-    }
-  }, []);
+        else setLoggedInUser(res.data.payload);
+      })
+      .catch((err)=>{console.log(err)});
+    }, []);
 
+  //fetch user all Assignments & submission Assignments details
+  useEffect(()=>{
+    if(loggedInUser){
+      //fetch all assignments
+      axios
+        .post('http://localhost:3500/assignments/AllAssignments',loggedInUser)
+        .then(async(res)=>{
+          console.log("all assignments :",res);
+          setAssignments(res.data.assignments);
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+        //fetch all submmision assignments
+        axios
+          .post('http://localhost:3500/submissions/AllSubmissions',loggedInUser)
+          .then((res)=>{
+            // console.log("all submissions:",res)
+            setSubmittedAssignments(res.data.submissions)
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
+    }
+  },[loggedInUser,showModal])
+  //remove the submitted assignments from the 
+  useEffect(()=>{
+    console.log(submittedAssignments,assignments)
+    const notSubmitted = assignments.filter((assign)=>
+      !submittedAssignments.some((obj)=>(obj.assignmentId===assign.assignmentId))
+    )
+    // console.log("not submitted :",notSubmitted)
+    setUnSubmittedAssigns(notSubmitted);
+  },[submittedAssignments,assignments])
   return (
     <div>
       <div className="container">
@@ -168,7 +132,7 @@ function StdAssignments() {
                   </tr>
                 </thead>
                 <tbody>
-                  {unsubmittedLinks.map((data, index) => (
+                  {unSubmittedAssigns.map((data, index) => (
                     <tr key={data._id}>
                       <td>
                         <span>{data.assignmentId}</span>
@@ -216,7 +180,7 @@ function StdAssignments() {
                   </tr>
                 </thead>
                 <tbody>
-                  {submittedLinks.map((data, index) => (
+                  {submittedAssignments.map((data, index) => (
                     <tr key={data._id}>
                       <td>
                         <span>{data.assignmentId}</span>
@@ -224,21 +188,23 @@ function StdAssignments() {
                       <td>
                         <span
                           className="title"
-                          onClick={() => handleRowClick(data)}
+                          onClick={() =>  {
+                            window.open(data.submissionUrl, "_blank");
+                            setSelectedAssignment(data);}}
                           style={{
                             cursor: "pointer",
                             textDecoration: "underline",
                             textDecorationColor: "green",
                           }}
                         >
-                          {data.title}
+                          {data.assignmentTitle}
                         </span>
                       </td>
                       <td>
                         <button
                           className="btn btn-outline-success p-1"
                           onClick={() => {
-                            setSelectedAssignment(data);
+                            setSelectedAssignment(data.assignmentId);
                             setShowModal(true);
                           }}
                         >

@@ -23,7 +23,8 @@ studentApp.get('/allStudents',expressAsncHandler(async(req,res)=>{
 
     res.status(200).send({message:'all students',payload:allStudents})
 }))
-//get student by id
+
+//get student by id     "WHY THIS"
 studentApp.get('/submittedAssignments/:roll', expressAsncHandler(async (req, res) => {
     console.log("Entered /submittedAssignments/:roll route");
     const studentAcsObj = req.app.get('studentAcsObj');
@@ -108,7 +109,7 @@ studentApp.post('/updateprofile',expressAsncHandler(async(req,res)=>{
     }
 
 }))
-//Update Submitted field
+//Update Submitted field    "WHY THIS"
 studentApp.post('/submitted', expressAsncHandler(async (req, res) => {
     const studentAcsObj = req.app.get('studentAcsObj');
     const { roll, submitted } = req.body;

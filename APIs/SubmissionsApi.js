@@ -7,11 +7,13 @@ submissions.use(exp.json());
 //middle wares
 submissions.use(bodyParser.urlencoded({ extended: false }))
 
-// get all submissions
-submissions.get('/AllSubmissions', expressAsncHandler(async (req, res) => {
+// get all submissions of a particular user based on roll
+submissions.post('/AllSubmissions', expressAsncHandler(async (req, res) => {
     try {
       const submissionsObj = req.app.get('submissionsObj');
-      const allSubmissions = await submissionsObj.find({}).toArray();
+      const student =req.body;
+      // console.log(student);
+      const allSubmissions = await submissionsObj.find({roll:student.roll}).toArray();
       res.status(200).json({ submissions: allSubmissions });
     } catch (err) {
       console.log(err);
@@ -24,23 +26,18 @@ submissions.get('/AllSubmissions', expressAsncHandler(async (req, res) => {
 submissions.post('/upload', expressAsncHandler(async (req, res) => {
     try {
         const submissionsObj = req.app.get('submissionsObj');
-        const fields = req.body;
-
-        // Generate a new submission ID starting from 1
-        const lastSubmission = await submissionsObj.findOne({}, { sort: { submissionId: -1 } });
-        const submissionId = lastSubmission ? lastSubmission.submissionId + 1 : 1;
-
-        // Assign the generated submission ID to the fields
-        fields.submissionId = submissionId;
+        let fields = req.body;
+        fields.status = 'submitted'
+        console.log(fields)
         const result = await submissionsObj.insertOne(fields);
 
         // add timestamp to the fields
-        await submissionsObj.updateOne({ _id: result.insertedId }, { $set: { timestamp: result.insertedId.getTimestamp() } });
+        await submissionsObj.updateOne({ _id: result.insertedId }, { $set: { subissionTimeStamp: result.insertedId.getTimestamp() } });
 
-        res.status(200).json({ message: 'Fields created successfully', insertedCount: result.insertedCount });
+        res.status(200).send({ message: 'Fields created successfully', insertedCount: result.insertedCount });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: 'Error creating fields', error: err.message });
+        res.status(500).send({ message: 'Error creating fields', error: err.message });
     }
 })); 
 

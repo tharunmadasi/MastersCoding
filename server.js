@@ -78,7 +78,7 @@ app.post('/verifyLoginToken',async(req,res)=>{
         }
         else res.status(200).send({valid:false})
     }catch(err){
-        console.log(err)
+        console.log("Error in the server :\n",err)
         res.status(200).send({valid:false})
     }
 }) 

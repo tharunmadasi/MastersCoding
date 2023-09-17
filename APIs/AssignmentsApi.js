@@ -7,11 +7,12 @@ assignments.use(exp.json());
 //middle wares 
 assignments.use(bodyParser.urlencoded({ extended: false }))
 
-// get all assignments
-assignments.get('/AllAssignments', expressAsncHandler(async (req, res) => {
+// get all assignments of student 
+assignments.post('/AllAssignments', expressAsncHandler(async (req, res) => {
     try {
+      const student=req.body;
       const assignmentsObj = req.app.get('assignmentsObj');
-      const allAssignments = await assignmentsObj.find({}).toArray();
+      const allAssignments = await assignmentsObj.find({batch:student.batch}).toArray();
       res.status(200).json({ assignments: allAssignments });
     } catch (err) {
       console.log(err);
@@ -26,7 +27,7 @@ assignments.post('/upload', expressAsncHandler(async (req, res) => {
     const fields = req.body;
 
     // Generate a new assignment ID starting from 1
-    const lastAssignment = await assignmentsObj.findOne({}, { sort: { assignmentId: -1 } });
+    const lastAssignment = await assignmentsObj.findOne({batch:fields.batch}, { sort: { assignmentId: -1 } });
     const assignmentId = lastAssignment ? lastAssignment.assignmentId + 1 : 1;
     
     // Assign the generated assignment ID to the fields

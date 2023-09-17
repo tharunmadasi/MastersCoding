@@ -6,10 +6,8 @@ import axios from "axios";
 const Navibar = () => {
   const [isUserLogedin, setIsUserLogedin] = useState(false);
   const [loginRes, setLoginRes] = useState({});
-  const location = useLocation();
   const navigate = useNavigate();
   const loadDetails = () => {
-    console.log("executed");
     let token = localStorage.getItem("token");
     if (token) {
       axios

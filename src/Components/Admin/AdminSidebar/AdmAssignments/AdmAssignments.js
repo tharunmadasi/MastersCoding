@@ -16,33 +16,25 @@ function Assignments() {
   const onSubmit = (data) => {
     if (data.batch == "select batch") setBatchError(true);
     else {
-      data.uploadTStamp = new Date();
       console.log(data);
       axios
         .post("http://localhost:3500/assignments/upload", data)
         .then((res) => {
           console.log(res.data);
-          //DL  & time
           reset();
         })
         .catch((err) => console.log("Error in uploading assignment link", err));
       setBatchError(false);
     }
   };
+
   //fetch the batch details from the data base and store in the batchOptions below
   const [batchOptions, setBatchOptions] = useState();
   useEffect(() => {
     //fetch data from Batches ans store in batchOptions
     setBatchOptions([
-      "VNR_2026_B1",
-      "VNR_2026_B2",
-      "VNR_2026_B3",
-      "VNR_2026_B2",
-      "VNR_2026_B3",
-      "VNR_2026_B2",
-      "VNR_2026_B3",
-      "VNR_2026_B2",
-      "VNR_2026_B3",
+      "2021_B1",
+      "2022_B1"
     ]);
   }, []);
 
@@ -65,7 +57,7 @@ function Assignments() {
                         required: "Batch is required",
                       })}
                     >
-                      <option disabled selected defaultValue="disabled">
+                      <option disabled selected value="select batch">
                         Select Batch
                       </option>
                       {batchOptions?.map((value) => (
