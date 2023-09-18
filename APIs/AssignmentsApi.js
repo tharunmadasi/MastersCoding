@@ -7,12 +7,13 @@ assignments.use(exp.json());
 //middle wares 
 assignments.use(bodyParser.urlencoded({ extended: false }))
 
-// get all assignments of student 
+// get all assignments of user 
 assignments.post('/AllAssignments', expressAsncHandler(async (req, res) => {
     try {
-      const student=req.body;
+      const user=req.body;
+      console.log("USER IS :" , user)
       const assignmentsObj = req.app.get('assignmentsObj');
-      const allAssignments = await assignmentsObj.find({batch:student.batch}).toArray();
+      const allAssignments = await assignmentsObj.find({batch:user.batch}).toArray();
       res.status(200).json({ assignments: allAssignments });
     } catch (err) {
       console.log(err);

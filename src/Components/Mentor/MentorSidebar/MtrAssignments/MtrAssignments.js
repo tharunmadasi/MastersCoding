@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./MtrAssignments.css";
 import axios from "axios";
-import Select from 'react-select' 
 import { AssignmentContext } from "../../../../Contexts/AssignmentContext";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function MtrAssignments(props) {
+  
+  const navigate = useNavigate();
 
   //form to select the assignment
   let {
@@ -14,46 +16,91 @@ function MtrAssignments(props) {
     formState: { errors },
     reset,
   } = useForm();
-
-  const onSubmit = (data) => {
-    if (data.assignmentID == "select assignmentID") setAssignmentError(true);
-    else {
-      setAssignmentError(false);
-      console.log("Assignment no.:",data);
-    }
-  };
-
+ 
   //states
   const [links, setLinks] = useState([]);
-  const [assignmentCounter] = useContext(AssignmentContext);
-
+  const [loggedInUser,setLoggedInUser] = useState();
+  const [submittedAssignments,setSubmittedAssignments]=useState();
+  const [verifiedAssignments,setVerifiedAssignments] = useState();
+  //selected assigns
+  const [selectedSubmittedAssigns,setSelectedSubmittedAssigns] = useState();
+  const [selectedVerifiedAssigns,setSeletedVerifiedAssigns] = useState();
+  
+  
   //state to check the errors in the batch  select input
   const [assignmentError, setAssignmentError] = useState(false);
   const [assignmentOptions , setAssignmentOptions] = useState([]);
+  
+  
+//handle submission
+const onSubmit = (data) => {
+  if (data.assignmentID === "select assignmentID") setAssignmentError(true);
+  else { 
+      setAssignmentError(false);     
+      console.log("Assignment no.:",data);
+      // console.log('Logged in User',loggedInUser)
+      const selectedSubmmitedAssigns = submittedAssignments.filter((assign)=>(assign.assignmentId /*int*/  == data.assignmentID /*string*/))
+      const selectedVerifiedAssigns = verifiedAssignments.filter((assign)=>(assign.assignmentId == data.assignmentID))
+      console.log('selected Submitted assigns :',selectedSubmmitedAssigns, '\nselected verified assigns : ',selectedVerifiedAssigns);
+      
+      setSelectedSubmittedAssigns(selectedSubmittedAssigns);
+      setSeletedVerifiedAssigns(selectedVerifiedAssigns);
+    }
+  };
 
+
+//get all Assignments
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:3500/assignments/AllAssignments")
-    //   .then((res) => {
-    //     const sortedAssignments = res.data.assignments.sort((a, b) => {
-    //       const timestampA = new Date(a.timestamp).getTime();
-    //       const timestampB = new Date(b.timestamp).getTime();
-    //       return timestampB - timestampA;
-    //     });
-    //     setLinks(sortedAssignments);
-    //   })
-    //   .catch((err) => console.log(err));
-    // axios
-    //   .get("http://localhost:3500/submissions/AllSubmissions")
-    //   .then((res) =>
-    //     console.log(res.data)
-    //   )
-    //   .catch((err) => console.log(err));
+    //Fetch All assignments based on batch!
+    axios.post('http://localhost:3500/submissions/sectionSubmitted',loggedInUser)
+    .then((res)=>{
+      // console.log(res)
 
-  }, []);
+      //if err occurs
+      if(res.data.message === 'error'){
+        console.log('Error in the submmsions Assignments fetching',res.data.err)
+        localStorage.clear();
+        navigate('/login')
+      }
+      //if error not occurs
+      else{
+        const allSubmissions = res.data.submissions
+        setSubmittedAssignments(allSubmissions)
+        // console.log('All Submissions :',allSubmissions)
+        
+        //filter the verified and non verified submissions
+        const verifiedSubmissions = allSubmissions.filter(submission => submission.status === 'verified');
+        setVerifiedAssignments(verifiedSubmissions);
+        // console.log('verified :' , verifiedSubmissions);
+      }
 
+    })
+    .catch((err)=>{console.log("Error in the assignments fetcing : ",err)})
+    
+
+  }, [loggedInUser]);
+
+//Set User Details in local storage
   useEffect(()=>{
-    setAssignmentOptions(['1','2','3','4','5','6','7','8','9' ])
+    setAssignmentOptions(['1','2','3','4','5','6','7','8','9' ]);
+     //verify token and get details
+     const token = localStorage.getItem('token');
+     axios
+       .post('http://localhost:3500/verifyLoginToken',{token})
+       .then((res)=>{
+         
+        //  console.log('logged in user :',res.data.payload);
+
+         //if token is invalid
+         if(res.data.valid === false){
+           setLoggedInUser();
+           localStorage.clear();
+           navigate('/login');
+         }
+         //if Token is valid
+         setLoggedInUser(res.data.payload);
+       })
+       .catch((err)=>{console.log("Error in Mentor token Verification ",err)});
   },[])
 
   const handleCardClick = (url) => {

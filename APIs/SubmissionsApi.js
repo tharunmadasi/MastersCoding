@@ -9,6 +9,23 @@ submissions.use(exp.json());
 //middle wares
 submissions.use(bodyParser.urlencoded({ extended: false }))
 
+//Get all submitted assignments of a section
+submissions.post('/sectionSubmitted',expressAsncHandler(async(req,res)=>{
+    try{
+      const submissionsObj = req.app.get('submissionsObj');
+      const mentor =req.body;
+      // console.log("Mentor :",mentor);
+      const sectionSubmission = await submissionsObj.find({$and:[{section:mentor.section},{batch:mentor.batch}]}).toArray();
+      res.send({submissions:sectionSubmission})
+      console.log(sectionAssignments)
+    }
+    catch(err){
+        console.log("Error in getting all submmsions based on seciton: " , err)
+        res.send({message:"error ",err :err})
+    }
+  }
+))
+
 // get all submissions of a particular user based on roll
 submissions.post('/AllSubmissions', expressAsncHandler(async (req, res) => {
     try {
@@ -17,7 +34,7 @@ submissions.post('/AllSubmissions', expressAsncHandler(async (req, res) => {
       // console.log(student);
       const allSubmissions = await submissionsObj.find({roll:student.roll}).toArray();
       res.status(200).json({ submissions: allSubmissions });
-    } catch (err) {
+    } catch (err) { 
       console.log(err);
       res.status(500).json({ message: 'Error retrieving submissions', error: err.message });
     }
