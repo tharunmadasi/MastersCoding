@@ -15,11 +15,10 @@ function StdAssignments() {
     reset,
   } = useForm();
 
-  const [loggedInUser,setLoggedInUser] = useState();
+  const [loggedInUser, setLoggedInUser] = useState();
   const [assignments, setAssignments] = useState([]);
-  const [submittedAssignments,setSubmittedAssignments] = useState([]);
-  const [unSubmittedAssigns,setUnSubmittedAssigns] = useState([]);
- 
+  const [submittedAssignments, setSubmittedAssignments] = useState([]);
+  const [unSubmittedAssigns, setUnSubmittedAssigns] = useState([]);
 
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -28,8 +27,8 @@ function StdAssignments() {
   const submitModalButton = (data) => {
     const submissionData = {
       assignmentId: selectedAssignment.assignmentId,
-      assignmentTitle:selectedAssignment.title,
-      assignmentUrl:selectedAssignment.url,
+      assignmentTitle: selectedAssignment.title,
+      assignmentUrl: selectedAssignment.url,
       submissionUrl: data.url,
     };
 
@@ -41,20 +40,18 @@ function StdAssignments() {
     axios
       .post("http://localhost:3500/submissions/upload", submissionData)
       .then((res) => {
-        console.log("Fetched Submitted Assignments:",res.data);
+        console.log("Fetched Submitted Assignments:", res.data);
 
         setSelectedAssignment(null);
         setSubmissionUrl("");
         setShowModal(false);
         reset();
-
       })
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err));
   };
-
 
   const handleRowClick = (data) => {
     window.open(data.url, "_blank");
@@ -68,54 +65,59 @@ function StdAssignments() {
     reset();
   };
 
-  //decode the student details from token 
+  //decode the student details from token
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.post('http://localhost:3500/verifyLoginToken',{token})
-      .then((res)=>{
-        if(res.data.valid===false) {
-          localStorage.removeItem('token');
-          navigate('/Login')
-        }
-        else setLoggedInUser(res.data.payload);
+    const token = localStorage.getItem("token");
+    axios
+      .post("http://localhost:3500/verifyLoginToken", { token })
+      .then((res) => {
+        if (res.data.valid === false) {
+          localStorage.removeItem("token");
+          navigate("/Login");
+        } else setLoggedInUser(res.data.payload);
       })
-      .catch((err)=>{console.log(err)});
-    }, []);
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   //fetch user all Assignments & submission Assignments details
-  useEffect(()=>{
-    if(loggedInUser){
+  useEffect(() => {
+    if (loggedInUser) {
       //fetch all assignments
       axios
-        .post('http://localhost:3500/assignments/AllAssignments',loggedInUser)
-        .then(async(res)=>{
-          console.log("all assignments :",res);
+        .post("http://localhost:3500/assignments/AllAssignments", loggedInUser)
+        .then(async (res) => {
+          console.log("all assignments :", res);
           setAssignments(res.data.assignments);
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err);
+        });
+      //fetch all submmision assignments
+      axios
+        .post("http://localhost:3500/submissions/AllSubmissions", loggedInUser)
+        .then((res) => {
+          // console.log("all submissions:",res)
+          setSubmittedAssignments(res.data.submissions);
         })
-        //fetch all submmision assignments
-        axios
-          .post('http://localhost:3500/submissions/AllSubmissions',loggedInUser)
-          .then((res)=>{
-            // console.log("all submissions:",res)
-            setSubmittedAssignments(res.data.submissions)
-          })
-          .catch((err)=>{
-            console.log(err)
-          })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  },[loggedInUser,showModal])
-  //remove the submitted assignments from the 
-  useEffect(()=>{
-    console.log(submittedAssignments,assignments)
-    const notSubmitted = assignments.filter((assign)=>
-      !submittedAssignments.some((obj)=>(obj.assignmentId===assign.assignmentId))
-    )
+  }, [loggedInUser, showModal]);
+  //remove the submitted assignments from the
+  useEffect(() => {
+    console.log(submittedAssignments, assignments);
+    const notSubmitted = assignments.filter(
+      (assign) =>
+        !submittedAssignments.some(
+          (obj) => obj.assignmentId === assign.assignmentId
+        )
+    );
     // console.log("not submitted :",notSubmitted)
     setUnSubmittedAssigns(notSubmitted);
-  },[submittedAssignments,assignments])
+  }, [submittedAssignments, assignments]);
   return (
     <div>
       <div className="container">
@@ -123,99 +125,108 @@ function StdAssignments() {
           <div className="col-md-5">
             <h4 className="text-success mb-4">Assignments</h4>
             <div className="Links">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Assignment</th>
-                    <th scope="col">Submission</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {unSubmittedAssigns.map((data, index) => (
-                    <tr key={data._id}>
-                      <td>
-                        <span>{data.assignmentId}</span>
-                      </td>
-                      <td>
-                        <span
-                          className="title"
-                          onClick={() => handleRowClick(data)}
-                          style={{
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                            textDecorationColor: "green",
-                          }}
-                        >
-                          {data.title}
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-outline-success p-1"
-                          onClick={() => {
-                            setSelectedAssignment(data);
-                            setShowModal(true);
-                          }}
-                        >
-                          Submit
-                        </button>
-                      </td>
+              {unSubmittedAssigns.length === 0 ? (
+                <h3>No Assignments</h3>
+              ) : (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Assignment</th>
+                      <th scope="col">Submission</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {unSubmittedAssigns.map((data, index) => (
+                      <tr key={data._id}>
+                        <td>
+                          <span>{data.assignmentId}</span>
+                        </td>
+                        <td>
+                          <span
+                            className="title"
+                            onClick={() => handleRowClick(data)}
+                            style={{
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                              textDecorationColor: "green",
+                            }}
+                          >
+                            {data.title}
+                          </span>
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-outline-success p-1"
+                            onClick={() => {
+                              setSelectedAssignment(data);
+                              setShowModal(true);
+                            }}
+                          >
+                            Submit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
           <div className="col-md-6">
             <h4 className="text-success mb-4">Submissions</h4>
             <div className="Links">
-              <table className="table ms-5">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Assignment</th>
-                    <th scope="col">Submission</th>
-                    <th scope="col">Remarks</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {submittedAssignments.map((data, index) => (
-                    <tr key={data._id}>
-                      <td>
-                        <span>{data.assignmentId}</span>
-                      </td>
-                      <td>
-                        <span
-                          className="title"
-                          onClick={() =>  {
-                            window.open(data.submissionUrl, "_blank");
-                            setSelectedAssignment(data);}}
-                          style={{
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                            textDecorationColor: "green",
-                          }}
-                        >
-                          {data.assignmentTitle}
-                        </span>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-outline-success p-1"
-                          onClick={() => {
-                            // setSelectedAssignment(data.assignmentId);
-                            // setShowModal(true);
-                            window.open(data.submissionUrl,"_blank")
-                          }}
-                        >
-                          View
-                        </button>
-                      </td>
+              {submittedAssignments.length === 0 ? (
+                <h3>No Submissions</h3>
+              ) : (
+                <table className="table ms-5">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Assignment</th>
+                      <th scope="col">Submission</th>
+                      <th scope="col">Remarks</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {submittedAssignments.map((data, index) => (
+                      <tr key={data._id}>
+                        <td>
+                          <span>{data.assignmentId}</span>
+                        </td>
+                        <td>
+                          <span
+                            className="title"
+                            onClick={() => {
+                              window.open(data.submissionUrl, "_blank");
+                              setSelectedAssignment(data);
+                            }}
+                            style={{
+                              cursor: "pointer",
+                              textDecoration: "underline",
+                              textDecorationColor: "green",
+                            }}
+                          >
+                            {data.assignmentTitle}
+                          </span>
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-outline-success p-1"
+                            onClick={() => {
+                              // setSelectedAssignment(data.assignmentId);
+                              // setShowModal(true);
+                              window.open(data.submissionUrl, "_blank");
+                            }}
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

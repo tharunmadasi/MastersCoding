@@ -13,11 +13,13 @@ submissions.use(bodyParser.urlencoded({ extended: false }))
 submissions.post('/sectionSubmitted',expressAsncHandler(async(req,res)=>{
     try{
       const submissionsObj = req.app.get('submissionsObj');
-      const mentor =req.body;
-      // console.log("Mentor :",mentor);
-      const sectionSubmission = await submissionsObj.find({$and:[{section:mentor.section},{batch:mentor.batch}]}).toArray();
+      const mentor = req.body;
+      console.log("Mentor :",mentor);
+      mentor.assignmentID = parseInt(mentor.assignmentID, 10);
+      const sectionSubmission = await submissionsObj.find({$and:[{section:mentor.section,assignmentId:mentor.assignmentID}]}).toArray();
+      console.log("Section Submissions :",sectionSubmission)
       res.send({submissions:sectionSubmission})
-      console.log(sectionAssignments)
+      console.log(sectionSubmission)
     }
     catch(err){
         console.log("Error in getting all submmsions based on seciton: " , err)
@@ -39,6 +41,29 @@ submissions.post('/AllSubmissions', expressAsncHandler(async (req, res) => {
       res.status(500).json({ message: 'Error retrieving submissions', error: err.message });
     }
   }
+));
+
+// update the status of a particular submission and add the remarks
+submissions.post('/updateStatus/:Sid', expressAsncHandler(async (req, res) => {
+  try {
+    const submissionsObj = req.app.get('submissionsObj');
+    const submission = req.body;
+    const Sid = req.params.Sid;
+
+    console.log("Updating ID:", Sid);
+    console.log("Update Data:", submission);
+
+    // If you're using the MongoDB native driver, remember to convert Sid to an ObjectId
+    const { ObjectId } = require('mongodb');
+    const objectId = new ObjectId(Sid);
+
+    const result = await submissionsObj.updateOne({ _id : objectId }, { $set: { status: "verified", remarks: submission.remarks } });
+    res.status(200).json({ message: 'Status updated successfully', updatedCount: result.modifiedCount });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Error updating status', error: err.message });
+  }
+}
 ));
 
 // Handle the route for creating fields in the submissions collection

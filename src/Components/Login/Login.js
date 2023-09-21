@@ -42,7 +42,7 @@ function Login() {
         setIsLoading(false);
         if (res.data.success) {
           localStorage.setItem("token", res.data.token);
-          navigateTo(`/${role}`);
+          navigateTo(`/${role}/assignments`);
         } else {
           alert("Invalid Credentials");
           reset();

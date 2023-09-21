@@ -18,7 +18,7 @@ const Navibar = () => {
             console.log("token is valid");
             setIsUserLogedin(true);
             let role = res.data.payload.position;
-            navigate(`/${role}`);
+            navigate(`/${role}/assignments`);
           } else {
             console.log("token is invalid");
             localStorage.clear();
