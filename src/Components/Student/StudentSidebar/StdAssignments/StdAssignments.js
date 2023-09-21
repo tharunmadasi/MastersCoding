@@ -222,6 +222,14 @@ function StdAssignments() {
                             View
                           </button>
                         </td>
+                        <td>
+                          {/* if no remarks field display - else data.remarks */}
+                          {data.remarks ? ( 
+                            <span>{data.remarks}</span>
+                          ) : (
+                            <span>-</span>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
