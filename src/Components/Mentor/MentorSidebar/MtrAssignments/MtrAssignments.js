@@ -200,6 +200,7 @@ function MtrAssignments() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Assignment</th>
+                    <th scope="col">Roll no</th>
                     <th scope="col">Review</th>
                     <th scope="col">Remarks</th>
                   </tr>
@@ -214,6 +215,9 @@ function MtrAssignments() {
                         <span className="title" style={{ cursor: "pointer" }}>
                           {data.assignmentTitle}
                         </span>
+                      </td>
+                      <td>
+                        <span>{data.roll}</span>
                       </td>
                       <td>
                         <button
@@ -267,6 +271,7 @@ function MtrAssignments() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Assignment</th>
+                    <th scope="col">Roll no</th>
                     <th scope="col">Remarks</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -281,6 +286,9 @@ function MtrAssignments() {
                         <span className="title" style={{ cursor: "pointer" }}>
                           {data.assignmentTitle}
                         </span>
+                      </td>
+                      <td>
+                        <span>{data.roll}</span>
                       </td>
                       <td>
                         <span>{data.remarks}</span>
