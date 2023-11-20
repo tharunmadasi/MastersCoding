@@ -5,11 +5,11 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"22071a05t5",
+    "roll":"21071a05g5",
     "name":"Nithish",
     "mail":"nithish@gmail.com",
     "batch":"2022_B1",
-    "section":"CSE-D",
+    "section":"CSE-C",
     "password":"nithish",
     "position" :"student"
 }
@@ -21,7 +21,7 @@ POST http://localhost:3500/student/login
 Content-Type:  application/json
 
 {
-    "roll":"22071A05T5",
+    "roll":"21071a05g5",
     "password":"nithish"
 }
 
@@ -34,11 +34,11 @@ POST http://localhost:3500/mentor/signup
 Content-Type: application/json
 
 {
-    "roll": "21071a05e5",
+    "roll": "21071a05e8",
     "name": "G. Pallavi Reddy",
     "mail": "shreyakondurukvs@gmial.com",
     "batch": "2022_B1",
-    "section": "CSBS",
+    "section": "CSE-C",
     "password":"vnrvjiet",
     "position" :"mentor"
 }
@@ -48,7 +48,7 @@ POST http://localhost:3500/mentor/login
 Content-Type:  application/json
 
 {
-    "roll":"21071A3262",
+    "roll":"21071a05e8",
     "password":"vnrvjiet"
 }
 

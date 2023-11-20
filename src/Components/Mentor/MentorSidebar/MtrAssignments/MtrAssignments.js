@@ -221,8 +221,10 @@ function MtrAssignments() {
                       </td>
                       <td>
                         <button
-                          className="btn btn-secondary"
-                          // onClick={() => handleCardClick(data.assignmentUrl)}
+                          className="btn btn-info"
+                          onClick={() => {
+                            window.open(data.submissionUrl, "_blank");
+                          }}
                         >
                           Open
                         </button>
@@ -294,7 +296,9 @@ function MtrAssignments() {
                         <span>{data.remarks}</span>
                       </td>
                       <td>
-                        <button className="btn btn-secondary">Open</button>
+                        <button className="btn btn-info" onClick={() => {
+                              window.open(data.submissionUrl, "_blank");
+                            }}>Open</button>
                       </td>
                     </tr>
                   ))}
