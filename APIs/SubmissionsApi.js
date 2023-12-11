@@ -10,38 +10,56 @@ submissions.use(exp.json());
 submissions.use(bodyParser.urlencoded({ extended: false }))
 
 //Get all submitted assignments of a section
-submissions.post('/sectionSubmitted',expressAsncHandler(async(req,res)=>{
-    try{
-      const submissionsObj = req.app.get('submissionsObj');
-      const mentor = req.body;
-      console.log("Mentor :",mentor);
-      mentor.assignmentID = parseInt(mentor.assignmentID, 10);
-      const sectionSubmission = await submissionsObj.find({$and:[{section:mentor.section,assignmentId:mentor.assignmentID}]}).toArray();
-      console.log("Section Submissions :",sectionSubmission)
-      res.send({submissions:sectionSubmission})
-      console.log(sectionSubmission)
-    }
-    catch(err){
-        console.log("Error in getting all submmsions based on seciton: " , err)
-        res.send({message:"error ",err :err})
-    }
+submissions.post('/sectionSubmitted', expressAsncHandler(async (req, res) => {
+  try {
+    const submissionsObj = req.app.get('submissionsObj');
+    const { section, assignId } = req.body;  // Update here to correctly retrieve section
+    console.log("Section is :", section);
+    // find sumbissions of same section and assignmentId
+    const sectionSubmissions = await submissionsObj.find({ section: section, assignmentId: parseInt(assignId) }).toArray();
+    res.status(200).json({ submissions: sectionSubmissions });
+  } catch (err) { 
+    console.log(err);
+    res.status(500).json({ message: 'Error retrieving submissions', error: err.message });
   }
-))
+}));
+
+submissions.get('/assignmentSubmissions', expressAsncHandler(async (req, res) => {
+  try {
+    const submissionsObj = req.app.get('submissionsObj');
+    const { assignmentId } = req.query;
+    console.log("Assignment ID in /assignmentSubmissions:", assignmentId);
+    const assignmentSubmissions = await submissionsObj.find({ assignmentId: parseInt(assignmentId) }).toArray();
+    console.log("Assignment Submissions:", assignmentSubmissions);
+    res.status(200).json({ submissions: assignmentSubmissions });
+  } catch (err) { 
+    console.log(err);
+    res.status(500).json({ message: 'Error retrieving assignment submissions', error: err.message });
+  }
+}));
+// submissions.get('/verifiedAssignments', expressAsncHandler(async (req, res) => {
+//   try {
+//     const submissionsObj = req.app.get('submissionsObj');
+//     const verifiedAssignments = await submissionsObj.find({ status: 'verified' }).toArray();
+//     res.status(200).json({ verifiedSubmissions: verifiedAssignments });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: 'Error retrieving verified assignments', error: err.message });
+//   }
+// }));
 
 // get all submissions of a particular user based on roll
-submissions.post('/AllSubmissions', expressAsncHandler(async (req, res) => {
-    try {
-      const submissionsObj = req.app.get('submissionsObj');
-      const student =req.body;
-      // console.log(student);
-      const allSubmissions = await submissionsObj.find({roll:student.roll}).toArray();
-      res.status(200).json({ submissions: allSubmissions });
-    } catch (err) { 
-      console.log(err);
-      res.status(500).json({ message: 'Error retrieving submissions', error: err.message });
-    }
+submissions.get('/AllSubmissions', expressAsncHandler(async (req, res) => {
+  try {
+    const submissionsObj = req.app.get('submissionsObj');
+    const roll = req.query.roll; 
+    const allSubmissions = await submissionsObj.find({ roll: roll }).toArray();
+    res.status(200).json({ submissions: allSubmissions });
+  } catch (err) { 
+    console.log(err);
+    res.status(500).json({ message: 'Error retrieving submissions', error: err.message });
   }
-));
+}));
 
 // update the status of a particular submission and add the remarks
 submissions.post('/updateStatus/:Sid', expressAsncHandler(async (req, res) => {

@@ -49,7 +49,7 @@ const Navibar = () => {
         {isUserLogedin === true ? (
           <h2
             style={{
-              position: "fixed",
+              position: "absolute",
               left: "40%",
               color: "#3C6255",
               marginTop: "5px",

@@ -58,7 +58,7 @@ function Login() {
     <div className="full" style={{ height: "100vh" }}>
       <h3
         className="text-success mb-4"
-        style={{ fontWeight: "600", paddingTop: "100px" }}
+        style={{ fontWeight: "600", paddingTop: "100px"}}
       >
         Welcome {role}
       </h3>
@@ -156,9 +156,9 @@ function Login() {
                       )}
                       <div className="row justify-content-center mt-3">
                         <div className="col-auto mt-3">
-                          <Link to="/" style={{ textDecoration: "none" }}>
-                            <span className="text-success">
-                              Forgot Password?
+                          <Link to="/Login" style={{ textDecoration: "none" }}>
+                            <span className="text-white">
+                              Forgot Password
                             </span>
                           </Link>
                         </div>

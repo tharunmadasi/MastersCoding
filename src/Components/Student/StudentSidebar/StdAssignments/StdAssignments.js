@@ -18,7 +18,7 @@ function StdAssignments() {
   const [loggedInUser, setLoggedInUser] = useState();
   const [assignments, setAssignments] = useState([]);
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
-  const [unSubmittedAssigns, setUnSubmittedAssigns] = useState([]);
+  const [submissions, setsubmissions] = useState([]);
 
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -83,29 +83,39 @@ function StdAssignments() {
 
   //fetch user all Assignments & submission Assignments details
   useEffect(() => {
+    const fetchAssignments = () => {
+        // Fetch all assignments
+        axios
+            .get("http://localhost:3500/assignments/AllAssignments", {
+                params: { batch: loggedInUser.batch },
+            })
+            .then((assignmentsRes) => {
+                console.log("all assignments:", assignmentsRes);
+                setAssignments(assignmentsRes.data.assignments);
+
+                // Fetch all submission assignments
+                axios
+                    .get("http://localhost:3500/submissions/AllSubmissions", {
+                        params: { roll: loggedInUser.roll, batch: loggedInUser.batch },  // Add batch parameter here
+                    })
+                    .then((submissionsRes) => {
+                        console.log("all submissions:", submissionsRes);
+                        setSubmittedAssignments(submissionsRes.data.submissions);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     if (loggedInUser) {
-      //fetch all assignments
-      axios
-        .post("http://localhost:3500/assignments/AllAssignments", loggedInUser)
-        .then(async (res) => {
-          console.log("all assignments :", res);
-          setAssignments(res.data.assignments);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      //fetch all submmision assignments
-      axios
-        .post("http://localhost:3500/submissions/AllSubmissions", loggedInUser)
-        .then((res) => {
-          // console.log("all submissions:",res)
-          setSubmittedAssignments(res.data.submissions);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        fetchAssignments();
     }
-  }, [loggedInUser, showModal]);
+}, [loggedInUser, showModal]);
+  
   //remove the submitted assignments from the
   useEffect(() => {
     console.log(submittedAssignments, assignments);
@@ -116,7 +126,7 @@ function StdAssignments() {
         )
     );
     // console.log("not submitted :",notSubmitted)
-    setUnSubmittedAssigns(notSubmitted);
+    setsubmissions(notSubmitted);
   }, [submittedAssignments, assignments]);
   return (
     <div>
@@ -125,7 +135,7 @@ function StdAssignments() {
           <div className="col-md-5">
             <h4 className="text-success mb-4">Assignments</h4>
             <div className="Links">
-              {unSubmittedAssigns.length === 0 ? (
+              {submissions.length === 0 ? (
                 <h3>No Assignments</h3>
               ) : (
                 <table className="table">
@@ -137,7 +147,7 @@ function StdAssignments() {
                     </tr>
                   </thead>
                   <tbody>
-                    {unSubmittedAssigns.map((data, index) => (
+                    {submissions.map((data, index) => (
                       <tr key={data._id}>
                         <td>
                           <span>{data.assignmentId}</span>

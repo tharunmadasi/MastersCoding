@@ -7,21 +7,33 @@ assignments.use(exp.json());
 //middle wares 
 assignments.use(bodyParser.urlencoded({ extended: false }))
 
-// get all assignments of user 
-assignments.post('/AllAssignments', expressAsncHandler(async (req, res) => {
-    try {
-      const user=req.body;
-      console.log("USER IS :" , user)
-      const assignmentsObj = req.app.get('assignmentsObj');
-      const allAssignments = await assignmentsObj.find({batch:user.batch}).toArray();
-      res.status(200).json({ assignments: allAssignments });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: 'Error retrieving assignments', error: err.message });
-    }
-  }));   
+// get all assignments of entire database
+assignments.get('/EntireAssignments', expressAsncHandler(async (req, res) => {
+  try {
+    const assignmentsObj = req.app.get('assignmentsObj');
+    const allAssignments = await assignmentsObj.find().toArray();
+    res.status(200).json({ assignments: allAssignments });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Error retrieving assignments', error: err.message });
+  }
+}));
 
-  
+// get all assignments of user
+assignments.get('/AllAssignments', expressAsncHandler(async (req, res) => {
+  try {
+    const batch = req.query.batch;  
+    console.log("BATCH IS :" , batch); 
+    const assignmentsObj = req.app.get('assignmentsObj');
+    const allAssignments = await assignmentsObj.find({ batch: batch }).toArray(); 
+    res.status(200).json({ assignments: allAssignments });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Error retrieving assignments', error: err.message });
+  }
+}));  
+
+
 
 // Handle the route for creating fields in the assigments collection
 assignments.post('/upload', expressAsncHandler(async (req, res) => {

@@ -12,6 +12,7 @@ function Assignments() {
 
   //state to check the errors in the batch  select input
   const [batchError, setBatchError] = useState(false);
+  const [assignments, setAssignments] = useState([]);
 
   const onSubmit = (data) => {
     if (data.batch == "select batch") setBatchError(true);
@@ -28,14 +29,23 @@ function Assignments() {
     }
   };
 
+  const handleRowClick = (data) => {
+    window.open(data.url, "_blank");
+  };
+
   //fetch the batch details from the data base and store in the batchOptions below
   const [batchOptions, setBatchOptions] = useState();
   useEffect(() => {
     //fetch data from Batches ans store in batchOptions
-    setBatchOptions([
-      "2021_B1",
-      "2022_B1"
-    ]);
+    setBatchOptions(["VNR_2026_B1", "VNR_2026_B2"]);
+    //fetch all assignments from the database and store in assignments
+    axios
+      .get("http://localhost:3500/assignments/EntireAssignments")
+      .then((res) => {
+        setAssignments(res.data.assignments);
+        console.log(res.data);
+      })
+      .catch((err) => console.log("Error in fetching assignments", err));
   }, []);
 
   return (
@@ -142,6 +152,44 @@ function Assignments() {
           </button>
         </form>
       </div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Assignment</th>
+            <th scope="col">Batch</th>
+            <th scope="col">DeadLine</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assignments.map((data, index) => (
+            <tr key={data._id}>
+              <td>
+                <span>{data.assignmentId}</span>
+              </td>
+              <td>
+                <span
+                  className="title"
+                  onClick={() => handleRowClick(data)}
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    textDecorationColor: "green",
+                  }}
+                >
+                  {data.title}
+                </span>
+              </td>
+              <td>
+                <span>{data.batch}</span>
+              </td>
+              <td>
+                <span>{data.deadLine}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -17,76 +17,104 @@ function MtrAssignments() {
 
   //states
   const [inputValue, setInputValue] = useState("");
+  const [remarksValues, setRemarksValues] = useState({});
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState();
   const [submittedAssignments, setSubmittedAssignments] = useState([]);
   const [verifiedAssignments, setVerifiedAssignments] = useState([]);
-  // //selected assigns
-  const [selectedSubmittedAssigns, setSelectedSubmittedAssigns] = useState();
 
   //state to check the errors in the batch  select input
   const [assignmentError, setAssignmentError] = useState(false);
   const [assignmentOptions, setAssignmentOptions] = useState([]);
 
   // //handle submission
-  const onSubmit = (data) => {
-    if (data.assignmentID === "select assignmentID") setAssignmentError(true);
-    else {
+  const onSubmit = async (data) => {
+    if (data.assignmentId === "select assignmentId") {
+      setAssignmentError(true);
+    } else {
       setAssignmentError(false);
-      setSelectedAssignment(data.assignmentID);
-      data.section = loggedInUser.section;
-      console.log(data);
-      axios
-        .post("http://localhost:3500/submissions/sectionSubmitted", data)
-        .then((res) => {
-          console.log(res);
-          //if err occurs
-          if (res.data.message === "error") {
-            console.log(
-              "Error in the submmsions Assignments fetching",
-              res.data.err
-            );
-            localStorage.clear();
-            navigate("/login");
-          }
-          //if error not occurs
-          else {
-            // get all submissions whose status is sumbitted
-            const submissions = res.data.submissions;
-            console.log("Submissions :", submissions);
-            const allSubmissions = submissions.filter((submission) => {
-              return submission.status !== "verified";
-            });
-            setSubmittedAssignments(allSubmissions);
-            console.log("All Submissions :", allSubmissions);
+      setSelectedAssignment(data.assignmentId);
 
-            const verifiedAssignments = submissions.filter((submission) => {
-              return submission.status === "verified";
-            });
-            setVerifiedAssignments(verifiedAssignments);
+      // Extract numeric assignmentId
+      const assignId = parseInt(data.assignmentId, 10);
+
+      try {
+        const assignmentRes = await axios.get(
+          "http://localhost:3500/submissions/assignmentSubmissions",
+          {
+            params: { assignmentId: assignId },
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        );
+
+        console.log("Assignment Res:", assignmentRes.data);
+        const dataToSend = {
+          ...data,
+          section: loggedInUser.section,
+          assignId: assignId,
+        };
+
+        if (assignmentRes.data && assignmentRes.status === 200) {
+          const sectionRes = await axios.post(
+            "http://localhost:3500/submissions/sectionSubmitted",
+            dataToSend
+          );
+
+          console.log("Section Res:", sectionRes);
+
+          if (sectionRes.data && sectionRes.status === 200) {
+            const submissions = sectionRes.data.submissions;
+            console.log("AssignId :", assignId);
+            console.log("Submissions :", submissions);
+
+            const allSubmissions = submissions.filter(
+              (submission) => submission.status === "submitted"
+            );
+            setSubmittedAssignments(allSubmissions);
+
+            const verifiedAssignments = submissions.filter(
+              (submission) => submission.status === "verified"
+            );
+            setVerifiedAssignments(verifiedAssignments);
+          } else {
+            console.log(
+              "Error in section submissions:",
+              sectionRes.data.message
+            );
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  const handleInputChange = (i) => {
-    setInputValue(i.target.value);
+  useEffect(() => {
+    // Initialize remarks state when assignments are fetched
+    const initialRemarks = {};
+    submittedAssignments.forEach((assignment) => {
+      initialRemarks[assignment._id] = '';
+    });
+    setRemarksValues(initialRemarks);
+  }, [submittedAssignments]);
+
+  const handleInputChange = (assignmentId, value) => {
+    setRemarksValues((prevRemarks) => ({
+      ...prevRemarks,
+      [assignmentId]: value,
+    }));
   };
 
-  const handleInput = (i, submissionId) => {
-    i.preventDefault();
-    console.log(inputValue);
-    console.log(submissionId);
-    // update the submission status and add remarks
+  const handleInput = (e, submissionId) => {
+    e.preventDefault();
+    const remarks = remarksValues[submissionId];
+  
     axios
       .post(`http://localhost:3500/submissions/updateStatus/${submissionId}`, {
-        remarks: inputValue,
+        remarks: remarks,
       })
       .then((res) => {
         console.log(res);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -131,27 +159,60 @@ function MtrAssignments() {
 
   // //Set User Details in local storage
   useEffect(() => {
-    setAssignmentOptions(["1", "2", "3", "4", "5", "6", "7", "8", "9"]);
-    //verify token and get details
+    // set assignment options in the form of array
+    setAssignmentOptions([]);
+
+    // verify token and get details
     const token = localStorage.getItem("token");
     axios
       .post("http://localhost:3500/verifyLoginToken", { token })
       .then((res) => {
-        //  console.log('logged in user :',res.data.payload);
-
-        //if token is invalid
+        // if token is invalid
         if (res.data.valid === false) {
           setLoggedInUser();
           localStorage.clear();
           navigate("/login");
+        } else {
+          // if Token is valid
+          setLoggedInUser(res.data.payload);
+
+          // fetch assignments from the server
+          axios
+            .get("http://localhost:3500/assignments/EntireAssignments")
+            .then((assignmentRes) => {
+              // Assuming assignmentRes.data contains an array of assignments
+              console.log(assignmentRes.data.assignments);
+              console.log(res.data.payload.batch.slice(-2));
+              console.log(assignmentRes.data.assignments[0].batch.slice(-2));
+              const filteredAssignments = assignmentRes.data.assignments.filter(
+                (assignment) =>
+                  assignment.batch.slice(-2) ===
+                  res.data.payload.batch.slice(-2)
+              );
+              setAssignmentOptions(
+                filteredAssignments.map((assignment) => (
+                  <option key={assignment._id} value={assignment.assignmentId}>
+                    {assignment.assignmentId} - {assignment.title} -{" "}
+                    {assignment.deadLine}
+                  </option>
+                ))
+              );
+            })
+            .catch((assignmentErr) => {
+              console.log("Error fetching assignments", assignmentErr);
+            });
         }
-        //if Token is valid
-        setLoggedInUser(res.data.payload);
       })
       .catch((err) => {
         console.log("Error in Mentor token Verification ", err);
       });
   }, []);
+
+  // handle card click by opening the new window with the assignment
+  const handleCardClick = (submission) => {
+    console.log(submission);
+    window.open(submission, "_blank");
+  };
 
   return (
     <div className="container">
@@ -162,19 +223,19 @@ function MtrAssignments() {
             Select Assignment
           </div>
           <select
-            className=" col-md-8 "
-            name="assignmentID"
-            id="assignmentID"
-            {...register("assignmentID", {
-              required: "assignmentID is required",
+            className="col-md-8"
+            name="assignmentId"
+            id="assignmentId"
+            {...register("assignmentId", {
+              required: "assignmentId is required",
             })}
           >
-            <option disabled selected value="select assignmentID">
-              Select assignmentID
+            <option disabled selected value="select assignmentId">
+              Select assignmentId
             </option>
-            {assignmentOptions?.map((value, ind) => (
-              <option key={ind} value={value}>
-                {value}{" "}
+            {assignmentOptions?.map((optionElement, ind) => (
+              <option key={ind} value={optionElement.props.value}>
+                {optionElement.props.children}
               </option>
             ))}
           </select>
@@ -184,7 +245,7 @@ function MtrAssignments() {
           </button>
         </div>
         {assignmentError == true && (
-          <p className="text-danger">{"assignmentID is required"}</p>
+          <p className="text-danger">{"assignmentId is required"}</p>
         )}
       </form>
 
@@ -222,7 +283,7 @@ function MtrAssignments() {
                       <td>
                         <button
                           className="btn btn-secondary"
-                          // onClick={() => handleCardClick(data.assignmentUrl)}
+                          onClick={() => handleCardClick(data.submissionUrl)}
                         >
                           Open
                         </button>
@@ -239,8 +300,10 @@ function MtrAssignments() {
                               min="1"
                               max="5"
                               name="inputNumber"
-                              value={inputValue}
-                              onChange={handleInputChange}
+                              value={remarksValues[data._id]}
+                              onChange={(e) =>
+                                handleInputChange(data._id, e.target.value)
+                              }
                             />
                           </div>
                           <div className="col-4">
@@ -294,7 +357,12 @@ function MtrAssignments() {
                         <span>{data.remarks}</span>
                       </td>
                       <td>
-                        <button className="btn btn-secondary">Open</button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => handleCardClick(data.submissionUrl)}
+                        >
+                          Open
+                        </button>
                       </td>
                     </tr>
                   ))}

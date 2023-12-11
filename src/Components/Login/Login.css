@@ -11,15 +11,12 @@
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
 }
 .full {
-    position: relative;
-}
-.full {
     content: "";
-    position: absolute;
+    position: relative;
     left: 0;
     width: 100%;
     background-image: url("./Welcome.png");
-    background-size: 1200px 750px;
+    background-size: 1200px 805px;
     background-repeat: repeat-x;
     animation: horizontalLoop 60s linear infinite;
 }

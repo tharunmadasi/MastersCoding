@@ -5,12 +5,12 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"22071a05t5",
-    "name":"Nithish",
-    "mail":"nithish@gmail.com",
-    "batch":"2022_B1",
-    "section":"CSE-D",
-    "password":"nithish",
+    "roll":"21071A12F7",
+    "name":"Komma Vishal",
+    "mail":"vishal@gmail.com",
+    "batch":"VNR_2026_B2",
+    "section":"CSE-CYS",
+    "password":"vishal",
     "position" :"student"
 }
 
@@ -21,8 +21,8 @@ POST http://localhost:3500/student/login
 Content-Type:  application/json
 
 {
-    "roll":"22071A05T5",
-    "password":"nithish"
+    "roll":"21071A3250",
+    "password":"navika"
 }
 
 ### Mentor
@@ -34,12 +34,12 @@ POST http://localhost:3500/mentor/signup
 Content-Type: application/json
 
 {
-    "roll": "21071a05e5",
-    "name": "G. Pallavi Reddy",
-    "mail": "shreyakondurukvs@gmial.com",
-    "batch": "2022_B1",
-    "section": "CSBS",
-    "password":"vnrvjiet",
+    "roll": "21071A0588",
+    "name": "Gugulothu Tanaya",
+    "mail": "tanaya@gmial.com",
+    "batch": "VNR_2025_B2",
+    "section": "CSE-AIML",
+    "password":"tanaya",
     "position" :"mentor"
 }
 
@@ -64,9 +64,9 @@ Content-Type: application/json
     "roll":"21071a0565",
     "name":"V.Manasa",
     "mail":"manasavirivinti@gmail.com",
-    "batch":"2022_B1",
+    "batch":"VNR_2025_B1",
     "section":"CSE-C",
-    "password":"srujana",
+    "password":"manasa",
     "position" :"admin"
 }
 
@@ -76,9 +76,15 @@ Content-Type:  application/json
 
 {
     "roll":"21071A05E5",
-    "password":"pallavi"
+    "password":"tanaya"
 }
 
 
 ###
-GET http://localhost:3500/assignments/
+GET http://localhost:3500/assignments/EntireAssignments
+
+###
+GET http://localhost:3500/assignments/AllAssignments
+
+###
+POST http://localhost:3500/submissions/assignmentSubmissions

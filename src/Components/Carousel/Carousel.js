@@ -18,7 +18,7 @@ function Carousel() {
   }, []);
 
   return (
-    <div style={{ marginLeft: '260px', marginTop: '70px'}}>
+    <div style={{ marginLeft: '340px', marginTop: '60px'}}>
     <Slider
       ref={sliderRef}
       className="carousel-container"
