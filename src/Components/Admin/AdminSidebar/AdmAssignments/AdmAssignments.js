@@ -37,7 +37,7 @@ function Assignments() {
   const [batchOptions, setBatchOptions] = useState();
   useEffect(() => {
     //fetch data from Batches ans store in batchOptions
-    setBatchOptions(["VNR_2026_B1", "VNR_2026_B2"]);
+    setBatchOptions(["VNR_2025_B1"]);
     //fetch all assignments from the database and store in assignments
     axios
       .get("http://localhost:3500/assignments/EntireAssignments")

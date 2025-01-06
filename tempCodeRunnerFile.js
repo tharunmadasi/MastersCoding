@@ -9,7 +9,6 @@ const mentorApp = require('./APIs/MentorApi')
 const adminApp = require('./APIs/AdminApi') 
 const submissionsApp = require('./APIs/SubmissionsApi')
 const assignmentsApp = require('./APIs/AssignmentsApi')
-
 const classesApp = require('./APIs/ClassesApi')
 const mClient = require('mongodb').MongoClient
 const jwt = require('jsonwebtoken')

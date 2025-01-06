@@ -10,8 +10,7 @@ function Carousel() {
   useEffect(() => {
     const interval = setInterval(() => {
       sliderRef.current?.slickNext();
-    }, 3000); 
-
+    }, 1000);
     return () => {
       clearInterval(interval);
     };

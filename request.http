@@ -5,12 +5,12 @@ POST http://localhost:3500/student/signup
 Content-Type: application/json
 
 {
-    "roll":"21071A12F7",
-    "name":"Komma Vishal",
-    "mail":"vishal@gmail.com",
-    "batch":"VNR_2026_B2",
-    "section":"CSE-CYS",
-    "password":"vishal",
+    "roll":"21071A66G3",
+    "name":"Mahideep",
+    "mail":"mahideep@gmail.com",
+    "batch":"VNR_2025_B1",
+    "section":"CSML",
+    "password":"mahideep",
     "position" :"student"
 }
 
@@ -34,12 +34,12 @@ POST http://localhost:3500/mentor/signup
 Content-Type: application/json
 
 {
-    "roll": "21071A0588",
-    "name": "Gugulothu Tanaya",
-    "mail": "tanaya@gmial.com",
-    "batch": "VNR_2025_B2",
-    "section": "CSE-AIML",
-    "password":"tanaya",
+    "roll": "21071A66",
+    "name": "laxman",
+    "mail": "laxman@gmial.com",
+    "batch": "VNR_2025_B1",
+    "section": "CSML",
+    "password":"laxman",
     "position" :"mentor"
 }
 
@@ -61,12 +61,12 @@ POST http://localhost:3500/admin/signup
 Content-Type: application/json
 
 {
-    "roll":"21071a0565",
-    "name":"V.Manasa",
-    "mail":"manasavirivinti@gmail.com",
+    "roll":"21071A66F4",
+    "name":"M Tharun",
+    "mail":"tarun@gmail.com",
     "batch":"VNR_2025_B1",
-    "section":"CSE-C",
-    "password":"manasa",
+    "section":"CSML",
+    "password":"tharun",
     "position" :"admin"
 }
 
